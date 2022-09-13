@@ -34,6 +34,7 @@ jobs:
         run: sudo systemctl start mysql.service
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Create Database and Tables
         run: |
           mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+          mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} test_db < sql/tables.sql
