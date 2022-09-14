@@ -25,7 +25,7 @@ mvn -B clean package --file shoppii/pom.xml
 ```
 - Deploy the Web App using Tomcat
 ```
-mvn tomcat7:redeploy
+mvn tomcat7:redeploy --file shoppii/pom.xml
 ```
 ### Development within Visual Studio Code
 Since this project has already include the necessary files to running tasks (`tasks.json`) in VSCode, developers only need to use their `Run Build Tasks` keyboard shortcut to clean and redeploy the Web App.
