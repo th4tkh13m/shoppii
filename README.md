@@ -27,5 +27,6 @@ mvn -B clean package --file shoppii/pom.xml
 ```
 mvn tomcat7:redeploy --file shoppii/pom.xml
 ```
+4. Access the Web App at http://localhost:8080/shoppii
 ### Development within Visual Studio Code
 Since this project has already include the necessary files to running tasks (`tasks.json`) in VSCode, developers only need to use their `Run Build Tasks` keyboard shortcut to clean and redeploy the Web App.
