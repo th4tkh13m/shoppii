@@ -39,5 +39,8 @@ jobs:
           mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
           mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} test_db < sql/tables.sql
           
+      - name: Insert Data
+        run: mysql -e "INSERT INTO Customer VALUES (1, 'K', 'a@gmail.com', '0123', '2002-01-02', 1, 'abc');" -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} test_db
+
       - name: View a table
         run: mysql -e 'SELECT * FROM Customer;' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} test_db
