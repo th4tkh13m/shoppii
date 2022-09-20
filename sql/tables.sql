@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Sep 13, 2022 at 03:54 AM
+-- Generation Time: Sep 20, 2022 at 10:29 AM
 -- Server version: 10.8.3-MariaDB-1:10.8.3+maria~jammy
 -- PHP Version: 8.0.19
 
@@ -77,6 +77,13 @@ CREATE TABLE `Customer` (
   `password` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `Customer`
+--
+
+INSERT INTO `Customer` (`user_id`, `name`, `mail`, `phone`, `dob`, `sex`, `password`) VALUES
+(1, 'K', 'a@gmail.com', '0123', '2002-01-02', 1, 'abc');
+
 -- --------------------------------------------------------
 
 --
@@ -105,7 +112,8 @@ CREATE TABLE `Product` (
   `price` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
   `category` varchar(100) DEFAULT NULL,
-  `picture` varchar(1000) DEFAULT NULL
+  `picture` varchar(1000) DEFAULT NULL,
+  `description` varchar(5000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -190,7 +198,7 @@ ALTER TABLE `Address`
 -- AUTO_INCREMENT for table `Customer`
 --
 ALTER TABLE `Customer`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `Order`
