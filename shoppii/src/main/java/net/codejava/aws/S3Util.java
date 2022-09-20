@@ -15,7 +15,6 @@ public class S3Util {
      
     public static void uploadFile(String fileName, InputStream inputStream)
             throws S3Exception, AwsServiceException, SdkClientException, IOException {
-         
         S3Client client = S3Client.builder().build();
          
         PutObjectRequest request = PutObjectRequest.builder()
