@@ -11,7 +11,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
  
 public class S3Util {
-    private static final String BUCKET = "your-bucket-name";
+    private static final String BUCKET = "photo-shoppii";
      
     public static void uploadFile(String fileName, InputStream inputStream)
             throws S3Exception, AwsServiceException, SdkClientException, IOException {
