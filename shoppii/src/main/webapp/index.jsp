@@ -1,12 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
+<html>
   <body>
-    <h1>Shoppii</h1>
+    <div><h1>S3 Upload File Example</h1></div>
+
+    <div>
+      <form action="uploadservlet" method="post" enctype="multipart/form-data">
+        <p>
+          Description:
+          <input type="text" name="description" size="30" required />
+        </p>
+        <p><input type="file" name="file" required /></p>
+        <p><button type="submit">Submit</button></p>
+      </form>
+    </div>
   </body>
 </html>
