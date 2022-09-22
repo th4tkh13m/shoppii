@@ -11,25 +11,25 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
 public class S3Util {
-    private static final String BUCKET = "photo-shoppii";
+        private static final String BUCKET = "photo-shoppii";
 
-    private static S3Client client = S3Client.builder().build();
+        private static S3Client client = S3Client.builder().build();
 
-    public static void uploadFile(String fileName, InputStream inputStream)
-            throws S3Exception, AwsServiceException, SdkClientException, IOException {
+        public static void uploadFile(String fileName, InputStream inputStream)
+                        throws S3Exception, AwsServiceException, SdkClientException, IOException {
 
-        PutObjectRequest request = PutObjectRequest.builder()
-                .bucket(BUCKET)
-                .key(fileName)
-                .acl("public-read")
-                .build();
-        client.putObject(request,
-                RequestBody.fromInputStream(inputStream, inputStream.available()));
-    }
+                PutObjectRequest request = PutObjectRequest.builder()
+                                .bucket(BUCKET)
+                                .key("dao-test/" + fileName)
+                                .acl("public-read")
+                                .build();
+                client.putObject(request,
+                                RequestBody.fromInputStream(inputStream, inputStream.available()));
+        }
 
-    public static void createFolder(String folderName) {
-        PutObjectRequest request = PutObjectRequest.builder()
-                .bucket(BUCKET).key(folderName + "/").build();
-        client.putObject(request, RequestBody.empty());
-    }
+        public static void createFolder(String folderName) {
+                PutObjectRequest request = PutObjectRequest.builder()
+                                .bucket(BUCKET).key(folderName + "/").build();
+                client.putObject(request, RequestBody.empty());
+        }
 }
