@@ -3,6 +3,8 @@ package net.codejava.aws;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -29,9 +31,13 @@ public class FileUploadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
+        ArrayList<String> listPhotos = S3Util.listPhotos("dao-test-2");
+        String title = "test title";
+        ProductExample productExample = new ProductExample(title, listPhotos);
+        String json = gson.toJson(productExample);
         resp.setStatus(200);
         resp.setHeader("Content-Type", "application/json");
-        resp.getOutputStream().println(gson.toJson("OK"));
+        resp.getOutputStream().println(json);
 
     }
 
@@ -60,19 +66,20 @@ public class FileUploadServlet extends HttpServlet {
         // request.getRequestDispatcher("message.jsp").forward(request, response);
 
         Gson gson = new Gson();
-        // String uri = request.getRequestURI();
-        // BufferedReader json = request.getReader();
-        // String line = null;
-        // StringBuffer sb = new StringBuffer();
-        // while ((line = json.readLine()) != null) {
-        // sb.append(line);
-        // }
         String desc = request.getParameter("desc");
+        String name = request.getParameter("name");
+        List<Part> parts = (List<Part>) request.getParts();
+        // Here to get id of the product for folder name
+        String folderAWS = "dao-test-2";
+        for (Part part : parts) {
+            if (part.getName().equalsIgnoreCase("file")) {
+                S3Util.uploadFile(folderAWS + "/" + part.getSubmittedFileName(), part.getInputStream());
+            }
+        }
         System.out.println(desc);
         response.setStatus(200);
         response.setHeader("Content-Type", "application/json");
-        response.getOutputStream().println(gson.toJson(desc));
-        // response.getWriter().println(gson.toJson(desc));
+        response.getOutputStream().println(gson.toJson("upload success"));
     }
 
     private String getFileName(Part part) {

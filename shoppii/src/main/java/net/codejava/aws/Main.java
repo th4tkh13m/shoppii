@@ -5,6 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class Main {
     public static void main(String[] args) {
-
+        S3Util.listPhotos("dao-test-2");
     }
 }
