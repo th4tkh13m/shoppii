@@ -11,6 +11,10 @@
         <servlet-name>FileUploadServlet</servlet-name>
         <servlet-class>net.codejava.aws.FileUploadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FileDeleteServlet</servlet-name>
+        <servlet-class>net.codejava.aws.FileDeleteServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
         <url-pattern>/servlet</url-pattern>
@@ -18,5 +22,9 @@
     <servlet-mapping>
         <servlet-name>FileUploadServlet</servlet-name>
         <url-pattern>/uploadservlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileDeleteServlet</servlet-name>
+        <url-pattern>/delete</url-pattern>
     </servlet-mapping>
 </web-app>
