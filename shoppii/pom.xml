@@ -31,6 +31,12 @@
 </dependencyManagement>
 
 <dependencies>
+  <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.30</version>
+  </dependency>
+
     <dependency>
         <groupId>software.amazon.awssdk</groupId>
         <artifactId>s3</artifactId>
@@ -49,6 +55,8 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    
 
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -103,7 +111,8 @@
           <version>2.2</version>
           <configuration>
             <username>admin</username>
-            <password>admin</password>              
+            <password>admin</password>
+            <path>/shoppii/api</path>              
         </configuration>
         </plugin>
       </plugins>

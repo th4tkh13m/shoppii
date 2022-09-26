@@ -8,50 +8,37 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
  
-@WebServlet("/upload")
+// @WebServlet("/delete")
 @MultipartConfig(
         fileSizeThreshold = 1024*1024*2, // 2MB
         maxFileSize = 1024*1024*10, // 10MB
         maxRequestSize = 1024*1024*11   // 11MB
         )
-public class FileUploadServlet extends HttpServlet {
+public class FileDeleteServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
         
-    public FileUploadServlet() {
+    public FileDeleteServlet() {
         super();
     }
  
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String description = request.getParameter("description");
-        System.out.println("Description: " + description);
+        String objectName = request.getParameter("description");
          
-        Part filePart = request.getPart("file");
-         
-        String fileName = getFileName(filePart);
-         
-        System.out.println("File name = " + fileName);
+        System.out.println("File name = " + objectName);
  
         String message = "";
          
         try {
-            S3Util.uploadObject(fileName, filePart.getInputStream());
-            message = "The file has been uploaded successfully";
+            S3Util.deleteBucketObjects(objectName);
+            message = "The file has been deleted successfully";
         } catch (Exception ex) {
-            message = "Error uploading file: " + ex.getMessage();
+            message = "Error deleting file file: " + ex.getMessage();
         }
          
         request.setAttribute("message", message);
         request.getRequestDispatcher("message.jsp").forward(request, response);
     }
  
-    private String getFileName(Part part) {
-        String contentDisposition = part.getHeader("content-disposition");
-        int beginIndex = contentDisposition.indexOf("filename=") + 10;
-        int endIndex = contentDisposition.length() - 1;
-         
-        return contentDisposition.substring(beginIndex, endIndex);
-    }
 }
