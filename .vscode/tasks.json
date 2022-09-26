@@ -1,4 +1,5 @@
 {
+<<<<<<< Updated upstream
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "2.0.0",
@@ -6,8 +7,22 @@
         {
             "label": "Run Web App",
             "type": "shell",
-            "command": "mvn -B -X clean package tomcat7:redeploy --file shoppii/pom.xml",
+            "command": "mvn -B clean package tomcat7:redeploy --file shoppii/pom.xml",
             "group": "build"
         }
     ]
 }
+=======
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Web App",
+      "type": "shell",
+      "command": "mvn -B clean package tomcat7:redeploy --file shoppii/pom.xml",
+      "group": "build"
+    }
+  ]
+}
+>>>>>>> Stashed changes

@@ -15,17 +15,39 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>bom</artifactId>
+            <version>2.15.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
 
-  <dependencies>
+<dependencies>
+  <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.30</version>
+  </dependency>
 
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>3.0-alpha-1</version>
+        <groupId>software.amazon.awssdk</groupId>
+        <artifactId>s3</artifactId>
     </dependency>
+     
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>4.0.1</version>
+        <scope>provided</scope>
+    </dependency>        
 
     <dependency>
       <groupId>junit</groupId>
@@ -33,6 +55,19 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>2.0.1</version>
+  </dependency>
+  <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>2.0.1</version>
+  </dependency>
 
 
   </dependencies>
@@ -76,7 +111,8 @@
           <version>2.2</version>
           <configuration>
             <username>admin</username>
-            <password>admin</password>              
+            <password>admin</password>
+            <path>/shoppii/api</path>              
         </configuration>
         </plugin>
       </plugins>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Sep 13, 2022 at 03:54 AM
+-- Generation Time: Sep 20, 2022 at 02:16 PM
 -- Server version: 10.8.3-MariaDB-1:10.8.3+maria~jammy
 -- PHP Version: 8.0.19
 
@@ -105,7 +105,8 @@ CREATE TABLE `Product` (
   `price` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
   `category` varchar(100) DEFAULT NULL,
-  `picture` varchar(1000) DEFAULT NULL
+  `picture` varchar(1000) DEFAULT NULL,
+  `description` varchar(5000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -120,6 +121,21 @@ CREATE TABLE `Shop` (
   `address` varchar(255) DEFAULT NULL,
   `description` varchar(5000) DEFAULT NULL,
   `status` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ShopRequests`
+--
+
+CREATE TABLE `ShopRequests` (
+  `customer_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `description` varchar(5000) DEFAULT NULL,
+  `status` enum('Pending','Accepted','Rejected') DEFAULT 'Pending',
+  `time` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -175,6 +191,12 @@ ALTER TABLE `Product`
 ALTER TABLE `Shop`
   ADD PRIMARY KEY (`shop_id`),
   ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `ShopRequests`
+--
+ALTER TABLE `ShopRequests`
+  ADD KEY `customer_id` (`customer_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -246,6 +268,12 @@ ALTER TABLE `Product`
 --
 ALTER TABLE `Shop`
   ADD CONSTRAINT `Shop_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `Customer` (`user_id`);
+
+--
+-- Constraints for table `ShopRequests`
+--
+ALTER TABLE `ShopRequests`
+  ADD CONSTRAINT `ShopRequests_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `Customer` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
