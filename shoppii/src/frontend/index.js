@@ -1,5 +1,6 @@
 const form = document.querySelector('#form')
 const getPhotoBtn = document.querySelector('#getPhoto')
+const testQueryBtn = document.querySelector('#testQuery')
 const root = document.querySelector('#root')
 
 form.addEventListener('submit', async e => {
@@ -10,23 +11,6 @@ form.addEventListener('submit', async e => {
   for (const [key, value] of formData) {
     console.log(`${key}: ${value}\n`)
   }
-
-  //   $.ajax({
-  //     url: 'http://localhost:8080/shoppii/uploadservlet',
-  //     type: 'POST',
-  //     processData: false,
-  //     contentType: false,
-  //     enctype: 'multipart/form-data',
-  //     data: formData,
-  //     dataType: 'json',
-  //     success: function (response) {
-  //       // console.log($.parseJSON(response))
-  //       console.log(response)
-  //     },
-  //     error: function (error) {
-  //       console.log(error)
-  //     },
-  //   })
 
   const response = await fetch('http://localhost:8080/shoppii/uploadservlet', {
     method: 'POST',
@@ -58,4 +42,12 @@ getPhotoBtn.addEventListener('click', async () => {
     .join(' ')
 
   root.innerHTML = element
+})
+
+testQueryBtn.addEventListener('click', async () => {
+  const response = await fetch(
+    'http://localhost:8080/shoppii/testquery?title=dao'
+  )
+  const data = await response.json()
+  console.log(data)
 })
