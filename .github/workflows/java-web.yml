@@ -35,6 +35,8 @@ jobs:
       # You may pin to the exact commit or the version.
       # uses: mikepenz/action-junit-report@b6d6e9a8caa401e9cbe9c43f3349d267aed1b6f1
       uses: mikepenz/action-junit-report@v3.5.0
+      with:
+        report_paths: 'test-results/test/TEST-*.xml'
 
     - name: Run Tomcat
       run:  mvn -B tomcat7:deploy --file ./shoppii/pom.xml
