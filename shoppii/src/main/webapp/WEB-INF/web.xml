@@ -3,6 +3,10 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 <web-app>
     <display-name>Archetype Created Web Application</display-name>
+
+    <!-- Filters -->
+
+    <!-- Sevlet Mappings -->
     <servlet>
         <servlet-name>Servlet</servlet-name>
         <servlet-class>com.tqkdn.Servlet</servlet-class>
@@ -27,4 +31,34 @@
         <servlet-name>FileDeleteServlet</servlet-name>
         <url-pattern>/delete</url-pattern>
     </servlet-mapping>
+
+    <!-- Environment variables -->
+    <env-entry> 
+        <env-entry-name>userName</env-entry-name>         
+        <env-entry-value>admin</env-entry-value> 
+        <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>
+    <env-entry> 
+        <env-entry-name>password</env-entry-name>         
+        <env-entry-value>admin</env-entry-value> 
+        <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>
+    <env-entry> 
+        <env-entry-name>dbName</env-entry-name>         
+        <env-entry-value>TQKDN</env-entry-value> 
+        <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>
+    <env-entry> 
+        <env-entry-name>className</env-entry-name>         
+        <env-entry-value>com.mysql.cj.jdbc.Driver</env-entry-value> 
+        <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>
+
+    <!-- NOTE: Change this to localhost if MySQL is deploy locally, IP address
+    of docker container if using Docker, else database host. -->
+    <env-entry> 
+        <env-entry-name>host</env-entry-name>         
+        <env-entry-value>172.17.0.2</env-entry-value> 
+        <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>
 </web-app>
