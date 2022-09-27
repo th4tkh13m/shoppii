@@ -27,14 +27,15 @@ public class DBConnect {
             Context ctx = new InitialContext();
             Context env = (Context)ctx.lookup("java:comp/env");
             String className = (String)env.lookup("className");
+            String sqlType = (String)env.lookup("sqlType");
             String userName = (String)env.lookup("userName");
             String password = (String)env.lookup("password");
             String dbName = (String)env.lookup("dbName");
             String host = (String)env.lookup("host");
 
-            String url = "jdbc:mysql://" + host + "/" + dbName; 
+            String url = "jdbc:" + sqlType +"://" + host + "/" + dbName; 
 
-            // Declare MySQL class name
+            // Declare SQL class name
             Class.forName(className);
 
             // Create connection to the database
@@ -43,6 +44,18 @@ public class DBConnect {
         } catch (ClassNotFoundException | SQLException | NamingException ex) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public DBConnect(String className, String sqlType, String host,
+             String dbName, String userName, String password) throws ClassNotFoundException, SQLException {
+            String url = "jdbc:" + sqlType +"://" + host; 
+
+            // Declare SQL class name
+            Class.forName(className);
+
+            // Create connection to the database
+            connection = DriverManager.getConnection(url, userName, password);
+            System.out.println("LOGIN OK");
     }
 
     public Connection getConnection() {

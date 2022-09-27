@@ -55,16 +55,20 @@
         <env-entry-value>com.mysql.cj.jdbc.Driver</env-entry-value> 
         <env-entry-type>java.lang.String</env-entry-type>
     </env-entry>
-
-    <!-- NOTE: Change this to localhost if MySQL is deploy locally, IP address
-    of docker container if using Docker, else database host. -->
     <env-entry> 
-        <env-entry-name>host</env-entry-name>         
-        <env-entry-value>172.17.0.2</env-entry-value> 
+        <env-entry-name>sqlType</env-entry-name>         
+        <env-entry-value>mysql</env-entry-value> 
         <env-entry-type>java.lang.String</env-entry-type>
     </env-entry>
 
+    <!-- NOTE: Change this to localhost if MySQL is deploy locally, else database host. -->
+    <env-entry> 
+        <env-entry-name>host</env-entry-name>         
+        <env-entry-value>127.0.0.1</env-entry-value> 
+        <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>
 
+    <!-- S3 information -->
     <env-entry> 
         <env-entry-name>bucket</env-entry-name>         
         <env-entry-value>photo-shoppii</env-entry-value> 
