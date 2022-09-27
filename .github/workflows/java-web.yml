@@ -16,6 +16,9 @@ jobs:
     
     env:
       PATH: '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:/usr/local/bin:/tmp/bin:~/bin'
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     steps:
     - uses: actions/checkout@v3
@@ -25,14 +28,15 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+        
+    - name: Create AWS Identity
+      run: sh ./scripts/create_identity.sh
+      
     - name: fetch Tomcat
       run: sh ./scripts/fetch.sh
       
     - name: Build with Maven
       run: mvn -B package --file ./shoppii/pom.xml
 
-    - name: Run Tests
-      run: mvn -B test --file ./shoppii/pom.xml
-      
     - name: Run Tomcat
-      run:  mvn -B tomcat7:deploy --file ./shoppii/pom.xml
+      run:  mvn tomcat7:deploy --file ./shoppii/pom.xml -DskipTests
