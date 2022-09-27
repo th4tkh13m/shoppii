@@ -37,6 +37,9 @@ jobs:
     - name: Create AWS Identity
       run: sh ./scripts/create_identity.sh
       
+    - name: Create Database and Tables
+      run: |
+        mysql -h 127.0.0.1 -P 3306 -e 'CREATE DATABASE TEST;' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
     - name: fetch Tomcat
       run: sh ./scripts/fetch.sh
       
