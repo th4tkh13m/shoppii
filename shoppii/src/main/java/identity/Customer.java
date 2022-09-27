@@ -5,11 +5,11 @@ import java.sql.Date;
 public class Customer {
     private int user_id;
     private String name, mail, phone;
-    private Date dob; 	
-    private Boolean sex;
+    private Date dob;
+    private boolean sex;
     private String password;
-    
-    public Customer(String name, String mail, String phone, Date dob, Boolean sex, String password) {
+
+    public Customer(String name, String mail, String phone, Date dob, boolean sex, String password) {
         this.name = name;
         this.mail = mail;
         this.phone = phone;
@@ -38,7 +38,7 @@ public class Customer {
         return dob;
     }
 
-    public Boolean getSex() {
+    public boolean getSex() {
         return sex;
     }
 
@@ -58,9 +58,12 @@ public class Customer {
         this.dob = dob;
     }
 
-    public void setSex(Boolean sex) {
+    public void setSex(boolean sex) {
         this.sex = sex;
     }
 
-    
+    public boolean checkPassword(String otherPass) {
+        return password.equals(otherPass);
+    }
+
 }
