@@ -34,6 +34,9 @@ jobs:
     - name: Start MySQL service
       run: sudo systemctl start mysql.service
       
+    - name: Create user
+      run: mysql -u root -p root < sql/admin.sql
+      
     - name: Create AWS Identity
       run: sh ./scripts/create_identity.sh
       
