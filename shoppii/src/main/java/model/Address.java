@@ -1,4 +1,4 @@
-package identity;
+package model;
 
 public class Address {
     private int addressId;
