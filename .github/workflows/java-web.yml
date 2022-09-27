@@ -19,6 +19,8 @@ jobs:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      DB_USER: admin
+      DB_PASSWORD: admin
 
     steps:
     - uses: actions/checkout@v3
@@ -29,6 +31,9 @@ jobs:
         distribution: 'temurin'
         cache: maven
         
+    - name: Start MySQL service
+      run: sudo systemctl start mysql.service
+      
     - name: Create AWS Identity
       run: sh ./scripts/create_identity.sh
       
