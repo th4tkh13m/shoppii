@@ -1,4 +1,4 @@
-package identity;
+package model;
 
 import java.sql.Time;
 import java.util.ArrayList;

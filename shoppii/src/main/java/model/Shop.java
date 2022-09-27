@@ -1,4 +1,4 @@
-package identity;
+package model;
 
 public class Shop {
     private int shopId;
