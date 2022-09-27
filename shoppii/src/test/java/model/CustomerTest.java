@@ -1,8 +1,10 @@
-package identity;
+package model;
 
 import static org.junit.Assert.assertEquals;
 import java.sql.Date;
 import org.junit.Test;
+
+import model.Customer;
 
 public class CustomerTest {
 

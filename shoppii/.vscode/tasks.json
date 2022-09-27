@@ -6,7 +6,13 @@
         {
             "label": "Run Web App",
             "type": "shell",
-            "command": "mvn -B clean package tomcat7:redeploy",
+            "command": "mvn -B clean package tomcat7:redeploy -DskipTests",
+            "group": "build"
+        },
+        {
+            "label": "Run Tests",
+            "type": "shell",
+            "command": "mvn -B test",
             "group": "build"
         }
     ]

@@ -1,4 +1,4 @@
-package identity;
+package model;
 
 public class CartItem {
     private Customer customer;
