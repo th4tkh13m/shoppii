@@ -54,6 +54,7 @@ public class CustomerDAOTest extends DBInfo {
         ClassLoader classLoader = this.getClass().getClassLoader();
         File tables = new File(classLoader.getResource("sql/tables.sql").getFile());
         Reader reader = new BufferedReader(new FileReader(tables));
+        sr.setLogWriter(null);
         sr.runScript(reader);
     }
     
