@@ -26,7 +26,7 @@ public class DBConnectTest extends DBInfo{
     @Test
     public void testCreateDatabase() {
         try {
-            DBConnect dbConnect = new DBConnect(className, sqlType, host, dbName, userName, password);
+            DBConnect dbConnect = new DBConnect(className, sqlType, host, userName, password);
             Connection connection = dbConnect.getConnection();
             Statement statement = connection.createStatement();
             statement.executeUpdate("CREATE DATABASE " + dbName);
