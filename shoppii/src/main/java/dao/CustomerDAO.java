@@ -6,6 +6,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,6 +17,9 @@ import com.password4j.types.Argon2;
 import dbconnect.DBConnect;
 import dbconnect.S3Util;
 import model.Customer;
+import model.Order;
+import model.OrderItem;
+import model.ShopRequest;
 
 public class CustomerDAO {
     private static int memory = 2048;
@@ -87,7 +92,7 @@ public class CustomerDAO {
             return true;
             
         } catch (Exception e) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, e);
             return false;
         }
     }
@@ -122,9 +127,48 @@ public class CustomerDAO {
         return getCustomerFromId(newCustomer.getUserId(), connection);
     }
 
-    public static boolean createRequest(Customer customer, Connection connection) {
-        return true;
+    public static ArrayList<ShopRequest> getRequests(Customer customer, Connection connection) {
+        try {
+            ArrayList<ShopRequest> requests = new ArrayList<>();
+            String sql = "SELECT name, address, description, status, time FROM `ShopRequests` WHERE customer_id = ? ORDER BY time ASC";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, customer.getUserId());
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                String name = result.getString(1);
+                String address = result.getString(2);
+                String description = result.getString(3);
+                String status = result.getString(4);
+                Time time = result.getTime(5);
+
+                requests.add(new ShopRequest(customer, name, address, description, status, time));
+            }
+            return requests;
+        } catch (SQLException e) {
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, e);
+            return null;
+        }   
     }
 
+    public static boolean createRequest(Customer customer, String shopName,
+                            String address, String description, Connection connection) {
+        try {
+            String sql = "INSERT INTO ShopRequests(customer_id, name, address, description) VALUES " + 
+                        "(?, ?, ?, ?);";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, customer.getUserId());
+            statement.setString(2, shopName);
+            statement.setString(3, address);
+            statement.setString(4, description);
+
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    
     
 }
