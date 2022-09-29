@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -12,6 +13,7 @@ import com.password4j.Argon2Function;
 import com.password4j.types.Argon2;
 
 import dbconnect.DBConnect;
+import dbconnect.S3Util;
 import model.Customer;
 
 public class CustomerDAO {
@@ -53,7 +55,16 @@ public class CustomerDAO {
         return new Customer(customerId, name, mail, phone, dob, sex, password, argon2);
     }
 
-    public static void insertCustomer(Customer customer, Connection connection) {
+    /**
+     * Use to Insert a Customer information to Database and Amazon S3.
+     * @param customer Customer to insert into DB
+     * @param fileName Avatar image's filename. Default to null if not uploaded.
+     * @param avatar InputStream of avatar image.
+     * @param connection DB Connection.
+     * @return
+     * true if the operation success, false otherwise.
+     */
+    public static boolean insertCustomer(Customer customer, String fileName, InputStream avatar, Connection connection) {
         try {
             String sql = "INSERT INTO `Customer` VALUES " +
                         "(?, ?, ?, ?, ?, ?, ?)";
@@ -68,8 +79,52 @@ public class CustomerDAO {
             statement.setString(7, customer.getEncryptedPassword());
 
             statement.execute();
+            
+            if (avatar != null) {
+                S3Util.uploadObject("profile/" + customer.getUserId() +
+                                    "/user/avatar/" + fileName, avatar);
+            }
+            return true;
+            
         } catch (Exception e) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, e);
+            return false;
         }
     }
+
+    /**
+     * @param newCustomer Updated version of the customer object.
+     * @param connection Connection to the database.
+     * @return
+     */
+    public static Customer updateInfo(Customer newCustomer, Connection connection) {
+        try {
+            PreparedStatement statement = connection
+                    .prepareStatement("UPDATE `Customer` SET name = ?," +
+                                    "mail = ?," +
+                                    "phone = ?," +
+                                    "dob = ?," +
+                                    "sex = ?," +
+                                    "password = ? " +
+                                    "WHERE user_id = ?");
+            statement.setString(1, newCustomer.getName());
+            statement.setString(2, newCustomer.getMail());
+            statement.setString(3, newCustomer.getPhone());
+            statement.setDate(4, newCustomer.getDob());
+            statement.setBoolean(5, newCustomer.getSex());
+            statement.setString(6, newCustomer.getEncryptedPassword());
+            statement.setInt(7, newCustomer.getUserId());
+            statement.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return getCustomerFromId(newCustomer.getUserId(), connection);
+    }
+
+    public static boolean createRequest(Customer customer, Connection connection) {
+        return true;
+    }
+
+    
 }

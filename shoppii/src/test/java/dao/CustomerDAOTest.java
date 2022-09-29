@@ -23,7 +23,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import dbconnect.DBConnect;
-import junit.framework.AssertionFailedError;
 import model.Customer;
 import utils.DBInfo;
 
@@ -63,15 +62,26 @@ public class CustomerDAOTest extends DBInfo {
             Customer customer = CustomerDAO.createCustomer(1, "An", "an@gmail.com", "0123456789",
                     Date.valueOf("2002-10-10"), true, "abc123");
 
-            CustomerDAO.insertCustomer(customer, connection);
+            CustomerDAO.insertCustomer(customer, null, null, connection);
     }
 
     @Test
     public void testGetCustomer() {
         Customer customer = CustomerDAO.createCustomer(1, "An", "an@gmail.com", "0123456789",
                     Date.valueOf("2002-10-10"), true, "abc123");
-        CustomerDAO.insertCustomer(customer, connection);
+        CustomerDAO.insertCustomer(customer, null, null, connection);
         assertEquals(customer, CustomerDAO.getCustomerFromId(1, connection));
+    }
+
+    @Test
+    public void testUpdateCustomer() {
+        Customer customer = CustomerDAO.createCustomer(1, "An", "an@gmail.com", "0123456789",
+                    Date.valueOf("2002-10-10"), true, "abc123");
+        CustomerDAO.insertCustomer(customer, null, null, connection);
+        customer.setName("Binh");
+        customer.setMail("binh@gmail.com");
+        Customer updatedCustomer = CustomerDAO.updateInfo(customer, connection);
+        assertEquals(customer, updatedCustomer);
     }
 
     @After
