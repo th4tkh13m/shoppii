@@ -173,82 +173,33 @@ public class CustomerDAO {
         }
     }
 
-    // Helper function to get Order Items
-    private static ArrayList<OrderItem> getOrderItemsFromId(int orderId, Connection connection) {
-        ArrayList<OrderItem> orderItems = new ArrayList<>();
-
+    private static Customer getCustomerFromMailOrPhone(String enteredMail, String enteredPhone, Connection connection) {
+        Customer customer = null;
         try {
-            String sql = "SELECT product_id, quantity, price FROM `Contain` WHERE order_id = ?";
+            String sql = "SELECT user_id, name, mail, phone, dob, sex, password FROM `Customer` WHERE mail = ? OR phone = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-
-            statement.setInt(1, orderId);
-
+            statement.setString(1, enteredMail);
+            statement.setString(2, enteredPhone);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
-                int productId = result.getInt(1);
-                int quantity = result.getInt(2);
-                int price = result.getInt(3);
-
-                Product product = ProductDAO.getProductFromId(productId, connection);
-
-                orderItems.add(new OrderItem(product, quantity, price));
+                int customerId = result.getInt(1);
+                String name = result.getString(2);
+                String mail = result.getString(3);
+                String phone = result.getString(4);
+                Date dob = result.getDate(5);
+                boolean sex = result.getBoolean(6);
+                String password = result.getString(7);
+                customer = new Customer(customerId, name, mail, phone, dob, sex, password);
             }
-            return orderItems;
-        } catch (Exception e) {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, e);
-            return orderItems;
+            return customer;
+        } catch (SQLException e) {
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, e);
+            return null;
         }
     }
 
-    public static ArrayList<Address> getAddressOfUser(Customer customer, Connection connection) {
-        ArrayList<Address> addresses = new ArrayList<>();
-
-        try {
-            String sql = "SELECT address_id, receiver_address, receiver_name, receiver_phone, is_default FROM `Address` WHERE user_id = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            statement.setInt(1, customer.getUserId());
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
-                int addressId = result.getInt(1);
-                String receiverAddress = result.getString(2);
-                String receiverName = result.getString(3);
-                String receiverPhone = result.getString(4);
-                boolean isDefault = result.getBoolean(5);
-
-                addresses.add(new Address(addressId, customer.getUserId(), receiverAddress, receiverName, receiverPhone,
-                        isDefault));
-            }
-            return addresses;
-        } catch (Exception e) {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, e);
-            return addresses;
-        }
+    public static boolean checkLogin(String enteredMail, String enteredPhone, String enteredPassword, Connection connection) {
+        Customer customer = getCustomerFromMailOrPhone(enteredMail, enteredPhone, connection);
+        return customer.verifyPassword(enteredPassword);
     }
-
-    // public static Order getOrderFromId(int orderId, Connection connection) {
-    // try {
-    // String sql = "SELECT customer_id, payment_method, status, time, address_id FROM `Contain` WHERE order_id = ?";
-    // PreparedStatement statement = connection.prepareStatement(sql);
-
-    // statement.setInt(1, orderId);
-
-    // ResultSet result = statement.executeQuery();
-    // while (result.next()) {
-    // int productId = result.getInt(1);
-    // int quantity = result.getInt(2);
-    // int price = result.getInt(3);
-    // String
-
-    // Product product = ProductDAO.getProductFromId(productId, connection);
-
-    // orderItems.add(new OrderItem(product, quantity, price));
-    // }
-    // return orderItems;
-    // } catch (Exception e) {
-    // Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, e);
-    // return orderItems;
-    // }
-    // }
-
 }
