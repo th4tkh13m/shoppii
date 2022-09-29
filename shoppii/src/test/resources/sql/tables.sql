@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Sep 28, 2022 at 03:48 PM
+-- Generation Time: Sep 29, 2022 at 02:54 PM
 -- Server version: 10.8.3-MariaDB-1:10.8.3+maria~jammy
 -- PHP Version: 8.0.23
 
@@ -167,7 +167,8 @@ ALTER TABLE `Contain`
 --
 ALTER TABLE `Customer`
   ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `mail` (`mail`);
+  ADD UNIQUE KEY `mail` (`mail`),
+  ADD UNIQUE KEY `phone` (`phone`) USING HASH;
 
 --
 -- Indexes for table `Order`
