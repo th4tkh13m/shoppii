@@ -14,8 +14,23 @@ public class TestQuery extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO Auto-generated method stub
         String title = req.getParameter("title");
+        String author = req.getParameter("author");
+        Model model = new Model(title, author);
         Gson gson = new Gson();
-        String json = gson.toJson(title);
+        String json = gson.toJson(model);
+        resp.setStatus(200);
+        resp.setHeader("Content-Type", "application/json");
+        resp.getOutputStream().println(json);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        String title = req.getParameter("title");
+        String author = req.getParameter("author");
+        Model model = new Model(title, author);
+        Gson gson = new Gson();
+        String json = gson.toJson(model);
         resp.setStatus(200);
         resp.setHeader("Content-Type", "application/json");
         resp.getOutputStream().println(json);

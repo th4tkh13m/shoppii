@@ -66,17 +66,20 @@ public class FileUploadServlet extends HttpServlet {
         // request.getRequestDispatcher("message.jsp").forward(request, response);
 
         Gson gson = new Gson();
-        String desc = request.getParameter("desc");
+        String desc = request.getParameter("description");
         String name = request.getParameter("name");
         List<Part> parts = (List<Part>) request.getParts();
         // Here to get id of the product for folder name
         String folderAWS = "dao-test-2";
         for (Part part : parts) {
             if (part.getName().equalsIgnoreCase("file")) {
-                S3Util.uploadFile(folderAWS + "/" + part.getSubmittedFileName(), part.getInputStream());
+                // S3Util.uploadFile(folderAWS + "/" + part.getSubmittedFileName(),
+                // part.getInputStream());
+                System.out.println("File name = " + part.getSubmittedFileName());
             }
         }
         System.out.println(desc);
+        System.out.println(name);
         response.setStatus(200);
         response.setHeader("Content-Type", "application/json");
         response.getOutputStream().println(gson.toJson("upload success"));
