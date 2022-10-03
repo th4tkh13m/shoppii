@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Sep 29, 2022 at 03:46 PM
+-- Generation Time: Sep 29, 2022 at 03:45 PM
 -- Server version: 10.8.3-MariaDB-1:10.8.3+maria~jammy
 -- PHP Version: 8.0.23
 
@@ -70,8 +70,8 @@ CREATE TABLE `Contain` (
 CREATE TABLE `Customer` (
   `user_id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `mail` varchar(50) NOT NULL,
-  `phone` varchar(10) NOT NULL,
+  `mail` varchar(50),
+  `phone` varchar(10),
   `dob` date DEFAULT NULL,
   `sex` tinyint(1) DEFAULT NULL,
   `password` varchar(4096) DEFAULT NULL
@@ -212,7 +212,7 @@ ALTER TABLE `Address`
 -- AUTO_INCREMENT for table `Customer`
 --
 ALTER TABLE `Customer`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Order`

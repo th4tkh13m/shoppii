@@ -70,8 +70,8 @@ CREATE TABLE `Contain` (
 CREATE TABLE `Customer` (
   `user_id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `mail` varchar(50) NOT NULL,
-  `phone` varchar(10) NOT NULL,
+  `mail` varchar(50),
+  `phone` varchar(10),
   `dob` date DEFAULT NULL,
   `sex` tinyint(1) DEFAULT NULL,
   `password` varchar(4096) DEFAULT NULL
@@ -212,7 +212,7 @@ ALTER TABLE `Address`
 -- AUTO_INCREMENT for table `Customer`
 --
 ALTER TABLE `Customer`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Order`
