@@ -198,7 +198,8 @@ public class CustomerDAO {
         }
     }
 
-    public static boolean checkLogin(String enteredMail, String enteredPhone, String enteredPassword, Connection connection) {
+    public static boolean checkLogin(String enteredMail, String enteredPhone, String enteredPassword,
+            Connection connection) {
         Customer customer = getCustomerFromMailOrPhone(enteredMail, enteredPhone, connection);
         return customer.verifyPassword(enteredPassword);
     }

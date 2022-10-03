@@ -6,7 +6,6 @@ import com.password4j.Argon2Function;
 import com.password4j.Hash;
 import com.password4j.Password;
 
-
 public class Customer {
     private int userId;
     private String name, mail, phone;
@@ -14,7 +13,17 @@ public class Customer {
     private boolean sex;
     private String encryptedPassword;
 
-    public Customer(int userId, String name, String mail, String phone, Date dob, boolean sex, String password, Argon2Function argon2) {
+    public Customer(String name, String mail, String phone, Date dob, boolean sex, String password) {
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+        this.dob = dob;
+        this.sex = sex;
+        this.encryptedPassword = password;
+    }
+
+    public Customer(int userId, String name, String mail, String phone, Date dob, boolean sex, String password,
+            Argon2Function argon2) {
         this.userId = userId;
         this.name = name;
         this.mail = mail;
@@ -135,6 +144,5 @@ public class Customer {
         return "Customer [dob=" + dob + ", encryptedPassword=" + encryptedPassword + ", mail=" + mail + ", name=" + name
                 + ", phone=" + phone + ", sex=" + sex + ", userId=" + userId + "]";
     }
-     
-    
+
 }
