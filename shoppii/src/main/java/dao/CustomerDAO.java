@@ -194,6 +194,7 @@ public class CustomerDAO {
         }
     }
 
+
     public static Customer register(String mail, String phone, String password, Connection connection) {
         Customer customer = createCustomer(Utils.generateName(), mail, phone, password);
         System.out.println(customer);
