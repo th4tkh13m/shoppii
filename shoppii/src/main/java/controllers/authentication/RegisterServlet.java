@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import dao.CustomerDAO;
 import dbconnect.DBConnect;
+import errors.ErrorHandle;
 import model.Customer;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
@@ -26,20 +27,27 @@ public class RegisterServlet extends HttpServlet {
         Gson gson = new Gson();
         DBConnect db = new DBConnect();
         Connection connection = db.getConnection();
-        String email = null;
-        String phone = null;
-        if (req.getParameter("email") != null) {
-            email = req.getParameter("email");
-        }
-        if (req.getParameter("phone") != null) {
-            phone = req.getParameter("phone");
-        }
-        String password = req.getParameter("password");
-        Customer customer = CustomerDAO.register(email, phone, password, connection);
-        // db here
-        String json = gson.toJson(customer);
         resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        resp.getOutputStream().println(json);
+        try {
+            String email = null;
+            String phone = null;
+            if (req.getParameter("email") != null) {
+                email = req.getParameter("email");
+            }
+            if (req.getParameter("phone") != null) {
+                phone = req.getParameter("phone");
+            }
+            String password = req.getParameter("password");
+            Customer customer = CustomerDAO.register(email, phone, password, connection);
+            // db here
+            String json = gson.toJson(customer);
+            resp.setStatus(201);
+            resp.getOutputStream().println(json);
+        } catch (Exception e) {
+            // TODO: handle exception
+            resp.setStatus(500);
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+        }
+
     }
 }
