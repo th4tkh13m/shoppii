@@ -2,3 +2,4 @@ shoppii/target
 shoppii/nb-configuration.xml
 *.log
 /shoppii/nbproject/
+scripts/products*

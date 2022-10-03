@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Date;
@@ -16,12 +17,11 @@ import com.password4j.types.Argon2;
 
 import dbconnect.DBConnect;
 import dbconnect.S3Util;
-import model.Address;
 import model.Customer;
-import model.Order;
-import model.OrderItem;
-import model.Product;
 import model.ShopRequest;
+import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.exception.SdkClientException;
+import utils.Utils;
 
 public class CustomerDAO {
     private static int memory = 2048;
@@ -56,10 +56,9 @@ public class CustomerDAO {
         }
     }
 
-    // Wrapper function for easy customer initialization
-    public static Customer createCustomer(int customerId, String name, String mail,
-            String phone, Date dob, boolean sex, String password) {
-        return new Customer(customerId, name, mail, phone, dob, sex, password, argon2);
+    protected static Customer createCustomer(String name, String mail,
+            String phone, String password) {
+        return new Customer(name, mail, phone, password, argon2);
     }
 
     /**
@@ -72,27 +71,20 @@ public class CustomerDAO {
      * @return
      *         true if the operation success, false otherwise.
      */
-    public static boolean insertCustomer(Customer customer, String fileName, InputStream avatar,
-            Connection connection) {
+    protected static boolean insertCustomer(Customer customer, Connection connection) {
         try {
-            String sql = "INSERT INTO `Customer` VALUES " +
-                    "(?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `Customer` (name, mail, phone, `password`) VALUES " +
+                    "(?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            statement.setInt(1, customer.getUserId());
-            statement.setString(2, customer.getName());
-            statement.setString(3, customer.getMail());
-            statement.setString(4, customer.getPhone());
-            statement.setDate(5, customer.getDob());
-            statement.setBoolean(6, customer.getSex());
-            statement.setString(7, customer.getEncryptedPassword());
+            statement.setString(1, customer.getName());
+            statement.setString(2, customer.getMail());
+            statement.setString(3, customer.getPhone());
+            statement.setString(4, customer.getEncryptedPassword());
 
             statement.execute();
 
-            if (avatar != null) {
-                S3Util.uploadObject("profile/" + customer.getUserId() +
-                        "/user/avatar/" + fileName, avatar);
-            }
+      
             return true;
 
         } catch (Exception e) {
@@ -106,7 +98,7 @@ public class CustomerDAO {
      * @param connection  Connection to the database.
      * @return
      */
-    public static Customer updateInfo(Customer newCustomer, Connection connection) {
+    public static Customer updateInfo(Customer newCustomer, Connection connection, String fileName, InputStream avatar) {
         try {
             PreparedStatement statement = connection
                     .prepareStatement("UPDATE `Customer` SET name = ?," +
@@ -125,7 +117,11 @@ public class CustomerDAO {
             statement.setInt(7, newCustomer.getUserId());
             statement.executeUpdate();
 
-        } catch (SQLException ex) {
+            if (avatar != null) {
+                S3Util.uploadObject("profile/" + newCustomer.getUserId() +
+                        "/user/avatar/" + fileName, avatar);
+            }
+        } catch (SQLException | AwsServiceException | SdkClientException | IOException ex) {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
         }
         return getCustomerFromId(newCustomer.getUserId(), connection);
@@ -198,8 +194,16 @@ public class CustomerDAO {
         }
     }
 
-    public static boolean checkLogin(String enteredMail, String enteredPhone, String enteredPassword,
-            Connection connection) {
+
+    public static Customer register(String mail, String phone, String password, Connection connection) {
+        Customer customer = createCustomer(Utils.generateName(), mail, phone, password);
+        System.out.println(customer);
+        insertCustomer(customer, connection);
+        return CustomerDAO.getCustomerFromMailOrPhone(mail, phone, connection);
+        
+    }
+
+    public static boolean checkLogin(String enteredMail, String enteredPhone, String enteredPassword, Connection connection) {
         Customer customer = getCustomerFromMailOrPhone(enteredMail, enteredPhone, connection);
         return customer.verifyPassword(enteredPassword);
     }

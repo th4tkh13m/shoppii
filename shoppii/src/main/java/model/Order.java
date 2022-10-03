@@ -5,19 +5,18 @@ import java.util.ArrayList;
 
 public class Order {
     private int orderId;
-    private Customer customer;
+    private int customerId;
     private String paymentMethod, status;
     private Time time;
-    private Address address;
-    private ArrayList<OrderItem> orderItems;
+    private int addressId;
     
-    public Order(int orderId, Customer customer, String paymentMethod, String status, Time time, Address address) {
+    public Order(int orderId, int customerId, String paymentMethod, String status, Time time, int addressId) {
         this.orderId = orderId;
-        this.customer = customer;
+        this.customerId = customerId;
         this.paymentMethod = paymentMethod;
         this.status = status;
         this.time = time;
-        this.address = address;
+        this.addressId = addressId;
     }
 
     public int getOrderId() {
@@ -28,12 +27,12 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomer(int customerId) {
+        this.customerId = customerId;
     }
 
     public String getPaymentMethod() {
@@ -60,16 +59,11 @@ public class Order {
         this.time = time;
     }
 
-    public Address getAddress() {
-        return address;
+    public int getAddressId() {
+        return addressId;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
     }
-
-    public ArrayList<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-    
 }

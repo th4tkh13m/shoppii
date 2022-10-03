@@ -34,6 +34,16 @@ public class Customer {
         this.encryptedPassword = hash.getResult();
     }
 
+    public Customer(String name, String mail, String phone, Date dob, boolean sex, String password, Argon2Function argon2) {
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+        this.dob = dob;
+        this.sex = sex;
+        Hash hash = Password.hash(password).with(argon2);
+        this.encryptedPassword = hash.getResult();
+    }
+
     public Customer(int userId, String name, String mail, String phone, Date dob, boolean sex, String password) {
         this.userId = userId;
         this.name = name;
@@ -42,6 +52,16 @@ public class Customer {
         this.dob = dob;
         this.sex = sex;
         this.encryptedPassword = password;
+    }
+
+    
+
+    public Customer(String name, String mail, String phone, String password, Argon2Function argon2) {
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+        Hash hash = Password.hash(password).with(argon2);
+        this.encryptedPassword = hash.getResult();
     }
 
     public int getUserId() {
@@ -127,8 +147,6 @@ public class Customer {
         } else if (!phone.equals(other.phone))
             return false;
         if (sex != other.sex)
-            return false;
-        if (userId != other.userId)
             return false;
         return true;
     }
