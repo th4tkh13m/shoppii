@@ -22,20 +22,21 @@ public class RegisterServlet extends HttpServlet {
         Connection connection = db.getConnection();
         String email = null;
         String phone = null;
+        String test = req.getParameter("test");
         if (req.getParameter("email") != null) {
             email = req.getParameter("email");
         }
         if (req.getParameter("phone") != null) {
             phone = req.getParameter("phone");
         }
-        String password = req.getParameter("password");
+        String password = "aaa";
         // Customer customer = CustomerDAO.createCustomer(name, email, phone, null,
         // false, password);
         Customer customer = CustomerDAO.register(email, phone, password, connection);
         // db here
-        String json = gson.toJson(customer);
+        String json = gson.toJson(test);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().write(json);
+        resp.getOutputStream().println(json);
     }
 }
