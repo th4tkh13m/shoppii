@@ -7,9 +7,6 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import model.Address;
-import model.Customer;
 import model.Order;
 import model.OrderItem;
 import model.Product;
@@ -58,14 +55,13 @@ public class OrderDAO {
                 Time time = result.getTime(4);
                 int addressId = result.getInt(5);
 
-                Customer customer = CustomerDAO.getCustomerFromId(customerId, connection);
-                Address address = AddressDAO.getAddressFromId(addressId, connection);
-                order = new Order(orderId, customer, paymentMethod, status, time, address);
+                
+                order = new Order(orderId, customerId, paymentMethod, status, time, addressId);
             }
 
             return order;
         } catch (Exception e) {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, e);
             return order;
         }
     }
@@ -73,12 +69,15 @@ public class OrderDAO {
     public static ArrayList<Order> getOrdersByShop(Shop shop, String statusFilter, Connection connection) {
         ArrayList<Order> orders = new ArrayList<>();
         try {
-            String sql = "SELECT order_id, user_id, payment_method, time, address_id " +
+            String sql = "SELECT order_id, user_id, payment_method, status, time, address_id " +
             "FROM `Order` o INNER JOIN `Contain` c ON o.order_id = c.order_id " +
             "INNER JOIN `Product` p ON p.product_id = c.product_id " +
-            "WHERE p.shop_id = ?";
+            "WHERE p.shop_id = ? AND status = ?";
+
 
             PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, shop.getShopId());
+            statement.setString(2, statusFilter);
             ResultSet result = statement.executeQuery();
 
             while (result.next()) {
@@ -89,21 +88,40 @@ public class OrderDAO {
                 Time time = result.getTime(5);
                 int addressId = result.getInt(6);
 
-                Customer customer = CustomerDAO.getCustomerFromId(customerId, connection);
-                Address address = AddressDAO.getAddressFromId(addressId, connection);
-                orders.add(new Order(orderId, customer, paymentMethod, status, time, address));
+           
+                orders.add(new Order(orderId, customerId, paymentMethod, status, time, addressId));
             }
 
             return orders;
         } catch (Exception e) {
-            // TODO: handle exception
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, e);
             return orders;
         }
     }
 
     private static boolean changeStatus(int orderId, String status, Connection connection) {
-        // Do work here
-        return true;
+        try {
+            String sql = "UPDATE `Order` SET status = ? WHERE order_id = ?";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, status);
+            statement.setInt(2, orderId);
+
+            statement.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+    
+    public static boolean acceptOrder(int orderId, Connection connection) {
+        return changeStatus(orderId, "Accepted", connection);
+        
+    }
+
+    public static boolean rejectOrder(int orderId, Connection connection) {
+        return changeStatus(orderId, "Rejected", connection);
     }
 
 }
