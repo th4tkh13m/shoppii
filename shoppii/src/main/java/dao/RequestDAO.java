@@ -35,6 +35,26 @@ public class RequestDAO {
             return requests;
     }
 
+    public static ArrayList<ShopRequest> getRequestsByStatus(String status, Connection connection) throws SQLException {
+        ArrayList<ShopRequest> requests = new ArrayList<>();
+        String sql = "SELECT customer_id, name, address, description, status, time FROM `ShopRequests` WHERE status = ? ORDER BY time ASC";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, status);
+
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            int customerId = resultSet.getInt(1);
+            String name = resultSet.getString(2);
+            String address = resultSet.getString(3);
+            String description = resultSet.getString(4);
+            Time time = resultSet.getTime(6);
+
+            requests.add(new ShopRequest(CustomerDAO.getCustomerFromId(customerId, connection), name, address, description, status, time));
+        }
+        return requests;
+    }
+
     private static boolean checkUserHasPendingRequest(int customerId, Connection connection) throws SQLException {
         String sql = "SELECT status FROM ShopRequests WHERE customer_id = ? AND status = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
@@ -75,32 +95,47 @@ public class RequestDAO {
             return request;
 
     }
-    private static boolean changeStatus(int customerId, String status, Connection connection) throws SQLException {
-            String sql = "UPDATE `ShopRequests` SET status = ? WHERE customer_id = ?";
+    private static ShopRequest changeStatus(int customerId, String status, Connection connection) throws SQLException {
+        String sql = "SELECT name, address, description, time FROM `ShopRequests` WHERE status = 'Pending' AND customer_id = ?";    
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, customerId);
+        ResultSet result = statement.executeQuery();
+        String name =null, address = null, description =null;
+        Time time = null;
+        while (result.next()) {
+            name = result.getString(1);
+            address = result.getString(2);
+            description = result.getString(3);
+            time = result.getTime(4);
+        }
+        String sql1 = "UPDATE `ShopRequests` SET status = ? WHERE customer_id = ? AND status = 'Pending'";
 
-            PreparedStatement statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql1);
             statement.setString(1, status);
             statement.setInt(2, customerId);
 
             statement.executeUpdate();
-            return true;
+            return new ShopRequest(CustomerDAO.getCustomerFromId(customerId, connection), name, address, description, status, time);
     }
     
-    public static boolean acceptRequest(Shop shop, Connection connection) throws SQLException {
-        changeStatus(shop.getShopId(), "Accepted", connection);
+    public static ShopRequest acceptRequest(int customerId, Connection connection) throws SQLException {
+        ShopRequest request = changeStatus(customerId, "Accepted", connection);
         
-        String sql = "insert into Shop (shop_id, name, address, description) values (?,?,?,?)";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, shop.getShopId());
-        statement.setString(2, shop.getName());
-        statement.setString(3, shop.getAddress());
-        statement.setString(4, shop.getDescription());
+        String sql1 = "insert into Shop (shop_id, name, address, description) values (?,?,?,?)";
+        PreparedStatement statement = connection.prepareStatement(sql1);
+        statement.setInt(1, customerId);
+        statement.setString(2, request.getName());
+        statement.setString(3, request.getAddress());
+        statement.setString(4, request.getDescription());
         statement.executeUpdate();
-        return true;
+        
+        
+        
+        return request;
     }
 
-    public static boolean rejectRequest(int orderId, Connection connection) throws SQLException {
-        return changeStatus(orderId, "Rejected", connection);
+    public static ShopRequest rejectRequest(int customerId, Connection connection) throws SQLException {
+        return changeStatus(customerId, "Rejected", connection);
     }
 
 }
