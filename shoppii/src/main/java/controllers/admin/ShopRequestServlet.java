@@ -16,11 +16,12 @@ import dao.RequestDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
 import model.ShopRequest;
+
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 1, // 1 MB
         maxRequestSize = 1024 * 1024 * 1 // 1 MB
 )
-public class ShopRequestServlet extends HttpServlet{
+public class ShopRequestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
@@ -54,7 +55,7 @@ public class ShopRequestServlet extends HttpServlet{
             String status = req.getParameter("status");
             int customerId = Integer.parseInt(req.getParameter("userId"));
             ShopRequest request = null;
-            if (status.equals("Accepted")) {
+            if (status.equalsIgnoreCase("Accepted")) {
                 request = RequestDAO.acceptRequest(customerId, connection);
             } else {
                 request = RequestDAO.rejectRequest(customerId, connection);

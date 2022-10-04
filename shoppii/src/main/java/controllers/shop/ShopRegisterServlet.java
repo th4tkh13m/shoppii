@@ -20,7 +20,7 @@ import model.ShopRequest;
         maxFileSize = 1024 * 1024 * 1, // 1 MB
         maxRequestSize = 1024 * 1024 * 1 // 1 MB
 )
-public class ShopRegisterServlet extends HttpServlet{
+public class ShopRegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
@@ -39,7 +39,7 @@ public class ShopRegisterServlet extends HttpServlet{
             resp.getOutputStream().println(json);
         } catch (Exception e) {
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
         }
     }
 }
