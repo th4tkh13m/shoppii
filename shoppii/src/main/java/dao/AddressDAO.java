@@ -53,12 +53,69 @@ public class AddressDAO {
                 boolean isDefault = result.getBoolean(5);
 
                 address = new Address(addressId, customerId, receiverAddress, receiverName, receiverPhone,
-                isDefault);
+                        isDefault);
             }
             return address;
         } catch (Exception e) {
             Logger.getLogger(AddressDAO.class.getName()).log(Level.SEVERE, null, e);
             return address;
+        }
+    }
+
+    public static boolean addAddress(int addressId, int userId, String receiverAddress, String receiverName,
+            String receiverPhone, boolean isDefault, Connection connection) {
+        try {
+            String sql = "INSERT INTO `Address` (address_id, user_id, receiver_address, receiver_name, receiver_phone, is_default) VALUES (?, ?, ?, ?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, addressId);
+            statement.setInt(2, userId);
+            statement.setString(3, receiverAddress);
+            statement.setString(4, receiverName);
+            statement.setString(5, receiverPhone);
+            statement.setBoolean(6, isDefault);
+            statement.execute();
+            return true;
+        } catch (Exception e) {
+            Logger.getLogger(AddressDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+
+    public static boolean updateAddress(int addressId, int userId, String receiverAddress, String receiverName,
+            String receiverPhone, boolean isDefault, Connection connection) {
+        try {
+            String sql = "UPDATE `Address` SET receiver_address = ?, receiver_name=?, receiver_phone=?, is_default=? WHERE address_id = ? and user_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(5, addressId);
+            statement.setInt(6, userId);
+            statement.setString(1, receiverAddress);
+            statement.setString(2, receiverName);
+            statement.setString(3, receiverPhone);
+            statement.setBoolean(4, isDefault);
+            statement.execute();
+            return true;
+        } catch (Exception e) {
+            Logger.getLogger(AddressDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+
+    public static boolean deleteAddress(int addressId, int userId, String receiverAddress, String receiverName,
+            String receiverPhone, boolean isDefault, Connection connection) {
+        try {
+            String sql = "DELETE `Address` WHERE address_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(5, addressId);
+            statement.setInt(6, userId);
+            statement.setString(1, receiverAddress);
+            statement.setString(2, receiverName);
+            statement.setString(3, receiverPhone);
+            statement.setBoolean(4, isDefault);
+            statement.execute();
+            return true;
+        } catch (Exception e) {
+            Logger.getLogger(AddressDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
         }
     }
 }

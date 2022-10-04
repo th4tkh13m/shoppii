@@ -84,7 +84,6 @@ public class CustomerDAO {
 
             statement.execute();
 
-      
             return true;
     }
 
@@ -98,6 +97,7 @@ public class CustomerDAO {
      * @throws AwsServiceException
      * @throws S3Exception
      */
+
     public static Customer updateInfo(Customer newCustomer, Connection connection, String fileName, InputStream avatar) throws SQLException, S3Exception, AwsServiceException, SdkClientException, IOException {
             PreparedStatement statement = connection
                     .prepareStatement("UPDATE `Customer` SET name = ?," +
@@ -115,7 +115,6 @@ public class CustomerDAO {
             statement.setString(6, newCustomer.getEncryptedPassword());
             statement.setInt(7, newCustomer.getUserId());
             statement.executeUpdate();
-
             if (avatar != null) {
                 S3Util.uploadObject("profile/" + newCustomer.getUserId() +
                         "/user/avatar/" + fileName, avatar);
@@ -145,13 +144,12 @@ public class CustomerDAO {
         
     }
 
-
     public static Customer register(String mail, String phone, String password, Connection connection) throws SQLException {
         Customer customer = createCustomer(Utils.generateName(), mail, phone, password);
         System.out.println(customer);
         insertCustomer(customer, connection);
         return CustomerDAO.getCustomerFromMailOrPhone(mail, phone, connection);
-        
+
     }
 
     public static Customer checkLogin(String enteredMail, String enteredPhone, String enteredPassword, Connection connection) throws Exception {
