@@ -33,6 +33,10 @@
         <servlet-name>LoginGoogle</servlet-name>
         <servlet-class>controllers.authentication.LoginByGoogle</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductsShopServlet</servlet-name>
+        <servlet-class>controllers.shop.ProductsShopServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
@@ -53,6 +57,10 @@
     <servlet-mapping>
         <servlet-name>LoginGoogle</servlet-name>
         <url-pattern>/login-google</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductsShopServlet</servlet-name>
+        <url-pattern>/shop/products</url-pattern>
     </servlet-mapping>
 
     <!-- Environment variables -->
