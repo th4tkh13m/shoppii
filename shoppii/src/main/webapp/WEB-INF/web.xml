@@ -41,6 +41,10 @@
         <servlet-name>ShopRegisterServlet</servlet-name>
         <servlet-class>controllers.shop.ShopRegisterServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShopRequestServlet</servlet-name>
+        <servlet-class>controllers.admin.ShopRequestServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
@@ -69,6 +73,10 @@
     <servlet-mapping>
         <servlet-name>ShopRegisterServlet</servlet-name>
         <url-pattern>/shop/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShopRequestServlet</servlet-name>
+        <url-pattern>/admin/request</url-pattern>
     </servlet-mapping>
 
     <!-- Environment variables -->
