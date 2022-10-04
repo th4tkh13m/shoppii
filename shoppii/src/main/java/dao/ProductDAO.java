@@ -4,15 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import model.Product;
 
 public class ProductDAO {
-    public static Product getProductFromId(int productId, Connection connection) {
+    public static Product getProductFromId(int productId, Connection connection) throws SQLException {
         Product product = null;
-        try {
             String sql = "SELECT shop_id, name, price, quantity, category, description FROM `Product` WHERE product_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -31,10 +31,31 @@ public class ProductDAO {
             }
 
             return product;
-        } catch (SQLException e) {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, e);
-            return product;
-        }
     }
 
+    public static ArrayList<Product> getAllProduct(Connection connection) throws SQLException{
+        ArrayList<Product> list = new ArrayList<>();
+            String sql = "SELECT product_id from Product";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet result = statement.executeQuery();
+            while (result.next()){
+                int id = result.getInt(1);
+                Product p = getProductFromId(id, connection);
+                list.add(p);
+            }
+            return list;
+    }
+
+    public static ArrayList<Product> getProductBaseOnShop(int shopId, Connection connection) throws SQLException{
+        ArrayList<Product> list = new ArrayList<>();
+            String sql = "SELECT product_id FROM Product where shop_id=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet result = statement.executeQuery();
+            while (result.next()){
+                int id = result.getInt(1);
+                Product p = getProductFromId(id, connection);
+                list.add(p);
+            }
+            return list;
+    }
 }

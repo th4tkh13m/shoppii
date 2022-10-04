@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import dbconnect.DBConnect;
 import model.Customer;
+import model.Shop;
 import model.ShopRequest;
 
 public class RequestDAO {
@@ -72,9 +73,17 @@ public class RequestDAO {
         }
     }
     
-    public static boolean acceptRequest(int orderId, Connection connection) {
-        return changeStatus(orderId, "Accepted", connection);
+    public static boolean acceptRequest(Shop shop, Connection connection) throws SQLException {
+        changeStatus(shop.getShopId(), "Accepted", connection);
         
+        String sql = "insert into Shop (shop_id, name, address, description) values (?,?,?,?)";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, shop.getShopId());
+        statement.setString(2, shop.getName());
+        statement.setString(3, shop.getAddress());
+        statement.setString(4, shop.getDescription());
+        statement.executeUpdate();
+        return true;
     }
 
     public static boolean rejectRequest(int orderId, Connection connection) {
