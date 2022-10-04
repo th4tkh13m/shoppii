@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -16,8 +17,7 @@ import model.ShopRequest;
 
 public class RequestDAO {
 
-    public static ArrayList<ShopRequest> getRequests(Customer customer, Connection connection) {
-        try {
+    public static ArrayList<ShopRequest> getRequests(Customer customer, Connection connection) throws SQLException {
             ArrayList<ShopRequest> requests = new ArrayList<>();
             String sql = "SELECT name, address, description, status, time FROM `ShopRequests` WHERE customer_id = ? ORDER BY time ASC";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -33,32 +33,32 @@ public class RequestDAO {
                 requests.add(new ShopRequest(customer, name, address, description, status, time));
             }
             return requests;
-        } catch (SQLException e) {
-            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, e);
-            return null;
-        }
     }
 
-    public static boolean createRequest(Customer customer, String shopName,
-            String address, String description, Connection connection) {
-        try {
+    public static ShopRequest createRequest(int customerId, String shopName,
+            String address, String description, Connection connection) throws SQLException {
+            ShopRequest request = null;
             String sql = "INSERT INTO ShopRequests(customer_id, name, address, description) VALUES " +
                     "(?, ?, ?, ?);";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, customer.getUserId());
+            statement.setInt(1, customerId);
             statement.setString(2, shopName);
             statement.setString(3, address);
             statement.setString(4, description);
 
             statement.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+            String sql2 = "SELECT status, time FROM ShopRequests WHERE time = (SELECT MAX(time) FROM ShopRequests)";
+            ResultSet result = (connection.createStatement()).executeQuery(sql2);
+
+            while (result.next()) {
+                String status = result.getString(1);
+                Time time = result.getTime(2);
+                request = new ShopRequest(CustomerDAO.getCustomerFromId(customerId, connection), shopName, address, description, status, time);
+            }
+            return request;
+
     }
-    private static boolean changeStatus(int customerId, String status, Connection connection) {
-        try {
+    private static boolean changeStatus(int customerId, String status, Connection connection) throws SQLException {
             String sql = "UPDATE `ShopRequests` SET status = ? WHERE customer_id = ?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -67,10 +67,6 @@ public class RequestDAO {
 
             statement.executeUpdate();
             return true;
-        } catch (Exception e) {
-            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, e);
-            return false;
-        }
     }
     
     public static boolean acceptRequest(Shop shop, Connection connection) throws SQLException {
@@ -86,7 +82,7 @@ public class RequestDAO {
         return true;
     }
 
-    public static boolean rejectRequest(int orderId, Connection connection) {
+    public static boolean rejectRequest(int orderId, Connection connection) throws SQLException {
         return changeStatus(orderId, "Rejected", connection);
     }
 

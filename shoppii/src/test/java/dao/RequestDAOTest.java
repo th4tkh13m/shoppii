@@ -64,8 +64,8 @@ public class RequestDAOTest extends DBInfo{
         Customer customer;
         try {
             customer = CustomerDAO.register("an@gmail.com", null, "abc123", connection);
-            assertTrue(RequestDAO
-            .createRequest(customer, "Apple", "US", "Sell overpriced things", connection));
+            assertNotNull(RequestDAO
+            .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection));
         System.out.println("Test passed.");
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -81,12 +81,12 @@ public class RequestDAOTest extends DBInfo{
         try {
             customer = CustomerDAO.register("an@gmail.com", null, "abc123", connection);
             RequestDAO
-            .createRequest(customer, "Apple", "US", "Sell overpriced things", connection);
+            .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection);
             Thread.sleep(1000);
 
         // Use to check order of received requests.
         RequestDAO
-            .createRequest(customer, "HP", "US", "Sell normal things", connection);
+            .createRequest(customer.getUserId(), "HP", "US", "Sell normal things", connection);
         ArrayList<String> names = new ArrayList<>();
         
         for (ShopRequest request : RequestDAO.getRequests(customer, connection)) {
