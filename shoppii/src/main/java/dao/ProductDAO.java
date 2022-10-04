@@ -58,4 +58,17 @@ public class ProductDAO {
             }
             return list;
     }
+
+    public static Product addProduct(Product product, Connection connection) throws SQLException{
+        String sql = "INSERT INTO Product (shop_id, name, price, quantity, category, description) VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, product.getShopId());
+        statement.setString(2, product.getName());
+        statement.setInt(3, product.getPrice());
+        statement.setInt(4, product.getQuantity());
+        statement.setString(5, product.getCategory());
+        statement.setString(6, product.getDescription());
+        statement.executeUpdate();
+        return product;
+    }
 }
