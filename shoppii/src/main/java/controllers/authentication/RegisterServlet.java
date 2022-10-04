@@ -5,7 +5,6 @@ import java.sql.Connection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +38,7 @@ public class RegisterServlet extends HttpServlet {
             }
             String password = req.getParameter("password");
             String rePassword = req.getParameter("rePassword");
-                
+
             if (password.equals(rePassword)) {
                 // db here
                 Customer customer = CustomerDAO.register(email, phone, password, connection);
@@ -51,7 +50,7 @@ public class RegisterServlet extends HttpServlet {
                 resp.setStatus(400);
                 resp.getOutputStream().println(gson.toJson(new ErrorHandle("Password not match", 400)));
             }
-            
+
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);

@@ -12,6 +12,7 @@ public class Customer {
     private Date dob;
     private boolean sex;
     private String encryptedPassword;
+    private String avatarLink;
 
     public Customer(String name, String mail, String phone, Date dob, boolean sex, String password) {
         this.name = name;
@@ -159,6 +160,14 @@ public class Customer {
     public String toString() {
         return "Customer [dob=" + dob + ", encryptedPassword=" + encryptedPassword + ", mail=" + mail + ", name=" + name
                 + ", phone=" + phone + ", sex=" + sex + ", userId=" + userId + "]";
+    }
+
+    public String getAvatarLink() {
+        return avatarLink;
+    }
+
+    public void setAvatarLink(String avartarLink) {
+        this.avatarLink = avartarLink;
     }
 
 }
