@@ -38,11 +38,20 @@ public class RegisterServlet extends HttpServlet {
                 phone = req.getParameter("phone");
             }
             String password = req.getParameter("password");
-            Customer customer = CustomerDAO.register(email, phone, password, connection);
-            // db here
-            String json = gson.toJson(customer);
-            resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            String rePassword = req.getParameter("rePassword");
+                
+            if (password.equals(rePassword)) {
+                // db here
+                Customer customer = CustomerDAO.register(email, phone, password, connection);
+                // db here
+                String json = gson.toJson(customer);
+                resp.setStatus(201);
+                resp.getOutputStream().println(json);
+            } else {
+                resp.setStatus(400);
+                resp.getOutputStream().println(gson.toJson(new ErrorHandle("Password not match", 400)));
+            }
+            
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);

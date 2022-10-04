@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
             String rePassword = req.getParameter("rePassword");
             if (password.equals(rePassword)) {
                 // db here
-                CustomerDAO.checkLogin(email, phone, rePassword, null);
+                CustomerDAO.checkLogin(email, phone, rePassword, connection);
             } else {
                 resp.setStatus(400);
                 resp.getOutputStream().println(gson.toJson(new ErrorHandle("Password not match", 400)));
