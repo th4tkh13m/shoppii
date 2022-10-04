@@ -12,6 +12,7 @@ public class Customer {
     private Date dob;
     private boolean sex;
     private String encryptedPassword;
+    private String avatarLink;
 
     public Customer(String name, String mail, String phone, Date dob, boolean sex, String password) {
         this.name = name;
@@ -34,7 +35,8 @@ public class Customer {
         this.encryptedPassword = hash.getResult();
     }
 
-    public Customer(String name, String mail, String phone, Date dob, boolean sex, String password, Argon2Function argon2) {
+    public Customer(String name, String mail, String phone, Date dob, boolean sex, String password,
+            Argon2Function argon2) {
         this.name = name;
         this.mail = mail;
         this.phone = phone;
@@ -53,8 +55,6 @@ public class Customer {
         this.sex = sex;
         this.encryptedPassword = password;
     }
-
-    
 
     public Customer(String name, String mail, String phone, String password, Argon2Function argon2) {
         this.name = name;
@@ -161,6 +161,14 @@ public class Customer {
     public String toString() {
         return "Customer [dob=" + dob + ", encryptedPassword=" + encryptedPassword + ", mail=" + mail + ", name=" + name
                 + ", phone=" + phone + ", sex=" + sex + ", userId=" + userId + "]";
+    }
+
+    public String getAvatarLink() {
+        return avatarLink;
+    }
+
+    public void setAvatarLink(String avartarLink) {
+        this.avatarLink = avartarLink;
     }
 
 }

@@ -1,12 +1,16 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Product {
     private int productId, shopId;
     private String name;
     private int price, quantity;
     private String category, description;
-    
-    public Product(int productId, int shopId, String name, int price, int quantity, String category, String description) {
+    private ArrayList<String> images;
+
+    public Product(int productId, int shopId, String name, int price, int quantity, String category,
+            String description) {
         this.productId = productId;
         this.shopId = shopId;
         this.name = name;
@@ -71,6 +75,13 @@ public class Product {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    
+
+    public ArrayList<String> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<String> images) {
+        this.images = images;
+    }
+
 }
