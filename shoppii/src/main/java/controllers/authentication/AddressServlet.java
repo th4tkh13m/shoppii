@@ -16,6 +16,7 @@ import dao.AddressDAO;
 import dao.CustomerDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
+import model.Address;
 import model.Customer;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
@@ -30,22 +31,17 @@ public class AddressServlet extends HttpServlet {
         Connection connection = db.getConnection();
         resp.setContentType("application/json");
         try {
-            int addressId = Integer.parseInt(req.getParameter("addressId"));
+    
             int userId = Integer.parseInt(req.getParameter("userId"));
             String receiverAddress = req.getParameter("receiverAddress");
             String receiverName = req.getParameter("receiverName");
             String receiverPhone = req.getParameter("receiverPhone");
-            boolean isDefault = false;
-            if (req.getParameter("isDefault") == "true") {
-                isDefault = true;
-            } else if (req.getParameter("isDefault") == "false") {
-                isDefault = false;
-            }
-            AddressDAO.addAddress(addressId, userId, receiverAddress, receiverName, receiverPhone, isDefault,
+            
+            Address address = AddressDAO.addAddress(userId, receiverAddress, receiverName, receiverPhone,
                     connection);
-            // String json = gson.toJson(address);
-            // resp.setStatus(201);
-            // resp.getOutputStream().println(json);
+            String json = gson.toJson(address);
+            resp.setStatus(201);
+            resp.getOutputStream().println(json);
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
