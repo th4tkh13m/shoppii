@@ -86,7 +86,7 @@ public class RequestDAOTest extends DBInfo{
             RequestDAO
             .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection);
             Thread.sleep(1000);
-
+            RequestDAO.rejectRequest(customer.getUserId(), connection);
         // Use to check order of received requests.
         RequestDAO
             .createRequest(customer.getUserId(), "HP", "US", "Sell normal things", connection);
