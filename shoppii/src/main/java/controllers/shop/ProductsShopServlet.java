@@ -20,24 +20,24 @@ import model.Product;
         maxFileSize = 1024 * 1024 * 1, // 1 MB
         maxRequestSize = 1024 * 1024 * 1 // 1 MB
 )
-
 public class ProductsShopServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
         resp.setContentType("application/json");
         try {
-            // DBConnect db = new DBConnect();
-            // Connection connection = db.getConnection();
+            DBConnect dbConnect = new DBConnect();
+            Connection connection = dbConnect.getConnection();
+            int shopId = Integer.parseInt(req.getParameter("shopId"));
             String name = req.getParameter("name");
             int price = Integer.parseInt(req.getParameter("price"));
             int quantity = Integer.parseInt(req.getParameter("quantity"));
             String cat = req.getParameter("category");
             String des = req.getParameter("description");
-            System.out.println(name + " " + price + " " + quantity + " " + cat + " " + des);
-            // Product product = ProductDAO.addProduct(new Product(name, price, quantity,
-            // cat, des), connection);
-            String json = gson.toJson(new Product(name, price, quantity, cat, des));
+            Product product = new Product(shopId, name, price, quantity, cat, des);
+            // Product product = ProductDAO.addProduct(new Product(shopId, name, price,
+            // quantity, cat, des), connection);
+            String json = gson.toJson(product);
             resp.setStatus(201);
             resp.getOutputStream().println(json);
         } catch (Exception e) {
