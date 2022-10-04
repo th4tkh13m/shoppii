@@ -153,7 +153,6 @@ public class Customer {
 
     public boolean verifyPassword(String plainPassword) {
         Argon2Function argon2 = Argon2Function.getInstanceFromHash(encryptedPassword);
-
         return Password.check(plainPassword, encryptedPassword).with(argon2);
     }
 

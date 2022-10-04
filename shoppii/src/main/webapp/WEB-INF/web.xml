@@ -18,8 +18,8 @@
         <servlet-class>com.tqkdn.Servlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>FileUploadServlet</servlet-name>
-        <servlet-class>net.codejava.aws.FileUploadServlet</servlet-class>
+        <servlet-name>AddressServlet</servlet-name>
+        <servlet-class>controllers.authentication.AddressServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
@@ -39,8 +39,8 @@
         <url-pattern>/servlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>FileUploadServlet</servlet-name>
-        <url-pattern>/uploadservlet</url-pattern>
+        <servlet-name>AddressServlet</servlet-name>
+        <url-pattern>/address</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
