@@ -24,10 +24,10 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
-        DBConnect db = new DBConnect();
-        Connection connection = db.getConnection();
         resp.setContentType("application/json");
         try {
+            DBConnect db = new DBConnect();
+            Connection connection = db.getConnection();
             String email = null;
             String phone = null;
             if (req.getParameter("email") != null) {
