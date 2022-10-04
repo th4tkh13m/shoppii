@@ -84,7 +84,6 @@ public class CustomerDAO {
 
             statement.execute();
 
-      
             return true;
 
         } catch (Exception e) {
@@ -98,7 +97,8 @@ public class CustomerDAO {
      * @param connection  Connection to the database.
      * @return
      */
-    public static Customer updateInfo(Customer newCustomer, Connection connection, String fileName, InputStream avatar) {
+    public static Customer updateInfo(Customer newCustomer, Connection connection, String fileName,
+            InputStream avatar) {
         try {
             PreparedStatement statement = connection
                     .prepareStatement("UPDATE `Customer` SET name = ?," +
@@ -116,7 +116,6 @@ public class CustomerDAO {
             statement.setString(6, newCustomer.getEncryptedPassword());
             statement.setInt(7, newCustomer.getUserId());
             statement.executeUpdate();
-
             if (avatar != null) {
                 S3Util.uploadObject("profile/" + newCustomer.getUserId() +
                         "/user/avatar/" + fileName, avatar);
@@ -194,16 +193,16 @@ public class CustomerDAO {
         }
     }
 
-
     public static Customer register(String mail, String phone, String password, Connection connection) {
         Customer customer = createCustomer(Utils.generateName(), mail, phone, password);
         System.out.println(customer);
         insertCustomer(customer, connection);
         return CustomerDAO.getCustomerFromMailOrPhone(mail, phone, connection);
-        
+
     }
 
-    public static boolean checkLogin(String enteredMail, String enteredPhone, String enteredPassword, Connection connection) {
+    public static boolean checkLogin(String enteredMail, String enteredPhone, String enteredPassword,
+            Connection connection) {
         Customer customer = getCustomerFromMailOrPhone(enteredMail, enteredPhone, connection);
         return customer.verifyPassword(enteredPassword);
     }

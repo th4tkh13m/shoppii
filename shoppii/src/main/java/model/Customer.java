@@ -34,7 +34,8 @@ public class Customer {
         this.encryptedPassword = hash.getResult();
     }
 
-    public Customer(String name, String mail, String phone, Date dob, boolean sex, String password, Argon2Function argon2) {
+    public Customer(String name, String mail, String phone, Date dob, boolean sex, String password,
+            Argon2Function argon2) {
         this.name = name;
         this.mail = mail;
         this.phone = phone;
@@ -53,8 +54,6 @@ public class Customer {
         this.sex = sex;
         this.encryptedPassword = password;
     }
-
-    
 
     public Customer(String name, String mail, String phone, String password, Argon2Function argon2) {
         this.name = name;
@@ -153,7 +152,6 @@ public class Customer {
 
     public boolean verifyPassword(String plainPassword) {
         Argon2Function argon2 = Argon2Function.getInstanceFromHash(encryptedPassword);
-
         return Password.check(plainPassword, encryptedPassword).with(argon2);
     }
 
