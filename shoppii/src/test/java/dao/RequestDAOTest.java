@@ -61,27 +61,31 @@ public class RequestDAOTest extends DBInfo{
     @Test
     public void createRequestTest() {
         System.out.println("TEST: Create new Shop Request.");
-        Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", connection);
-        assertTrue(CustomerDAO
+        Customer customer;
+        try {
+            customer = CustomerDAO.register("an@gmail.com", null, "abc123", connection);
+            assertTrue(RequestDAO
             .createRequest(customer, "Apple", "US", "Sell overpriced things", connection));
         System.out.println("Test passed.");
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
     }
 
     @Test
     public void getRequestsTest() {
         System.out.println("TEST: Get Shop Requests list.");
-        Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", connection);
-        CustomerDAO
+        Customer customer;
+        try {
+            customer = CustomerDAO.register("an@gmail.com", null, "abc123", connection);
+            RequestDAO
             .createRequest(customer, "Apple", "US", "Sell overpriced things", connection);
+            Thread.sleep(1000);
 
         // Use to check order of received requests.
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        CustomerDAO
+        RequestDAO
             .createRequest(customer, "HP", "US", "Sell normal things", connection);
         ArrayList<String> names = new ArrayList<>();
         
@@ -92,6 +96,14 @@ public class RequestDAOTest extends DBInfo{
         String[] expected = {"Apple", "HP"};
         assertArrayEquals(expected, names.toArray());
         System.out.println("Test Passed.");
+        } catch (SQLException | InterruptedException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        
+       
+
+        
     }
 
 

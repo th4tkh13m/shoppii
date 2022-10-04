@@ -5,7 +5,6 @@ import java.sql.Connection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,14 +20,15 @@ import model.Customer;
         maxFileSize = 1024 * 1024 * 1, // 1 MB
         maxRequestSize = 1024 * 1024 * 1 // 1 MB
 )
-public class RegisterServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // TODO Auto-generated method stub
         Gson gson = new Gson();
-        DBConnect db = new DBConnect();
-        Connection connection = db.getConnection();
         resp.setContentType("application/json");
         try {
+            DBConnect db = new DBConnect();
+            Connection connection = db.getConnection();
             String email = null;
             String phone = null;
             if (req.getParameter("email") != null) {
@@ -38,20 +38,13 @@ public class RegisterServlet extends HttpServlet {
                 phone = req.getParameter("phone");
             }
             String password = req.getParameter("password");
-            String rePassword = req.getParameter("rePassword");
-                
-            if (password.equals(rePassword)) {
-                // db here
-                Customer customer = CustomerDAO.register(email, phone, password, connection);
-                // db here
+            Customer customer = CustomerDAO.checkLogin(email, phone, password, connection);
+            if (customer != null) {
                 String json = gson.toJson(customer);
-                resp.setStatus(201);
+                resp.setStatus(200);
                 resp.getOutputStream().println(json);
-            } else {
-                resp.setStatus(400);
-                resp.getOutputStream().println(gson.toJson(new ErrorHandle("Password not match", 400)));
-            }
-            
+                
+            } 
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);

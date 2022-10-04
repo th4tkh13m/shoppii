@@ -3,12 +3,15 @@ package dao;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
 import java.sql.Date;
@@ -30,6 +33,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import dbconnect.DBConnect;
 import model.Customer;
 import model.ShopRequest;
+import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.exception.SdkClientException;
 import utils.DBInfo;
 
 @RunWith (MockitoJUnitRunner.class)
@@ -67,7 +72,13 @@ public class CustomerDAOTest extends DBInfo {
         System.out.println("TEST: Customer Insert.");
         Customer customer = CustomerDAO.createCustomer("An", "an@gmail.com", "0123456789", "abc123");
 
-        assertTrue(CustomerDAO.insertCustomer(customer, connection));
+        try {
+            assertTrue(CustomerDAO.insertCustomer(customer, connection));
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
         System.out.println("Test passed.");
         
     }
@@ -76,51 +87,99 @@ public class CustomerDAOTest extends DBInfo {
     public void testGetCustomer() {
         System.out.println("TEST: Get Customer.");
         Customer customer = CustomerDAO.createCustomer("An", "an@gmail.com", "0123456789", "abc123");
-        CustomerDAO.insertCustomer(customer, connection);
-        assertEquals(customer, CustomerDAO.getCustomerFromId(1, connection));
+        try {
+            CustomerDAO.insertCustomer(customer, connection);
+            assertEquals(customer, CustomerDAO.getCustomerFromId(1, connection));
         System.out.println("Test passed.");
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+        
     }
 
     @Test
     public void testUpdateCustomer() {
         System.out.println("TEST: Update Customer Information.");
         
-        Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", connection);
-        customer.setName("Binh");
+        Customer customer;
+        try {
+            customer = CustomerDAO.register("an@gmail.com", null, "abc123", connection);
+            customer.setName("Binh");
         customer.setMail("binh@gmail.com");
         Customer updatedCustomer = CustomerDAO.updateInfo(customer, connection, null, null);
         assertEquals(customer, updatedCustomer);
         System.out.println("Test passed.");
+        } catch (SQLException | AwsServiceException | SdkClientException | IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+        
     }
 
    
     @Test
     public void checkLoginByMailTest1() {
-        CustomerDAO.register("an@gmail.com", null, "abc123", connection);
+        try {
+            CustomerDAO.register("an@gmail.com", null, "abc123", connection);
+            assertNotNull(CustomerDAO.checkLogin("an@gmail.com", null, "abc123", connection));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
 
-        assertTrue(CustomerDAO.checkLogin("an@gmail.com", null, "abc123", connection));
+        
     }
 
     @Test
     public void checkLoginByMailTest2() {
-        CustomerDAO.register("an@gmail.com", null, "abc123", connection);
+        try {
+            CustomerDAO.register("an@gmail.com", null, "abc123", connection);
+            CustomerDAO.checkLogin("an@gmail.com", null, "abc1", connection);
+            System.out.println(CustomerDAO.checkLogin("an@gmail.com", null, "abc1", connection));
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (Exception e1) {
 
-        assertTrue(!CustomerDAO.checkLogin("an@gmail.com", null, "abc1", connection));
+        }
+
+        
     }
     
     @Test
     public void checkLoginByPhoneTest1() {
-        CustomerDAO.register(null, "0123456789", "abc123", connection);
+        try {
+            CustomerDAO.register(null, "0123456789", "abc123", connection);
+            CustomerDAO.checkLogin(null, "0123456789", "abc1", connection);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (Exception e1) {
 
-        assertTrue(!CustomerDAO.checkLogin(null, "0123456789", "abc1", connection));
+        }
+
+        
     }
 
     @Test
     public void checkLoginByPhoneTest2() {
         
-        CustomerDAO.register(null, "0123456789", "abc123", connection);
+        try {
+            CustomerDAO.register(null, "0123456789", "abc123", connection);
+            assertNotNull(CustomerDAO.checkLogin(null, "0123456789", "abc123", connection));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
 
-        assertTrue(CustomerDAO.checkLogin(null, "0123456789", "abc123", connection));
+        
     }
 
     @After
