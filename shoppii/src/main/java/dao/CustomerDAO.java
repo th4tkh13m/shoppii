@@ -97,13 +97,8 @@ public class CustomerDAO {
      * @throws AwsServiceException
      * @throws S3Exception
      */
-<<<<<<< HEAD
-    public static Customer updateInfo(Customer newCustomer, Connection connection, String fileName,
-            InputStream avatar) {
-        try {
-=======
+
     public static Customer updateInfo(Customer newCustomer, Connection connection, String fileName, InputStream avatar) throws SQLException, S3Exception, AwsServiceException, SdkClientException, IOException {
->>>>>>> 7a9b0e5fc07af3640c4eb8fcbb86542f4953e817
             PreparedStatement statement = connection
                     .prepareStatement("UPDATE `Customer` SET name = ?," +
                             "mail = ?," +
@@ -149,12 +144,7 @@ public class CustomerDAO {
         
     }
 
-<<<<<<< HEAD
-    public static Customer register(String mail, String phone, String password, Connection connection) {
-=======
-
     public static Customer register(String mail, String phone, String password, Connection connection) throws SQLException {
->>>>>>> 7a9b0e5fc07af3640c4eb8fcbb86542f4953e817
         Customer customer = createCustomer(Utils.generateName(), mail, phone, password);
         System.out.println(customer);
         insertCustomer(customer, connection);
@@ -162,12 +152,7 @@ public class CustomerDAO {
 
     }
 
-<<<<<<< HEAD
-    public static boolean checkLogin(String enteredMail, String enteredPhone, String enteredPassword,
-            Connection connection) {
-=======
     public static Customer checkLogin(String enteredMail, String enteredPhone, String enteredPassword, Connection connection) throws Exception {
->>>>>>> 7a9b0e5fc07af3640c4eb8fcbb86542f4953e817
         Customer customer = getCustomerFromMailOrPhone(enteredMail, enteredPhone, connection);
         if (customer.verifyPassword(enteredPassword)) {
             return customer;
