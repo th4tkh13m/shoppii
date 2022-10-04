@@ -154,11 +154,12 @@ public class CustomerDAO {
         
     }
 
-    public static Customer checkLogin(String enteredMail, String enteredPhone, String enteredPassword, Connection connection) throws SQLException {
+    public static Customer checkLogin(String enteredMail, String enteredPhone, String enteredPassword, Connection connection) throws Exception {
         Customer customer = getCustomerFromMailOrPhone(enteredMail, enteredPhone, connection);
         if (customer.verifyPassword(enteredPassword)) {
             return customer;
+        } else {
+            throw new Exception();
         }
-        return null;
     }
 }

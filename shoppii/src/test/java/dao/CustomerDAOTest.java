@@ -3,7 +3,9 @@ package dao;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -75,6 +77,7 @@ public class CustomerDAOTest extends DBInfo {
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            fail();
         }
         System.out.println("Test passed.");
         
@@ -91,6 +94,7 @@ public class CustomerDAOTest extends DBInfo {
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            fail();
         }
         
     }
@@ -110,6 +114,7 @@ public class CustomerDAOTest extends DBInfo {
         } catch (SQLException | AwsServiceException | SdkClientException | IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            fail();
         }
         
     }
@@ -120,9 +125,10 @@ public class CustomerDAOTest extends DBInfo {
         try {
             CustomerDAO.register("an@gmail.com", null, "abc123", connection);
             assertNotNull(CustomerDAO.checkLogin("an@gmail.com", null, "abc123", connection));
-        } catch (SQLException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            fail();
         }
 
         
@@ -132,10 +138,14 @@ public class CustomerDAOTest extends DBInfo {
     public void checkLoginByMailTest2() {
         try {
             CustomerDAO.register("an@gmail.com", null, "abc123", connection);
-            assertNotNull(CustomerDAO.checkLogin("an@gmail.com", null, "abc1", connection));
+            CustomerDAO.checkLogin("an@gmail.com", null, "abc1", connection);
+            System.out.println(CustomerDAO.checkLogin("an@gmail.com", null, "abc1", connection));
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            fail();
+        } catch (Exception e1) {
+
         }
 
         
@@ -145,10 +155,13 @@ public class CustomerDAOTest extends DBInfo {
     public void checkLoginByPhoneTest1() {
         try {
             CustomerDAO.register(null, "0123456789", "abc123", connection);
-            assertNotNull(CustomerDAO.checkLogin(null, "0123456789", "abc1", connection));
+            CustomerDAO.checkLogin(null, "0123456789", "abc1", connection);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            fail();
+        } catch (Exception e1) {
+
         }
 
         
@@ -160,9 +173,10 @@ public class CustomerDAOTest extends DBInfo {
         try {
             CustomerDAO.register(null, "0123456789", "abc123", connection);
             assertNotNull(CustomerDAO.checkLogin(null, "0123456789", "abc123", connection));
-        } catch (SQLException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            fail();
         }
 
         
