@@ -24,6 +24,8 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import dbconnect.DBConnect;
 import model.Customer;
 import model.ShopRequest;
@@ -67,9 +69,10 @@ public class RequestDAOTest extends DBInfo{
             assertNotNull(RequestDAO
             .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection));
         System.out.println("Test passed.");
-        } catch (SQLException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            fail();
         }
         
     }
@@ -89,16 +92,17 @@ public class RequestDAOTest extends DBInfo{
             .createRequest(customer.getUserId(), "HP", "US", "Sell normal things", connection);
         ArrayList<String> names = new ArrayList<>();
         
-        for (ShopRequest request : RequestDAO.getRequests(customer, connection)) {
+        for (ShopRequest request : RequestDAO.getRequests(customer.getUserId(), connection)) {
             names.add(request.getName());
         }
 
         String[] expected = {"Apple", "HP"};
         assertArrayEquals(expected, names.toArray());
         System.out.println("Test Passed.");
-        } catch (SQLException | InterruptedException e1) {
+        } catch (Exception e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
+            fail();
         }
         
        

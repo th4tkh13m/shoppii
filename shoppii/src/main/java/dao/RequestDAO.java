@@ -17,11 +17,11 @@ import model.ShopRequest;
 
 public class RequestDAO {
 
-    public static ArrayList<ShopRequest> getRequests(Customer customer, Connection connection) throws SQLException {
+    public static ArrayList<ShopRequest> getRequests(int customerId, Connection connection) throws SQLException {
             ArrayList<ShopRequest> requests = new ArrayList<>();
             String sql = "SELECT name, address, description, status, time FROM `ShopRequests` WHERE customer_id = ? ORDER BY time ASC";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, customer.getUserId());
+            statement.setInt(1, customerId);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 String name = result.getString(1);
@@ -30,14 +30,31 @@ public class RequestDAO {
                 String status = result.getString(4);
                 Time time = result.getTime(5);
 
-                requests.add(new ShopRequest(customer, name, address, description, status, time));
+                requests.add(new ShopRequest(CustomerDAO.getCustomerFromId(customerId, connection), name, address, description, status, time));
             }
             return requests;
     }
 
+    private static boolean checkUserHasPendingRequest(int customerId, Connection connection) throws SQLException {
+        String sql = "SELECT status FROM ShopRequests WHERE customer_id = ? AND status = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+
+        statement.setInt(1, customerId);
+        statement.setString(2, "Pending");
+
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            return true;
+        }
+        return false;
+    }
+
     public static ShopRequest createRequest(int customerId, String shopName,
-            String address, String description, Connection connection) throws SQLException {
+            String address, String description, Connection connection) throws Exception {
             ShopRequest request = null;
+            if (checkUserHasPendingRequest(customerId, connection)) {
+                throw new Exception();
+            }
             String sql = "INSERT INTO ShopRequests(customer_id, name, address, description) VALUES " +
                     "(?, ?, ?, ?);";
             PreparedStatement statement = connection.prepareStatement(sql);
