@@ -18,9 +18,9 @@ import com.password4j.types.Argon2;
 import dbconnect.DBConnect;
 import dbconnect.S3Util;
 import model.Customer;
-import model.ShopRequest;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 import utils.Utils;
 
 public class CustomerDAO {
@@ -70,9 +70,9 @@ public class CustomerDAO {
      * @param connection DB Connection.
      * @return
      *         true if the operation success, false otherwise.
+     * @throws SQLException
      */
-    protected static boolean insertCustomer(Customer customer, Connection connection) {
-        try {
+    protected static boolean insertCustomer(Customer customer, Connection connection) throws SQLException {
             String sql = "INSERT INTO `Customer` (name, mail, phone, `password`) VALUES " +
                     "(?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -85,21 +85,25 @@ public class CustomerDAO {
             statement.execute();
 
             return true;
-
-        } catch (Exception e) {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, e);
-            return false;
-        }
     }
 
     /**
      * @param newCustomer Updated version of the customer object.
      * @param connection  Connection to the database.
      * @return
+     * @throws SQLException
+     * @throws IOException
+     * @throws SdkClientException
+     * @throws AwsServiceException
+     * @throws S3Exception
      */
+<<<<<<< HEAD
     public static Customer updateInfo(Customer newCustomer, Connection connection, String fileName,
             InputStream avatar) {
         try {
+=======
+    public static Customer updateInfo(Customer newCustomer, Connection connection, String fileName, InputStream avatar) throws SQLException, S3Exception, AwsServiceException, SdkClientException, IOException {
+>>>>>>> 7a9b0e5fc07af3640c4eb8fcbb86542f4953e817
             PreparedStatement statement = connection
                     .prepareStatement("UPDATE `Customer` SET name = ?," +
                             "mail = ?," +
@@ -120,57 +124,12 @@ public class CustomerDAO {
                 S3Util.uploadObject("profile/" + newCustomer.getUserId() +
                         "/user/avatar/" + fileName, avatar);
             }
-        } catch (SQLException | AwsServiceException | SdkClientException | IOException ex) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         return getCustomerFromId(newCustomer.getUserId(), connection);
     }
 
-    public static ArrayList<ShopRequest> getRequests(Customer customer, Connection connection) {
-        try {
-            ArrayList<ShopRequest> requests = new ArrayList<>();
-            String sql = "SELECT name, address, description, status, time FROM `ShopRequests` WHERE customer_id = ? ORDER BY time ASC";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, customer.getUserId());
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
-                String name = result.getString(1);
-                String address = result.getString(2);
-                String description = result.getString(3);
-                String status = result.getString(4);
-                Time time = result.getTime(5);
-
-                requests.add(new ShopRequest(customer, name, address, description, status, time));
-            }
-            return requests;
-        } catch (SQLException e) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, e);
-            return null;
-        }
-    }
-
-    public static boolean createRequest(Customer customer, String shopName,
-            String address, String description, Connection connection) {
-        try {
-            String sql = "INSERT INTO ShopRequests(customer_id, name, address, description) VALUES " +
-                    "(?, ?, ?, ?);";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, customer.getUserId());
-            statement.setString(2, shopName);
-            statement.setString(3, address);
-            statement.setString(4, description);
-
-            statement.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-    }
-
-    private static Customer getCustomerFromMailOrPhone(String enteredMail, String enteredPhone, Connection connection) {
+    private static Customer getCustomerFromMailOrPhone(String enteredMail, String enteredPhone, Connection connection) throws SQLException {
         Customer customer = null;
-        try {
             String sql = "SELECT user_id, name, mail, phone, dob, sex, password FROM `Customer` WHERE mail = ? OR phone = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, enteredMail);
@@ -187,13 +146,15 @@ public class CustomerDAO {
                 customer = new Customer(customerId, name, mail, phone, dob, sex, password);
             }
             return customer;
-        } catch (SQLException e) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, e);
-            return null;
-        }
+        
     }
 
+<<<<<<< HEAD
     public static Customer register(String mail, String phone, String password, Connection connection) {
+=======
+
+    public static Customer register(String mail, String phone, String password, Connection connection) throws SQLException {
+>>>>>>> 7a9b0e5fc07af3640c4eb8fcbb86542f4953e817
         Customer customer = createCustomer(Utils.generateName(), mail, phone, password);
         System.out.println(customer);
         insertCustomer(customer, connection);
@@ -201,9 +162,17 @@ public class CustomerDAO {
 
     }
 
+<<<<<<< HEAD
     public static boolean checkLogin(String enteredMail, String enteredPhone, String enteredPassword,
             Connection connection) {
+=======
+    public static Customer checkLogin(String enteredMail, String enteredPhone, String enteredPassword, Connection connection) throws Exception {
+>>>>>>> 7a9b0e5fc07af3640c4eb8fcbb86542f4953e817
         Customer customer = getCustomerFromMailOrPhone(enteredMail, enteredPhone, connection);
-        return customer.verifyPassword(enteredPassword);
+        if (customer.verifyPassword(enteredPassword)) {
+            return customer;
+        } else {
+            throw new Exception();
+        }
     }
 }

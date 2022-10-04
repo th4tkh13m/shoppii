@@ -6,7 +6,7 @@
     {
       "label": "Run Web App",
       "type": "shell",
-      "command": "mvn -B tomcat7:redeploy -DskipTests",
+      "command": "mvn tomcat7:redeploy -DskipTests",
       "group": "build"
     },
     {
