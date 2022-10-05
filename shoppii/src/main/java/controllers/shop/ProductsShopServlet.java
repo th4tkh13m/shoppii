@@ -39,7 +39,7 @@ public class ProductsShopServlet extends HttpServlet {
             resp.getOutputStream().println(json);
         } catch (Exception e) {
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
         }
     }
 

@@ -50,6 +50,7 @@ public class ProductDAO {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "SELECT product_id FROM Product where shop_id=?";
         PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, shopId);
         ResultSet result = statement.executeQuery();
         while (result.next()) {
             int id = result.getInt(1);
