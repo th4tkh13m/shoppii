@@ -2,6 +2,7 @@ package controllers.shop;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -40,6 +41,27 @@ public class ShopRegisterServlet extends HttpServlet {
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Gson gson = new Gson();
+        resp.setContentType("application/json");
+
+        try {
+            DBConnect db = new DBConnect();
+            Connection connection = db.getConnection();
+
+            int customerId = Integer.parseInt(req.getParameter("userId"));
+            ArrayList<ShopRequest> requests = RequestDAO.getRequests(customerId, connection);
+            String json = gson.toJson(requests);
+            resp.setStatus(200);
+            resp.getOutputStream().println(json);
+        } catch (Exception e) {
+            // TODO: handle exception
+            resp.setStatus(500);
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
         }
     }
 }
