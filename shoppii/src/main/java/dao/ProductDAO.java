@@ -50,6 +50,7 @@ public class ProductDAO {
         ArrayList<Product> list = new ArrayList<>();
             String sql = "SELECT product_id FROM Product where shop_id=?";
             PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, shopId);
             ResultSet result = statement.executeQuery();
             while (result.next()){
                 int id = result.getInt(1);
@@ -85,11 +86,11 @@ public class ProductDAO {
         return product;
     }
 
-    public static boolean deleteProduct(int productId, Connection connection) throws SQLException{
+    public static Product deleteProduct(int productId, Connection connection) throws SQLException{
         String sql = "DELETE FROM Product WHERE product_id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, productId);
         statement.executeUpdate();
-        return true;
+        return getProductFromId(productId, connection);
     }
 }

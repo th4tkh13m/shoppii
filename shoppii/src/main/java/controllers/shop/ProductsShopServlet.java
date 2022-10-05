@@ -22,7 +22,6 @@ import model.Product;
         maxRequestSize = 1024 * 1024 * 1 // 1 MB
 )
 
-
 public class ProductsShopServlet extends HttpServlet {
     @Override
 
@@ -57,7 +56,8 @@ public class ProductsShopServlet extends HttpServlet {
             String cat = req.getParameter("category");
             String des = req.getParameter("description");
             Product product = new Product(shopId, name, price, quantity, cat, des);
-            // Product product = ProductDAO.addProduct(new Product(shopId, name, price, quantity, cat, des), connection);
+            // Product product = ProductDAO.addProduct(new Product(shopId, name, price,
+            // quantity, cat, des), connection);
             String json = gson.toJson(product);
             resp.setStatus(201);
             resp.getOutputStream().println(json);
@@ -98,11 +98,9 @@ public class ProductsShopServlet extends HttpServlet {
             DBConnect dbConnect = new DBConnect();
             Connection connection = dbConnect.getConnection();
             int productId = Integer.parseInt(req.getParameter("productId"));
-            if (ProductDAO.deleteProduct(productId, connection)){
-                String json = gson.toJson(true);
-                resp.setStatus(201);
-                resp.getOutputStream().println(json);
-            }
+            String json = gson.toJson(ProductDAO.deleteProduct(productId, connection));
+            resp.setStatus(201);
+            resp.getOutputStream().println(json);
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
