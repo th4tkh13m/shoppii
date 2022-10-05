@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate()
 
     const login = async data => {
+        // fetch data here to get role
         setRole(data)
         navigate('/dashboard/profile', { replace: true })
     }
