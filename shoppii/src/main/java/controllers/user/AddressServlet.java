@@ -1,4 +1,4 @@
-package controllers.authentication;
+package controllers.user;
 
 import java.io.IOException;
 import java.sql.Connection;
