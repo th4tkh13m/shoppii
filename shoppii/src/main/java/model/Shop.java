@@ -4,6 +4,7 @@ public class Shop {
     private int shopId;
     private String name, address, description;
     private boolean status;
+    private String avatarLink;
 
     public Shop(String name, String address, String description, boolean status) {
         this.name = name;
@@ -46,5 +47,13 @@ public class Shop {
 
     public void setStatus(boolean status) {
         this.status = status;
-    } 
+    }
+
+    public String getAvatarLink() {
+        return avatarLink;
+    }
+
+    public void setAvatarLink(String avatarLink) {
+        this.avatarLink = avatarLink;
+    }
 }
