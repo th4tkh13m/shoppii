@@ -1,30 +1,26 @@
-package controllers.authentication;
+package controllers.shop;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import dao.AddressDAO;
-import dao.CustomerDAO;
+import dao.RequestDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
-import model.Address;
-import model.Customer;
+import model.ShopRequest;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 1, // 1 MB
         maxRequestSize = 1024 * 1024 * 1 // 1 MB
 )
-public class AddressServlet extends HttpServlet {
+public class ShopRegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
@@ -33,21 +29,17 @@ public class AddressServlet extends HttpServlet {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
             int userId = Integer.parseInt(req.getParameter("userId"));
-            int addressId = Integer.parseInt(req.getParameter("addressId"));
-            String receiverAddress = req.getParameter("receiverAddress");
-            String receiverName = req.getParameter("receiverName");
-            String receiverPhone = req.getParameter("receiverPhone");
+            String shopName = req.getParameter("shopName");
+            String address = req.getParameter("address");
+            String description = req.getParameter("description");
 
-            Address address = AddressDAO.updateAddress(addressId, userId, receiverAddress, receiverName, receiverPhone,
-                    connection);
-            String json = gson.toJson(address);
+            ShopRequest request = RequestDAO.createRequest(userId, shopName, address, description, connection);
+            String json = gson.toJson(request);
             resp.setStatus(201);
             resp.getOutputStream().println(json);
         } catch (Exception e) {
-            // TODO: handle exception
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
         }
-
     }
 }
