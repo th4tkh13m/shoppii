@@ -1,8 +1,15 @@
 import config from '../config'
 
 // Pages
-import Home from '../pages/Home'
-import Products from '../pages/Products'
+// User
+import Home from '../pages/user/Home'
+import Products from '../pages/user/Products'
+
+// Shop
+
+// Admin
+import Dashboard from '../pages/admin/Dashboard'
+import Requests from '../pages/admin/Requests'
 
 // Routes
 const publicRoutes = [
@@ -16,6 +23,15 @@ const publicRoutes = [
     },
 ]
 
-const privateRoutes = []
+const privateRoutes = [
+    {
+        path: '/admin',
+        component: Dashboard,
+    },
+    {
+        path: '/admin/requests',
+        component: Requests,
+    },
+]
 
 export { publicRoutes, privateRoutes }
