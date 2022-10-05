@@ -5,13 +5,15 @@ import { useLocalStorage } from './useLocalStorage'
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-    const [role, setRole] = useLocalStorage('user', null)
+    const [role, setRole] = useLocalStorage('role', 'admin')
     const navigate = useNavigate()
 
     const login = async data => {
         // fetch data here to get role
-        setRole(data)
-        navigate('/dashboard/profile', { replace: true })
+
+        const ROLE = 'admin'
+        setRole(ROLE)
+        // navigate('/dashboard/profile', { replace: true })
     }
 
     const logout = () => {

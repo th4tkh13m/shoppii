@@ -1,5 +1,3 @@
-import config from '../config'
-
 // Pages
 // User
 import Home from '../pages/user/Home'
