@@ -107,9 +107,62 @@ hr{
   color: #c7c7c7ad;
 }
 
-.header-user:hover .dropdown-menu{
-  display: block;
-  margin-top: 0;
+.header-user{
+  position: relative;
+  display: inline-block;
+  margin-bottom: 5px;
 }
 
+.dropdown-user{
+  display: none;
+  position: absolute;
+  float: right;
+  /* background: linear-gradient(90deg, var(--main-blue), #4c85da); */
+  background-color: white;
+  width: 160px;
+  border-radius: 6px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
 
+.header-user:hover .dropdown-user{
+  display: block;
+}
+
+.dropdown-user a {
+  color: black;
+  font-size: 1.2rem;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  padding: 8px;
+}
+
+.dropdown-user a:hover {
+  font-size: 1.3rem;
+  color: black;
+}
+
+.dropdown-search{
+  display: block;
+  position: absolute;
+  float: right;
+  /* background: linear-gradient(90deg, var(--main-blue), #4c85da); */
+  background-color: white;
+  width: 445px;
+  border-radius: 6px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-search a {
+  color: black;
+  font-size: 1.2rem;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  padding: 8px;
+}
+
+.dropdown-search a:hover {
+  font-size: 1.3rem;
+  color: black;
+}
