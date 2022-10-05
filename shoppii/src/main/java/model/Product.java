@@ -20,6 +20,16 @@ public class Product {
         this.description = description;
     }
 
+    public Product(int shopId, String name, int price, int quantity, String category,
+            String description) {
+        this.shopId = shopId;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.category = category;
+        this.description = description;
+    }
+
     public int getProductId() {
         return productId;
     }
