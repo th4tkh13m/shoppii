@@ -1,0 +1,173 @@
+package model;
+
+import java.sql.Date;
+
+import com.password4j.Argon2Function;
+import com.password4j.Hash;
+import com.password4j.Password;
+
+public class Customer {
+    private int userId;
+    private String name, mail, phone;
+    private Date dob;
+    private boolean sex;
+    private String encryptedPassword;
+    private String avatarLink;
+
+    public Customer(String name, String mail, String phone, Date dob, boolean sex, String password) {
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+        this.dob = dob;
+        this.sex = sex;
+        this.encryptedPassword = password;
+    }
+
+    public Customer(int userId, String name, String mail, String phone, Date dob, boolean sex, String password,
+            Argon2Function argon2) {
+        this.userId = userId;
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+        this.dob = dob;
+        this.sex = sex;
+        Hash hash = Password.hash(password).with(argon2);
+        this.encryptedPassword = hash.getResult();
+    }
+
+    public Customer(String name, String mail, String phone, Date dob, boolean sex, String password,
+            Argon2Function argon2) {
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+        this.dob = dob;
+        this.sex = sex;
+        Hash hash = Password.hash(password).with(argon2);
+        this.encryptedPassword = hash.getResult();
+    }
+
+    public Customer(int userId, String name, String mail, String phone, Date dob, boolean sex, String password) {
+        this.userId = userId;
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+        this.dob = dob;
+        this.sex = sex;
+        this.encryptedPassword = password;
+    }
+
+    public Customer(String name, String mail, String phone, String password, Argon2Function argon2) {
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+        Hash hash = Password.hash(password).with(argon2);
+        this.encryptedPassword = hash.getResult();
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public boolean getSex() {
+        return sex;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public void setSex(boolean sex) {
+        this.sex = sex;
+    }
+
+    public String getEncryptedPassword() {
+        return encryptedPassword;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Customer other = (Customer) obj;
+        if (dob == null) {
+            if (other.dob != null)
+                return false;
+        } else if (!dob.equals(other.dob))
+            return false;
+        if (encryptedPassword == null) {
+            if (other.encryptedPassword != null)
+                return false;
+        } else if (!encryptedPassword.equals(other.encryptedPassword))
+            return false;
+        if (mail == null) {
+            if (other.mail != null)
+                return false;
+        } else if (!mail.equals(other.mail))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (phone == null) {
+            if (other.phone != null)
+                return false;
+        } else if (!phone.equals(other.phone))
+            return false;
+        if (sex != other.sex)
+            return false;
+        return true;
+    }
+
+    public boolean verifyPassword(String plainPassword) {
+        Argon2Function argon2 = Argon2Function.getInstanceFromHash(encryptedPassword);
+        return Password.check(plainPassword, encryptedPassword).with(argon2);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer [dob=" + dob + ", encryptedPassword=" + encryptedPassword + ", mail=" + mail + ", name=" + name
+                + ", phone=" + phone + ", sex=" + sex + ", userId=" + userId + "]";
+    }
+
+    public String getAvatarLink() {
+        return avatarLink;
+    }
+
+    public void setAvatarLink(String avartarLink) {
+        this.avatarLink = avartarLink;
+    }
+
+}

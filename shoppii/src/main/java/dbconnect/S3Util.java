@@ -93,7 +93,7 @@ public class S3Util {
         }
     }
 
-    public static ArrayList<String> getObject (String folderName ) {
+    public static ArrayList<String> getObject (String folderName) {
         ArrayList<String> results = new ArrayList<String>();
         try {
             

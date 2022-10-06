@@ -5,9 +5,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "master" , "dev"]
+    branches: [ "master" , "dev", "be"]
   pull_request:
-    branches: [ "master", "dev" ]
+    branches: [ "master", "dev", "be" ]
 
 jobs:
   build:
@@ -19,6 +19,8 @@ jobs:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      DB_USER: root
+      DB_PASSWORD: root
 
     steps:
     - uses: actions/checkout@v3
@@ -28,6 +30,19 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+        
+    - name: Start MySQL service
+      run: sudo systemctl start mysql.service
+      
+    - name: Create user
+      run: mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} < sql/admin.sql
+
+    - name: Create AWS Identity
+      run: sh ./scripts/create_identity.sh
+      
+    - name: Create Database and Tables
+      run: |
+        mysql -h 127.0.0.1 -P 3306 -e 'CREATE DATABASE TEST;' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
     - name: fetch Tomcat
       run: sh ./scripts/fetch.sh
       
