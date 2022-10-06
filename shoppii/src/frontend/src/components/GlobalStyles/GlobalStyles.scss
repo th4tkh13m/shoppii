@@ -1,7 +1,13 @@
 @import 'normalize.css';
+@import '../../../node_modules/bootstrap/scss/bootstrap';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap');
 
 :root {
+    // Overwrite bootstrap
+    --bs-body-font-family: 'Roboto', sans-serif;
+    --bs-body-font-size: 1.6rem;
+
+    // Variables
     --main-blue: #2877ee;
     --main-dark: #252734;
     --main-white: #fafafa;
@@ -23,9 +29,4 @@ hr {
 
 html {
     font-size: 62.5%;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.6rem;
 }
