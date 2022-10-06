@@ -17,7 +17,14 @@ public class Address {
         this.isDefault = isDefault;
     }
 
-    
+    public Address(int addressId, int userId, String receiverAddress, String receiverName, String receiverPhone) {
+        this.addressId = addressId;
+        this.userId = userId;
+        this.receiverAddress = receiverAddress;
+        this.receiverName = receiverName;
+        this.receiverPhone = receiverPhone;
+
+    }
 
     public int getUserId() {
         return userId;
@@ -54,8 +61,6 @@ public class Address {
     public void setIsDefault(boolean isDefault) {
         this.isDefault = isDefault;
     }
-
-
 
     public int getAddressId() {
         return addressId;
