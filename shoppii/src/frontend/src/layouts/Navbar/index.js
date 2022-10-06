@@ -20,11 +20,11 @@ function Navbar() {
                                 <Search className="text-white" />
                             </label>
                         </div>
-                        <div className="dropdown-search">
+                        {/* <div className="dropdown-search">
                             <a href="#">Thông tin người dùng</a>
                             <a href="#">Lịch sử mua hàng</a>
                             <a href="#">Kênh người bán</a>
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className="header-icon">
