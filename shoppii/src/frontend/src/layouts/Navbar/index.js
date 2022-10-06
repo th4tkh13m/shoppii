@@ -1,9 +1,14 @@
 import './index.css'
 import Logo from '../../assets/images/—Pngtree—modern logo blue logos_7718360.png'
 import { Search, ShoppingCart, Person } from '@mui/icons-material'
+import { useState } from 'react'
 
-function Navbar() {
-    return (
+
+const Navbar = () => {
+    const [isAdmin, setIsAdmin] = useState(false)
+
+    const renderNavbar = () => {
+        return (
         <div className="container">
             <header>
                 <nav className="header-navbar">
@@ -17,7 +22,7 @@ function Navbar() {
                         <div className="header-search">
                             <input type="text" placeholder="Search in the market" />
                             <label htmlFor="">
-                                <Search className="text-white" />
+                                <Search className="text-white" fontSize='large'/>
                             </label>
                         </div>
                         <div className="dropdown-search">
@@ -30,12 +35,12 @@ function Navbar() {
                     <div className="header-icon">
                         <div className="header-cart">
                             <button className="header-btn">
-                                <ShoppingCart />
+                                <ShoppingCart fontSize='large' />
                             </button>
                         </div>
                         <div className="header-user">
                             <button className="header-btn dropdown" data-bs-toggle="dropdown">
-                                <Person />
+                                <Person fontSize='large'/>
                             </button>
                             <div className="dropdown-user">
                                 <a href="#">Thông tin người dùng</a>
@@ -44,13 +49,32 @@ function Navbar() {
                             </div>
                         </div>
                     </div>
+                    {/* <div className="header-guest">
+                        <div className='header-guest-login'>
+                            <a className='guest-link' href='#'>Login</a>
+                        </div>
+                        <div>
+                            <a className='guest-link'>|</a>
+                        </div>
+                        <div className='header-guest-register'>
+                            <a className='guest-link' href='#'>Register</a>
+                        </div>
+                    </div> */}
                 </nav>
             </header>
-
-            <div className="contain">
-                <div className="contain-slide"></div>
-            </div>
+            <hr></hr>
         </div>
+        )
+    }
+
+    const renderAdminNavbar = () => {
+        return <div></div>
+    }
+
+    return (
+        <>
+            {isAdmin ? renderAdminNavbar() : renderNavbar()}
+        </>
     )
 }
 

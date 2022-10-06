@@ -1,5 +1,7 @@
+import ProductDetail from "../../../components/ProductDetail"
+
 function Home() {
-    return <h1>Home page</h1>
+    return <ProductDetail></ProductDetail>
 }
 
 export default Home
