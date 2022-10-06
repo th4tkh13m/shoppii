@@ -5,7 +5,7 @@ function DefaultLayout({ children }) {
     return (
         <div>
             <Navbar />
-            <div className="content">{children}</div>
+            <div className="container">{children}</div>
             <Footer />
         </div>
     )

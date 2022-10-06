@@ -4,7 +4,7 @@ function PrivateLayout({ children }) {
     return (
         <div>
             <SideBar />
-            <div className="content">{children}</div>
+            <div className="container">{children}</div>
         </div>
     )
 }
