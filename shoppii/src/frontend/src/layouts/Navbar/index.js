@@ -17,9 +17,7 @@ const Navbar = () => {
                         <div className="header-logo">
                             <img src={Logo} alt="" />
                         </div>
-                        <div className="header-catalog">
-                            <button>Catalog</button>
-                        </div>
+                        <button className="header-catalog">Danh mục</button>
                     </Col>
                     <Col md={7} className="col-flex">
                         <div className="header-search w-100">
@@ -39,20 +37,22 @@ const Navbar = () => {
                         {' '}
                         {isLogin ? (
                             <div className="d-flex align-items-center justify-content-around w-75 ">
-                                <div className="header-cart">
+                                <div>
                                     <Button variant="secondary">
                                         <Link to="/cart" className="text-white">
-                                            <ShoppingCart fontSize="large" />
+                                            <ShoppingCart
+                                                sx={{ fontSize: '28px' }}
+                                            />
                                         </Link>
                                     </Button>
                                 </div>
-                                <div className="header-user">
+                                <div>
                                     <Dropdown>
                                         <Dropdown.Toggle
                                             variant="success"
                                             id="dropdown-basic"
                                         >
-                                            <Person fontSize="large" />
+                                            <Person sx={{ fontSize: '28px' }} />
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
                                             <Dropdown.Item>
@@ -60,11 +60,13 @@ const Navbar = () => {
                                                     Thông tin người dùng
                                                 </Link>
                                             </Dropdown.Item>
+                                            <Dropdown.Divider />
                                             <Dropdown.Item>
                                                 <Link to="/profile">
                                                     Lịch sử mua hàng
                                                 </Link>
                                             </Dropdown.Item>
+                                            <Dropdown.Divider />
                                             <Dropdown.Item>
                                                 <Link to="/shop">
                                                     Kênh người bán
@@ -94,7 +96,7 @@ const Navbar = () => {
                     </Col>
                 </Row>
             </Container>
-            <Divider />
+            <Divider sx={{ border: '1px #000000 solid' }} />
         </>
     )
 }
