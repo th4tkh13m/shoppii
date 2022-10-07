@@ -5,12 +5,12 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import CommentIcon from '@mui/icons-material/Comment';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import './index.css'
 
 function FilterPart() {
   const [checked, setChecked] = React.useState([0]);
+  const [show, setShow] = React.useState(false)
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -25,13 +25,14 @@ function FilterPart() {
     setChecked(newChecked);
   };
 
+
+
   return (
     <div className="filter-part">
     <h4>Title</h4>
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {[0, 1, 2, 3].map((value) => {
+      {[0, 1, 2, 3].map((value, index) => {
         const labelId = `checkbox-list-label-${value}`;
-
         return (
           <ListItem
             key={value}
@@ -51,6 +52,11 @@ function FilterPart() {
           </ListItem>
         );
       })}
+      <ListItem>
+        <ListItemButton onClick={setShow(!show)}>
+          <KeyboardArrowDownIcon fontSize="large"></KeyboardArrowDownIcon>
+        </ListItemButton>
+      </ListItem>
     </List>
     </div>
   );
