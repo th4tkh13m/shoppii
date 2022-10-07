@@ -3,96 +3,98 @@ import Logo from '../../assets/images/—Pngtree—modern logo blue logos_771836
 import { Search, ShoppingCart, Person } from '@mui/icons-material'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Row, Container, Col, Dropdown, Button } from 'react-bootstrap'
+import Divider from '@mui/material/Divider'
 
 const Navbar = () => {
-    const [isLogin, setIslogin] = useState(false)
+    const [isLogin, setIslogin] = useState(true)
 
     return (
         <>
-            <nav>
-                <div className="container">
-                    <header>
-                        <nav className="header-navbar">
-                            <div className="header-logo">
-                                <img src={Logo} alt="" />
-                            </div>
-                            <div className="header-catalog">
-                                <button>Catalog</button>
-                            </div>
-                            <div className="container-header-search">
-                                <div className="header-search">
-                                    <input
-                                        type="text"
-                                        placeholder="Search in the market"
-                                    />
-                                    <label htmlFor="">
-                                        <Search
-                                            className="text-white"
-                                            fontSize="large"
-                                        />
-                                    </label>
-                                </div>
-                                {/* <div className="dropdown-search">
-                                <a href="#">Thông tin người dùng</a>
-                                <a href="#">Lịch sử mua hàng</a>
-                                <a href="#">Kênh người bán</a>
-                            </div> */}
-                            </div>
-                            {isLogin ? (
-                                <div className="header-icon">
-                                    <div className="header-cart">
-                                        <button className="header-btn">
+            <Container fluid="md">
+                <Row>
+                    <Col md={3} className="col-flex">
+                        <div className="header-logo">
+                            <img src={Logo} alt="" />
+                        </div>
+                        <div className="header-catalog">
+                            <button>Catalog</button>
+                        </div>
+                    </Col>
+                    <Col md={7} className="col-flex">
+                        <div className="header-search w-100">
+                            <input
+                                type="text"
+                                placeholder="Search in the market"
+                            />
+                            <button htmlFor="">
+                                <Search
+                                    className="text-white"
+                                    fontSize="large"
+                                />
+                            </button>
+                        </div>
+                    </Col>
+                    <Col md={2} className="col-flex">
+                        {' '}
+                        {isLogin ? (
+                            <div className="d-flex align-items-center justify-content-around w-75 ">
+                                <div className="header-cart">
+                                    <Button variant="secondary">
+                                        <Link to="/cart" className="text-white">
                                             <ShoppingCart fontSize="large" />
-                                        </button>
-                                    </div>
-                                    <div className="header-user">
-                                        <button
-                                            className="header-btn dropdown"
-                                            data-bs-toggle="dropdown"
+                                        </Link>
+                                    </Button>
+                                </div>
+                                <div className="header-user">
+                                    <Dropdown>
+                                        <Dropdown.Toggle
+                                            variant="success"
+                                            id="dropdown-basic"
                                         >
                                             <Person fontSize="large" />
-                                        </button>
-                                        <div className="dropdown-user">
-                                            <Link to="/profile">
-                                                Thông tin người dùng
-                                            </Link>
-                                            <Link to="/profile">
-                                                Lịch sử mua hàng
-                                            </Link>
-                                            <Link to="/shop">
-                                                Kênh người bán
-                                            </Link>
-                                        </div>
-                                    </div>
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item>
+                                                <Link to="/profile">
+                                                    Thông tin người dùng
+                                                </Link>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item>
+                                                <Link to="/profile">
+                                                    Lịch sử mua hàng
+                                                </Link>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item>
+                                                <Link to="/shop">
+                                                    Kênh người bán
+                                                </Link>
+                                            </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                 </div>
-                            ) : (
-                                <div className="header-guest">
-                                    <div className="header-guest-login">
-                                        <Link
-                                            className="guest-link"
-                                            to="/login"
-                                        >
-                                            Login
-                                        </Link>
-                                    </div>
-                                    <div>
-                                        <span className="guest-link">|</span>
-                                    </div>
-                                    <div className="header-guest-register">
-                                        <Link
-                                            className="guest-link"
-                                            to="/register"
-                                        >
-                                            Register
-                                        </Link>
-                                    </div>
+                            </div>
+                        ) : (
+                            <div className="header-guest d-flex justify-content-between ms-5">
+                                <div className="header-guest-login">
+                                    <Link className="guest-link" to="/login">
+                                        Sign In
+                                    </Link>
                                 </div>
-                            )}
-                        </nav>
-                    </header>
-                </div>
-            </nav>
-            <hr></hr>
+                                <div>
+                                    <a className="guest-link">|</a>
+                                </div>
+                                <div className="header-guest-register">
+                                    <Link className="guest-link" to="/register">
+                                        Sign Up
+                                    </Link>
+                                </div>
+                            </div>
+                        )}
+                    </Col>
+                </Row>
+            </Container>
+            <Divider />
         </>
     )
 }
