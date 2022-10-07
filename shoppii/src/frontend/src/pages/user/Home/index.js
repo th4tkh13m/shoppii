@@ -1,7 +1,7 @@
-import ProductCard from "../../../components/ProductCard"
+import FilterPart from "../../../components/FilterPart"
 
 function Home() {
-    return <ProductCard></ProductCard>
+    return <FilterPart></FilterPart>
 }
 
 export default Home
