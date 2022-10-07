@@ -6,9 +6,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import './index.css'
 
-function FilterPart() {
+function FilterPart({title}) {
   const [checked, setChecked] = React.useState([0]);
   const [show, setShow] = React.useState(false)
 
@@ -26,19 +27,19 @@ function FilterPart() {
   };
 
 
-
+  console.log(show)
   return (
     <div className="filter-part">
-    <h4>Title</h4>
+    <h4>{title}</h4>
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {[0, 1, 2, 3].map((value, index) => {
+      {[0, 1, 2, 3, 4, 5].map((value, index) => {
         const labelId = `checkbox-list-label-${value}`;
         return (
-          <ListItem
+          <ListItem 
             key={value}
             disablePadding
           >
-            <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
+            <ListItemButton className={!show && index>3 ? "d-none " : ""} role={undefined} onClick={handleToggle(value)} dense>
               <ListItemIcon>
                 <Checkbox
                   checked={checked.indexOf(value) !== -1}
@@ -53,8 +54,12 @@ function FilterPart() {
         );
       })}
       <ListItem>
-        <ListItemButton onClick={setShow(!show)}>
-          <KeyboardArrowDownIcon fontSize="large"></KeyboardArrowDownIcon>
+        <ListItemButton onClick={() => setShow(!show)}>
+          {show ? 
+            <ExpandLessIcon fontSize="large"></ExpandLessIcon> 
+            : 
+            <KeyboardArrowDownIcon fontSize="large"></KeyboardArrowDownIcon>
+          }
         </ListItemButton>
       </ListItem>
     </List>

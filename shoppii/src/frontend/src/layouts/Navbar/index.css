@@ -147,7 +147,7 @@ nav {
     float: right;
     /* background: linear-gradient(90deg, var(--main-blue), #4c85da); */
     background-color: white;
-    width: 160rem;
+    width: 16rem;
     border-radius: 0.6rem;
     box-shadow: 0 0.8rem 1.6rem 0 rgba(0, 0, 0, 0.2);
     z-index: 999;

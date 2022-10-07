@@ -1,7 +1,7 @@
-import FilterPart from "../../../components/FilterPart"
+import EditProfileForm from "../Profile/components/EditProfileForm"
 
 function Home() {
-    return <FilterPart></FilterPart>
+    return <EditProfileForm></EditProfileForm>
 }
 
 export default Home

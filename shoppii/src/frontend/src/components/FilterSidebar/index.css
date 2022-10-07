@@ -1,0 +1,45 @@
+.filter-sidebar {
+    width: 22rem;
+    height: fit-content;
+    display: block;
+}
+
+.filter-title{
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 510;
+    margin-bottom: 2rem;
+    margin-left: 1.2rem;
+}
+
+.title-icon {
+    margin: 0 0.5rem;
+}
+
+.input-price{
+    width: 6rem;
+    height: 2.9rem;
+    border-radius: 3px;
+    border: rgb(182, 177, 177) solid 1.3px;
+    padding: 5px;
+    font-size: 1.5rem;
+}
+
+.input-price:focus {
+    outline: none;
+    padding: 5px;
+    font-size: 1.5rem;
+}
+
+.range p {
+    font-size: 2rem;
+    color: rgb(182, 177, 177);
+    margin: 0 1.5rem;
+}
+
+
+.price-btn{
+    font-size: 1.2rem !important;
+    width: 15.5rem;
+}
