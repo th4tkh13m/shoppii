@@ -1,7 +1,7 @@
-import ProductDetail from "../../../components/ProductDetail"
+import ProductCard from "../../../components/ProductCard"
 
 function Home() {
-    return <ProductDetail></ProductDetail>
+    return <ProductCard></ProductCard>
 }
 
 export default Home
