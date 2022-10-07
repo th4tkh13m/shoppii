@@ -11,7 +11,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Button from '@mui/material/Button';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import StorefrontIcon from '@mui/icons-material/Storefront';
+import {StorefrontIcon} from '@mui/icons-material';
 
 const ProductDetail = () => {
     return (
