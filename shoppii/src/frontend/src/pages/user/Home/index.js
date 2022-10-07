@@ -1,7 +1,7 @@
-import ProductDetail from '../../../components/ProductDetail'
+import EditProfileForm from '../Profile/components/EditProfileForm'
 
 function Home() {
-    return <ProductDetail></ProductDetail>
+    return <EditProfileForm></EditProfileForm>
 }
 
 export default Home
