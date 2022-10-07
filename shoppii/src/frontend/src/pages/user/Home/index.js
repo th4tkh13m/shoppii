@@ -1,4 +1,4 @@
-import ProductDetail from "../../../components/ProductDetail"
+import ProductDetail from '../../../components/ProductDetail'
 
 function Home() {
     return <ProductDetail></ProductDetail>

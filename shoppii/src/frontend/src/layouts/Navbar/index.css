@@ -43,7 +43,6 @@
     color: var(--main-blue);
 }
 
-
 /* header-search */
 .header-search {
     width: 55rem;
@@ -124,7 +123,8 @@
     color: #4b4b4b;
 }
 
-.header-icon, .header-guest {
+.header-icon,
+.header-guest {
     display: flex;
     margin-left: 3rem;
 }
@@ -165,7 +165,7 @@
     color: black;
 }
 
-.header-guest{
+.header-guest {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -176,11 +176,10 @@
     font-size: 1.6rem;
     font-weight: 480;
     margin-left: 2rem;
+    transition: var(--transition-normal);
 }
 
 .guest-link:hover {
     font-size: 1.7rem;
     color: var(--main-blue);
 }
-
-
