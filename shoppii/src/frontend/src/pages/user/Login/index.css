@@ -1,0 +1,18 @@
+.wrapper {
+    height: 500px;
+    box-shadow: var(--box-shadow-main);
+    border-radius: 8px;
+}
+
+.left {
+    background-color: red;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+.right {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}

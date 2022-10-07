@@ -16,7 +16,7 @@ const {
     Cart,
     Checkout,
     ForgetPassword,
-    Login,
+    LoginPage,
     Register,
     ViewShop,
     Product,
@@ -49,7 +49,7 @@ const publicRoutes = [
     },
     {
         path: '/login',
-        component: Login,
+        component: LoginPage,
     },
     {
         path: '/register',
