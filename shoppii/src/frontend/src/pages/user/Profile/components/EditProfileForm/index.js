@@ -13,6 +13,7 @@ import {
     Button,
     Avatar,
 } from '@mui/material'
+import { Row, Container, Col } from 'react-bootstrap'
 
 function EditProfileForm() {
     const [date, setDate] = React.useState('')
@@ -60,130 +61,178 @@ function EditProfileForm() {
 
     return (
         <div className="box-contain">
-            <div className="container">
-                <div className="row">
-                    <div className="col-xs-12 col-sm-8 profile-content d-block">
-                        <TextField
-                            required
-                            id="outlined-required"
-                            label="Tên"
-                            defaultValue=""
-                            size="small"
-                            margin="normal"
-                            fullWidth
-                        />
-                        <TextField
-                            required
-                            id="outlined-required"
-                            label="Email"
-                            defaultValue=""
-                            size="small"
-                            margin="normal"
-                            fullWidth
-                        />
-                        <TextField
-                            required
-                            id="outlined-required"
-                            label="Số điện thoại"
-                            defaultValue=""
-                            size="small"
-                            margin="normal"
-                            fullWidth
-                        />
-                        <FormControl>
-                            <FormLabel id="demo-row-radio-buttons-group-label">
-                                Giới tính
-                            </FormLabel>
-                            <RadioGroup
-                                row
-                                aria-labelledby="demo-row-radio-buttons-group-label"
-                                name="row-radio-buttons-group"
-                            >
-                                <FormControlLabel
-                                    value="Nam"
-                                    control={<Radio />}
-                                    label="Nam"
+            <Container fluid="md">
+                <Row>
+                    <Col md={8} className="profile-content d-block">
+                        <Container>
+                            <Row>
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Tên"
+                                    defaultValue=""
+                                    size="small"
+                                    margin="normal"
+                                    fullWidth
                                 />
-                                <FormControlLabel
-                                    value="Nữ"
-                                    control={<Radio />}
-                                    label="Nữ"
+                            </Row>
+                            <Row>
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Email"
+                                    defaultValue=""
+                                    size="small"
+                                    margin="normal"
+                                    fullWidth
                                 />
-                                <FormControlLabel
-                                    value="Khác"
-                                    control={<Radio />}
-                                    label="Khác"
+                            </Row>
+                            <Row>
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Số điện thoại"
+                                    defaultValue=""
+                                    size="small"
+                                    margin="normal"
+                                    fullWidth
                                 />
-                            </RadioGroup>
-                        </FormControl>{' '}
-                        <br></br>
-                        <FormLabel id="demo-row-radio-buttons-group-label">
-                            Ngày sinh
-                        </FormLabel>{' '}
-                        <br></br>
-                        <FormControl sx={{ m: 1, minWidth: 70 }} size="small">
-                            <InputLabel id="demo-select-small">Ngày</InputLabel>
-                            <Select
-                                labelId="demo-select-small"
-                                id="demo-select-small"
-                                value={date}
-                                onChange={event => handleChange(event, 'date')}
-                            >
-                                {createArray('date').map(index => (
-                                    <MenuItem value={index}>{index}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        <FormControl sx={{ m: 1, minWidth: 70 }} size="small">
-                            <InputLabel id="demo-select-small">
-                                Tháng
-                            </InputLabel>
-                            <Select
-                                labelId="demo-select-small"
-                                id="demo-select-small"
-                                value={month}
-                                onChange={event => handleChange(event, 'month')}
-                            >
-                                {createArray('month').map(index => (
-                                    <MenuItem value={index}>{index}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
-                            <InputLabel id="demo-select-small">Năm</InputLabel>
-                            <Select
-                                labelId="demo-select-small"
-                                id="demo-select-small"
-                                value={year}
-                                onChange={event => handleChange(event, 'year')}
-                            >
-                                {createArray('year').map(index => (
-                                    <MenuItem value={index}>{index}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>{' '}
-                        <br></br>
-                        <div className="save-btn p-3 justify-content-center d-flex">
-                            <Button variant="contained" className="fs-6 w-25">
-                                Lưu
-                            </Button>
-                        </div>
-                    </div>
-                    <div className="col-xs-12 col-sm-4 profile-avatar pt-5 d-block">
-                        <Avatar
-                            alt="Remy Sharp"
-                            src="/static/images/avatar/1.jpg"
-                            sx={{ width: 125, height: 125 }}
-                            className="mx-auto my-0"
-                        />
-                        <div className='selec-img my-4'>
-                            <Button variant="outlined" className="fs-6 w-35">
-                                Chọn ảnh
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            </Row>
+                            <Row>
+                                <FormControl>
+                                    <FormLabel id="demo-row-radio-buttons-group-label">
+                                        Giới tính
+                                    </FormLabel>
+                                    <RadioGroup
+                                        row
+                                        aria-labelledby="demo-row-radio-buttons-group-label"
+                                        name="row-radio-buttons-group"
+                                    >
+                                        <FormControlLabel
+                                            value="Nam"
+                                            control={<Radio />}
+                                            label="Nam"
+                                        />
+                                        <FormControlLabel
+                                            value="Nữ"
+                                            control={<Radio />}
+                                            label="Nữ"
+                                        />
+                                        <FormControlLabel
+                                            value="Khác"
+                                            control={<Radio />}
+                                            label="Khác"
+                                        />
+                                    </RadioGroup>
+                                </FormControl>{' '}
+                            </Row>
+                            <Row>
+                                <FormLabel id="demo-row-radio-buttons-group-label">
+                                    Ngày sinh
+                                </FormLabel>{' '}
+                                <br></br>
+                                <Col md={2}>
+                                    <FormControl
+                                        sx={{ m: 1, minWidth: 70 }}
+                                        size="small"
+                                    >
+                                        <InputLabel id="demo-select-small">
+                                            Ngày
+                                        </InputLabel>
+                                        <Select
+                                            labelId="demo-select-small"
+                                            id="demo-select-small"
+                                            value={date}
+                                            onChange={event =>
+                                                handleChange(event, 'date')
+                                            }
+                                        >
+                                            {createArray('date').map(index => (
+                                                <MenuItem value={index}>
+                                                    {index}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Col>
+                                <Col md={2}>
+                                    <FormControl
+                                        sx={{ m: 1, minWidth: 70 }}
+                                        size="small"
+                                    >
+                                        <InputLabel id="demo-select-small">
+                                            Tháng
+                                        </InputLabel>
+                                        <Select
+                                            labelId="demo-select-small"
+                                            id="demo-select-small"
+                                            value={month}
+                                            onChange={event =>
+                                                handleChange(event, 'month')
+                                            }
+                                        >
+                                            {createArray('month').map(index => (
+                                                <MenuItem value={index}>
+                                                    {index}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Col>
+                                <Col md={4}>
+                                    <FormControl
+                                        sx={{ m: 1, minWidth: 100 }}
+                                        size="small"
+                                    >
+                                        <InputLabel id="demo-select-small">
+                                            Năm
+                                        </InputLabel>
+                                        <Select
+                                            labelId="demo-select-small"
+                                            id="demo-select-small"
+                                            value={year}
+                                            onChange={event =>
+                                                handleChange(event, 'year')
+                                            }
+                                        >
+                                            {createArray('year').map(index => (
+                                                <MenuItem value={index}>
+                                                    {index}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>{' '}
+                                </Col>
+                            </Row>
+                            <Row className="d-flex justify-content-center pt-2">
+                                <Button
+                                    variant="contained"
+                                    className="fs-6 w-25"
+                                >
+                                    Lưu
+                                </Button>
+                            </Row>
+                        </Container>
+                    </Col>
+                    <Col md={4} className="profile-avatar pt-5 d-block">
+                        <Container>
+                            <Row>
+                                <Avatar
+                                    alt="Remy Sharp"
+                                    src="/static/images/avatar/1.jpg"
+                                    sx={{ width: 125, height: 125 }}
+                                    className="mx-auto my-0"
+                                />
+                            </Row>
+                            <Row className="d-flex justify-content-center">
+                                <Button variant="outlined" className="fs-6 w-50 mt-3" size="medium">
+                                    Chọn ảnh
+                                </Button>
+                            </Row>
+                        </Container>
+                    </Col>
+                </Row>
+            </Container>
         </div>
     )
 }
