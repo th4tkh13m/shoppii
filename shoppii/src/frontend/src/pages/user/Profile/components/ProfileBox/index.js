@@ -4,8 +4,20 @@ import EditProfileForm from '../EditProfileForm'
 import ChangPassword from '../ChangePass'
 import OrderHistoryItem from '../OrderHistoryItem'
 import './index.css'
+import {editPro, changePass, orderHistory, addressList} from '../ProfileSidebar'
 
-function ProfileBox() {
+function ProfileBox({content}) {
+    console.log(content)
+    const renderContent = () => {
+        switch(content){
+            case changePass:
+                return <ChangPassword/>
+            case orderHistory:
+                return <OrderHistoryItem/>
+            default: return <EditProfileForm/>
+        }
+    }
+
     return (
         <div className="profile-box">
             <Container fluid="md">
@@ -21,8 +33,7 @@ function ProfileBox() {
                 <Row>
                     <Col md={12} className="d-flex justify-content-center">
                         <div className='box-contain'>
-                            <OrderHistoryItem/>
-                            <OrderHistoryItem/>
+                            {renderContent()}
                         </div>
                     </Col>
                 </Row>

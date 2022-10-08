@@ -15,8 +15,18 @@ import ExpandMore from '@mui/icons-material/ExpandMore'
 import Avatar from '@mui/material/Avatar'
 import Stack from '@mui/material/Stack'
 
-function ProfileSidebar() {
+export const changePass = "Change Password"
+export const editPro = "Edit Profile"
+export const orderHistory = "Order History"
+export const addressList = "Address"
+
+
+function ProfileSidebar({getAction}) {
+    const sendAction = (action) => {
+        getAction(action)
+    }
     const [open, setOpen] = React.useState(true)
+
 
     const handleClick = () => {
         setOpen(!open)
@@ -50,7 +60,7 @@ function ProfileSidebar() {
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemButton sx={{ pl: 4 }} onClick={() => sendAction(editPro)}>
                             <ListItemIcon>
                                 <AssignmentIndIcon
                                     fontSize="large"
@@ -59,13 +69,13 @@ function ProfileSidebar() {
                             </ListItemIcon>
                             <ListItemText primary="Hồ sơ" />
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemButton sx={{ pl: 4 }} onClick={() => sendAction(addressList)}>
                             <ListItemIcon>
                                 <HomeIcon fontSize="large" color="primary" />
                             </ListItemIcon>
                             <ListItemText primary="Địa chỉ" />
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemButton sx={{ pl: 4 }} onClick={() => sendAction(changePass)}>
                             <ListItemIcon>
                                 <VpnKeyIcon fontSize="large" color="primary" />
                             </ListItemIcon>
@@ -74,7 +84,7 @@ function ProfileSidebar() {
                     </List>
                 </Collapse>
 
-                <ListItemButton>
+                <ListItemButton onClick={() => sendAction(orderHistory)}>
                     <ListItemIcon>
                         <ReceiptIcon fontSize="large" color="primary" />
                     </ListItemIcon>
