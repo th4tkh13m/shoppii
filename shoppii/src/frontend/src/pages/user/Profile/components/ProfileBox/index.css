@@ -6,6 +6,12 @@
         rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
+.box-contain {
+    width: 70rem;
+    height: auto;
+    margin-bottom: 3rem;
+}
+
 .box-header {
     border-bottom: 1.5px solid #efefef;
     padding: 1rem 0;
@@ -15,7 +21,7 @@
 .box-header h2 {
     color: black;
 }
-.box-header div{
+.box-header div {
     color: #555;
     font-size: 1.2rem;
 }

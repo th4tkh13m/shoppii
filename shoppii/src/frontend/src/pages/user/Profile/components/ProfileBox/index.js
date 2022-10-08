@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import EditProfileForm from '../EditProfileForm'
 import ChangPassword from '../ChangePass'
+import OrderHistoryItem from '../OrderHistoryItem'
 import './index.css'
 
 function ProfileBox() {
@@ -19,7 +20,10 @@ function ProfileBox() {
                 </Row>
                 <Row>
                     <Col md={12} className="d-flex justify-content-center">
-                        <ChangPassword></ChangPassword>
+                        <div className='box-contain'>
+                            <OrderHistoryItem/>
+                            <OrderHistoryItem/>
+                        </div>
                     </Col>
                 </Row>
             </Container>

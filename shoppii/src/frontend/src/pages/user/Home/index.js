@@ -1,9 +1,10 @@
-import ChangPassword from "../Profile/components/ChangePass"
-import EditProfileForm from "../Profile/components/EditProfileForm"
 import ProfileBox from "../Profile/components/ProfileBox"
+import PurchasedProduct from "../Profile/components/PurchasedProduct"
+import OrderHistoryItem from "../Profile/components/OrderHistoryItem"
+import FilterSidebar from '../../../components/FilterSidebar'
 
 function Home() {
-    return <ProfileBox></ProfileBox>
+    return <ProfileBox/>
 }
 
 export default Home
