@@ -1,12 +1,14 @@
 import './index.css'
 import Logo from '../../assets/images/—Pngtree—modern logo blue logos_7718360.png'
 import { Search, ShoppingCart, Person } from '@mui/icons-material'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Container, Col, Dropdown, Button } from 'react-bootstrap'
 import Divider from '@mui/material/Divider'
+import { useState } from 'react'
 
 const Navbar = () => {
+    const [showDropdownProfile, setShowDropdownProfile] = useState(false)
+    const [showDropdownCategory, setShowDropdownCategory] = useState(false)
     const [isLogin, setIslogin] = useState(true)
 
     return (
@@ -15,9 +17,47 @@ const Navbar = () => {
                 <Row>
                     <Col md={3} className="col-flex">
                         <div className="header-logo">
-                            <img src={Logo} alt="" />
+                            <Link to="/">
+                                <img src={Logo} alt="" />
+                            </Link>
                         </div>
-                        <button className="header-catalog">Danh mục</button>
+                        <Dropdown
+                            onMouseEnter={() => setShowDropdownCategory(true)}
+                            onMouseLeave={() => setShowDropdownCategory(false)}
+                            show={showDropdownCategory}
+                        >
+                            <Dropdown.Toggle className="header-catalog">
+                                Danh mục
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu className="dropdown-category">
+                                <Row
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        margin: 0,
+                                        overflow: 'scroll',
+                                        overflowX: 'hidden',
+                                        width: '280px',
+                                        maxHeight: '250px',
+                                    }}
+                                >
+                                    {[
+                                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+                                        13, 14,
+                                    ].map(ele => {
+                                        return (
+                                            <>
+                                                <Col md={6}>
+                                                    <Dropdown.Item>
+                                                        Item {ele}
+                                                    </Dropdown.Item>
+                                                </Col>
+                                            </>
+                                        )
+                                    })}
+                                </Row>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </Col>
                     <Col md={7} className="col-flex">
                         <div className="header-search w-100">
@@ -41,18 +81,23 @@ const Navbar = () => {
                                     <Button variant="secondary">
                                         <Link to="/cart" className="text-white">
                                             <ShoppingCart
-                                                sx={{ fontSize: '28px' }}
+                                                sx={{ fontSize: '24px' }}
                                             />
                                         </Link>
                                     </Button>
                                 </div>
                                 <div>
-                                    <Dropdown>
-                                        <Dropdown.Toggle
-                                            variant="success"
-                                            id="dropdown-basic"
-                                        >
-                                            <Person sx={{ fontSize: '28px' }} />
+                                    <Dropdown
+                                        onMouseEnter={() =>
+                                            setShowDropdownProfile(true)
+                                        }
+                                        onMouseLeave={() =>
+                                            setShowDropdownProfile(false)
+                                        }
+                                        show={showDropdownProfile}
+                                    >
+                                        <Dropdown.Toggle variant="success">
+                                            <Person sx={{ fontSize: '24px' }} />
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
                                             <Dropdown.Item>
@@ -78,7 +123,7 @@ const Navbar = () => {
                             </div>
                         ) : (
                             <div className="header-guest d-flex justify-content-between ms-5">
-                                <div className="header-guest-login">
+                                <div className="header-guest-content">
                                     <Link className="guest-link" to="/login">
                                         Sign In
                                     </Link>
@@ -86,7 +131,7 @@ const Navbar = () => {
                                 <div>
                                     <a className="guest-link">|</a>
                                 </div>
-                                <div className="header-guest-register">
+                                <div className="header-guest-content">
                                     <Link className="guest-link" to="/register">
                                         Sign Up
                                     </Link>

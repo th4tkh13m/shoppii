@@ -1,5 +1,5 @@
-import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import React from 'react'
+import { Container, Row, Col } from 'react-bootstrap'
 import ProductImage from '../../../../../assets/images/bd2e86e454da37f2e6c9a128c8e9a2b8.png'
 import './index.css'
 
@@ -8,8 +8,19 @@ function PurchasedProduct() {
         <div className="product-item">
             <Container fluid="md">
                 <Row>
-                    <Col md={2} className="d-flex justify-content-end align-content-center">
-                        <img src={ProductImage} alt="productimage" className="w-75" />
+                    <Col
+                        md={2}
+                        className="d-flex justify-content-end align-content-center"
+                    >
+                        <img
+                            src={ProductImage}
+                            alt="productimage"
+                            className="w-75"
+                            style={{
+                                padding: '0.7px',
+                                border: '1px solid rgb(191, 191, 191)',
+                            }}
+                        />
                     </Col>
                     <Col md={7} className="d-block">
                         <h4>Tên sản phẩm gì gì đó</h4>
