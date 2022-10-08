@@ -63,7 +63,7 @@ function EditProfileForm() {
         <div className="box-contain">
             <Container fluid="md">
                 <Row>
-                    <Col md={8} className="profile-content d-block">
+                    <Col md={8} className="profile-content">
                         <Container>
                             <Row>
                                 <TextField
@@ -109,18 +109,18 @@ function EditProfileForm() {
                                         name="row-radio-buttons-group"
                                     >
                                         <FormControlLabel
-                                            value="Nam"
-                                            control={<Radio />}
+                                            value="male"
+                                            control={<Radio size="large" />}
                                             label="Nam"
                                         />
                                         <FormControlLabel
-                                            value="Nữ"
-                                            control={<Radio />}
+                                            value="female"
+                                            control={<Radio size="large" />}
                                             label="Nữ"
                                         />
                                         <FormControlLabel
-                                            value="Khác"
-                                            control={<Radio />}
+                                            value="other"
+                                            control={<Radio size="large" />}
                                             label="Khác"
                                         />
                                     </RadioGroup>
