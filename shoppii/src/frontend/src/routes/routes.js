@@ -20,6 +20,7 @@ const {
     Register,
     ViewShop,
     Product,
+    CardAuth,
 } = paths
 // Routes
 const publicRoutes = [
@@ -49,11 +50,11 @@ const publicRoutes = [
     },
     {
         path: '/login',
-        component: LoginPage,
+        component: CardAuth,
     },
     {
         path: '/register',
-        component: Register,
+        component: CardAuth,
     },
     {
         path: '/shop/:id',

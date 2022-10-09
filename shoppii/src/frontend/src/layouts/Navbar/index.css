@@ -75,13 +75,13 @@
     text-decoration: none;
     font-size: 1.6rem;
     font-weight: 600;
-    color: #4f88de;
+    color: #fff;
     transition: var(--transition-normal);
 }
 
 .guest-link:hover {
     font-size: 1.4rem;
-    color: var(--main-blue);
+    color: #000;
 }
 
 .col-flex {

@@ -10,6 +10,7 @@ import Register from './Register'
 import ViewShop from './ViewShop'
 import Product from './Product'
 
+import CardAuth from './CardAuth'
 export {
     AlertToken,
     Profile,
@@ -22,4 +23,5 @@ export {
     Register,
     ViewShop,
     Product,
+    CardAuth,
 }

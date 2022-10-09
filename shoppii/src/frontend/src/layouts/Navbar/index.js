@@ -7,8 +7,7 @@ import {
     ListAltOutlined,
 } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
-import { Row, Container, Col, Dropdown} from 'react-bootstrap'
-import Divider from '@mui/material/Divider'
+import { Row, Container, Col, Dropdown } from 'react-bootstrap'
 import { useState } from 'react'
 
 const Navbar = () => {
