@@ -5,10 +5,11 @@ import OrderHistoryItem from './components/OrderHistoryItem'
 import ProfileBox from './components/ProfileBox'
 import ProfileSideBar from './components/ProfileSidebar'
 import PurchasedProduct from './components/PurchasedProduct'
+import {editPro} from '../Profile/components/ProfileSidebar'
 
 
 function Profile() {
-    const [content, setContent] = React.useState("")
+    const [content, setContent] = React.useState(editPro)
 
     const getActionFromSidebar = (action) => setContent(action)
     

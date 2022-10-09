@@ -1,8 +1,13 @@
 import './index.css'
 import Logo from '../../assets/images/—Pngtree—modern logo blue logos_7718360.png'
-import { Search, ShoppingCart, Person } from '@mui/icons-material'
+import {
+    Search,
+    ShoppingCartOutlined,
+    PersonOutline,
+    ListAltOutlined,
+} from '@mui/icons-material'
 import { Link } from 'react-router-dom'
-import { Row, Container, Col, Dropdown, Button } from 'react-bootstrap'
+import { Row, Container, Col, Dropdown} from 'react-bootstrap'
 import Divider from '@mui/material/Divider'
 import { useState } from 'react'
 
@@ -27,7 +32,12 @@ const Navbar = () => {
                             show={showDropdownCategory}
                         >
                             <Dropdown.Toggle className="header-catalog">
-                                Danh mục
+                                <div className="d-flex">
+                                    <ListAltOutlined
+                                        sx={{ fontSize: '20px' }}
+                                    />
+                                    <span className="fs-4 ms-1">Danh mục</span>
+                                </div>
                             </Dropdown.Toggle>
                             <Dropdown.Menu className="dropdown-category">
                                 <Row
@@ -77,14 +87,15 @@ const Navbar = () => {
                         {' '}
                         {isLogin ? (
                             <div className="d-flex align-items-center justify-content-around w-75 ">
-                                <div>
-                                    <Button variant="secondary">
-                                        <Link to="/cart" className="text-white">
-                                            <ShoppingCart
-                                                sx={{ fontSize: '24px' }}
-                                            />
-                                        </Link>
-                                    </Button>
+                                <div className="ms-2">
+                                    <Link to="/cart">
+                                        <ShoppingCartOutlined
+                                            sx={{
+                                                fontSize: '30px',
+                                                color: 'white',
+                                            }}
+                                        />
+                                    </Link>
                                 </div>
                                 <div>
                                     <Dropdown
@@ -96,8 +107,13 @@ const Navbar = () => {
                                         }
                                         show={showDropdownProfile}
                                     >
-                                        <Dropdown.Toggle variant="success">
-                                            <Person sx={{ fontSize: '24px' }} />
+                                        <Dropdown.Toggle>
+                                            <PersonOutline
+                                                sx={{
+                                                    fontSize: '30px',
+                                                    color: 'white',
+                                                }}
+                                            />
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
                                             <Dropdown.Item>
@@ -141,7 +157,7 @@ const Navbar = () => {
                     </Col>
                 </Row>
             </Container>
-            <Divider sx={{ border: '1px #000000 solid' }} />
+            {/* <Divider sx={{ border: '1px #000000 solid' }} /> */}
         </>
     )
 }

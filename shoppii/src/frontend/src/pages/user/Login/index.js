@@ -33,7 +33,7 @@ function LoginPage() {
             </Col>
             <Col md={6} className="right d-flex justify-content-center">
                 <div className="d-flex flex-column">
-                    <Container component="main" maxWidth="xs">
+                    <Container component="div" maxWidth="xs">
                         <Box
                             sx={{
                                 display: 'flex',

@@ -4,9 +4,16 @@ import { Container } from 'react-bootstrap'
 function DefaultLayout({ children }) {
     return (
         <div>
-            <Navbar />
-            <Container style={{ paddingTop: '5rem' }}>{children}</Container>
-            {/* <Footer /> */}
+            <div className="w-100 div-nav-default">
+                <Navbar />
+            </div>
+
+            <Container
+                style={{ paddingTop: '5rem' }}
+                className="w-100 div-body-default"
+            >
+                {children}
+            </Container>
         </div>
     )
 }

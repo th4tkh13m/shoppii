@@ -1,14 +1,16 @@
 /* header-logo */
 .header-logo img {
     max-width: 14rem;
-    max-height: 12rem;
+    max-height: 10rem;
 }
 
 /* header-catalog */
 .header-catalog {
-    background: linear-gradient(90deg, var(--main-blue), #4f88de) !important;
+    /* background: linear-gradient(90deg, var(--main-blue), #4f88de) !important; */
+    background-color: var(--main-blue) !important;
     text-align: center;
-    border: solid 2px #fff !important;
+    /* border: solid 2px #fff !important; */
+    border: none;
     outline: none !important;
     color: var(--white);
     border-radius: 0.6rem !important;
@@ -17,9 +19,10 @@
 }
 
 .header-catalog:hover {
-    background: var(--white) !important;
-    border: var(--main-blue) solid 2px !important;
-    color: var(--main-blue) !important;
+    /* background: var(--white) !important; */
+    /* border: var(--main-blue) solid 2px !important; */
+    /* color: var(--main-blue) !important; */
+    border: none !important;
     outline: none !important;
 }
 
@@ -32,7 +35,7 @@
 .header-search input {
     width: 89%;
     height: 4rem;
-    border: 0.2rem solid var(--main-blue);
+    border: 0.2rem solid white;
     border-start-start-radius: 0.6rem;
     border-end-start-radius: 0.6rem;
     margin-right: 0;
@@ -45,6 +48,7 @@
 
 .header-search button {
     background: linear-gradient(90deg, var(--main-blue), #4f88de);
+    border: 0.2rem solid white;
     border-end-end-radius: 0.6rem;
     border-start-end-radius: 0.6rem;
     width: 11%;
@@ -54,7 +58,6 @@
     justify-content: center;
     align-items: center;
     outline: none;
-    border: none;
 }
 
 /* header-btn-icon */
