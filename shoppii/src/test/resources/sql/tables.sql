@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Sep 29, 2022 at 03:45 PM
+-- Generation Time: Oct 09, 2022 at 04:26 PM
 -- Server version: 10.8.3-MariaDB-1:10.8.3+maria~jammy
 -- PHP Version: 8.0.23
 
@@ -45,8 +45,35 @@ CREATE TABLE `Address` (
 CREATE TABLE `Cart` (
   `user_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `amount` int(11) NOT NULL
+  `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Category`
+--
+
+CREATE TABLE `Category` (
+  `category_id` int(11) NOT NULL,
+  `category_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Category`
+--
+
+INSERT INTO `Category` (`category_id`, `category_name`) VALUES
+(10, 'Khác'),
+(4, 'Phương tiện giao thông'),
+(8, 'Sắc đẹp'),
+(5, 'Sách'),
+(7, 'Sức khoẻ'),
+(3, 'Thể thao'),
+(2, 'Thiết bị điện tử'),
+(1, 'Thời trang'),
+(6, 'Trang sức phụ kiện'),
+(9, 'Vật dụng đời sống');
 
 -- --------------------------------------------------------
 
@@ -70,11 +97,12 @@ CREATE TABLE `Contain` (
 CREATE TABLE `Customer` (
   `user_id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `mail` varchar(50),
-  `phone` varchar(10),
+  `mail` varchar(50) DEFAULT NULL,
+  `phone` varchar(10) DEFAULT NULL,
   `dob` date DEFAULT NULL,
   `sex` tinyint(1) DEFAULT NULL,
-  `password` varchar(4096) DEFAULT NULL
+  `password` varchar(4096) DEFAULT NULL,
+  `security_code` varchar(4096) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -104,7 +132,7 @@ CREATE TABLE `Product` (
   `name` varchar(255) NOT NULL,
   `price` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `category` varchar(100) DEFAULT NULL,
+  `category_id` int(11) NOT NULL,
   `description` varchar(5000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -156,6 +184,13 @@ ALTER TABLE `Cart`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- Indexes for table `Category`
+--
+ALTER TABLE `Category`
+  ADD PRIMARY KEY (`category_id`),
+  ADD UNIQUE KEY `category_name` (`category_name`);
+
+--
 -- Indexes for table `Contain`
 --
 ALTER TABLE `Contain`
@@ -183,7 +218,8 @@ ALTER TABLE `Order`
 --
 ALTER TABLE `Product`
   ADD PRIMARY KEY (`product_id`),
-  ADD KEY `shop_id` (`shop_id`);
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `category_id` (`category_id`);
 
 --
 -- Indexes for table `Shop`
@@ -207,6 +243,12 @@ ALTER TABLE `ShopRequests`
 --
 ALTER TABLE `Address`
   MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Category`
+--
+ALTER TABLE `Category`
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `Customer`
@@ -261,7 +303,8 @@ ALTER TABLE `Order`
 -- Constraints for table `Product`
 --
 ALTER TABLE `Product`
-  ADD CONSTRAINT `Product_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `Shop` (`shop_id`);
+  ADD CONSTRAINT `Product_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `Shop` (`shop_id`),
+  ADD CONSTRAINT `Product_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `Category` (`category_id`);
 
 --
 -- Constraints for table `Shop`

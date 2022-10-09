@@ -124,4 +124,8 @@ public class OrderDAO {
         return changeStatus(orderId, "Rejected", connection);
     }
 
+    
+    // public static ArrayList<Order> createOrders(int customerId, int addressId, String paymentMethod, ArrayList<Product> products, Connection connection) {
+    //     Or
+    // }
 }

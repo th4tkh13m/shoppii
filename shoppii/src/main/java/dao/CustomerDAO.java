@@ -7,17 +7,12 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.password4j.Argon2Function;
 import com.password4j.types.Argon2;
 
-import dbconnect.DBConnect;
 import dbconnect.S3Util;
 import model.Customer;
+import model.Shop;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.services.s3.model.S3Exception;
@@ -33,9 +28,8 @@ public class CustomerDAO {
     private static Argon2Function argon2 = Argon2Function.getInstance(memory, iterations, parallelism, outputLength,
             variant);
 
-    public static Customer getCustomerFromId(int customerId, Connection connection) {
+    public static Customer getCustomerFromId(int customerId, Connection connection) throws SQLException {
         Customer customer = null;
-        try {
             String sql = "SELECT name, mail, phone, dob, sex, password FROM `Customer` WHERE user_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, customerId);
@@ -50,10 +44,6 @@ public class CustomerDAO {
                 customer = new Customer(customerId, name, mail, phone, dob, sex, password);
             }
             return customer;
-        } catch (SQLException e) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, e);
-            return null;
-        }
     }
 
     protected static Customer createCustomer(String name, String mail,
@@ -160,4 +150,21 @@ public class CustomerDAO {
             throw new Exception();
         }
     }
+
+    public static Shop getShopFromId(int shopId, Connection connection) throws SQLException {
+        Shop shop = null;
+        String sql = "SELECT name, address, description, status FROM `Shop` WHERE shop_id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, shopId);
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            String name = result.getString(1);
+            String address = result.getString(2);
+            String description = result.getString(3);
+            boolean status = result.getBoolean(4);
+
+            shop = new Shop(name, address, description, status);
+        }
+        return shop;
+    } 
 }

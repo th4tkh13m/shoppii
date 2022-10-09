@@ -19,7 +19,7 @@
     </servlet>
     <servlet>
         <servlet-name>AddressServlet</servlet-name>
-        <servlet-class>controllers.authentication.AddressServlet</servlet-class>
+        <servlet-class>controllers.user.AddressServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
