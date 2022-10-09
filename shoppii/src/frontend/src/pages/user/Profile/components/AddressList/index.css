@@ -1,0 +1,12 @@
+.address-list {
+    width: 70rem;
+    height: auto;
+}
+
+.add-new-address {
+    height: 4rem;
+    align-items: center !important;
+    margin-bottom: 2rem !important;
+    color: #2877ee;
+    font-size: 1.3rem;
+}

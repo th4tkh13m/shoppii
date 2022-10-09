@@ -1,10 +1,6 @@
 import React from 'react'
-import ChangPassword from './components/ChangePass'
-import EditProfileForm from './components/EditProfileForm'
-import OrderHistoryItem from './components/OrderHistoryItem'
 import ProfileBox from './components/ProfileBox'
 import ProfileSideBar from './components/ProfileSidebar'
-import PurchasedProduct from './components/PurchasedProduct'
 import {editPro} from '../Profile/components/ProfileSidebar'
 
 

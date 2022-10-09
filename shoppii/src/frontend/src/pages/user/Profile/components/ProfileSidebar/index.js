@@ -10,7 +10,7 @@ import {
     Stack,
 } from '@mui/material'
 import {
-    Person,
+    PersonOutline,
     ReceiptOutlined,
     AssignmentIndOutlined,
     VpnKeyOutlined,
@@ -58,7 +58,7 @@ function ProfileSidebar({ getAction }) {
             >
                 <ListItemButton onClick={handleClick}>
                     <ListItemIcon>
-                        <Person fontSize="large" color="primary" />
+                        <PersonOutline fontSize="large" color="primary" />
                     </ListItemIcon>
                     <ListItemText primary="Thông tin của tôi" />
                     {open ? <ExpandLess /> : <ExpandMore />}

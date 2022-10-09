@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap'
 import EditProfileForm from '../EditProfileForm'
 import ChangPassword from '../ChangePass'
 import OrderHistory from '../OrderHistory'
+import AddressList from '../AddressList'
 import './index.css'
 import {
     editPro,
@@ -38,6 +39,8 @@ const headerList = [
 function ProfileBox({ content }) {
     const renderContent = () => {
         switch (content) {
+            case addressList:
+                return <AddressList/>
             case changePass:
                 return <ChangPassword />
             case orderHistory:

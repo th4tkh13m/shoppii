@@ -73,6 +73,7 @@ function EditProfileForm() {
                                 size="small"
                                 margin="normal"
                                 fullWidth
+                                inputProps={{ style: {fontSize: '1.6rem'} }}
                             />
                         </Row>
                         <Row>
@@ -84,6 +85,7 @@ function EditProfileForm() {
                                 size="small"
                                 margin="normal"
                                 fullWidth
+                                inputProps={{ style: {fontSize: '1.6rem'} }}
                             />
                         </Row>
                         <Row>
@@ -95,6 +97,7 @@ function EditProfileForm() {
                                 size="small"
                                 margin="normal"
                                 fullWidth
+                                inputProps={{ style: {fontSize: '1.6rem'} }}
                             />
                         </Row>
                         <Row>
