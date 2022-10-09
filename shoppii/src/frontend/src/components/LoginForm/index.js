@@ -14,10 +14,15 @@ import {
 } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { handleChange } from '../.././utils/handleForm'
 
 function LoginForm() {
-    const handleSubmit = event => {}
     const [showPassword, setShowPassword] = useState(false)
+    const [user, setUser] = useState({})
+
+    const handleSubmit = event => {
+        event.preventDefault()
+    }
     return (
         <>
             <Container component="div" maxWidth="xs">
@@ -51,6 +56,11 @@ function LoginForm() {
                             autoFocus
                             InputProps={{
                                 style: { fontSize: '1.5rem' },
+                                onChange: e => handleChange(e, setUser),
+                                inputProps: {
+                                    pattern: process.env.REACT_APP_REGEX_AUTH,
+                                    title: 'Vui lòng nhập email hoặc số điện thoại',
+                                },
                             }}
                             InputLabelProps={{
                                 style: { fontSize: '1.5rem' },
@@ -95,6 +105,7 @@ function LoginForm() {
                                         </IconButton>
                                     </InputAdornment>
                                 ),
+                                onChange: e => handleChange(e, setUser),
                             }}
                             InputLabelProps={{
                                 style: { fontSize: '1.5rem' },
