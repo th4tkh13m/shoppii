@@ -13,9 +13,10 @@ function ChangPassword() {
                         id="outlined-required"
                         label="Mật khẩu hiện tại"
                         defaultValue=""
-                        size="normal"
+                        size="small"
                         margin="normal"
                         className="w-50"
+                        inputProps={{ style: {fontSize: '1.6rem'} }}
                     />
                 </Col>
             </Row>
@@ -26,9 +27,10 @@ function ChangPassword() {
                         id="outlined-required"
                         label="Mật khẩu mới"
                         defaultValue=""
-                        size="normal"
+                        size="small"
                         margin="normal"
                         className="w-50"
+                        inputProps={{ style: {fontSize: '1.6rem'} }}
                     />
                 </Col>
             </Row>
@@ -39,9 +41,10 @@ function ChangPassword() {
                         id="outlined-required"
                         label="Xác nhận mật khẩu"
                         defaultValue=""
-                        size="normal"
+                        size="small"
                         margin="normal"
                         className="w-50"
+                        inputProps={{ style: {fontSize: '1.6rem'} }}
                     />
                 </Col>
             </Row>
