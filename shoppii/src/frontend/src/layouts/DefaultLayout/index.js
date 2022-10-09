@@ -1,12 +1,11 @@
 import Navbar from '../Navbar'
 import Footer from '../Footer'
-
+import { Container } from 'react-bootstrap'
 function DefaultLayout({ children }) {
     return (
         <div>
             <Navbar />
-            {/* <main className="container w-100">{children}</main> */}
-            {children}
+            <Container style={{ paddingTop: '5rem' }}>{children}</Container>
             {/* <Footer /> */}
         </div>
     )

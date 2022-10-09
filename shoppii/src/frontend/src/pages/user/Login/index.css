@@ -1,18 +1,19 @@
 .wrapper {
     height: 500px;
-    box-shadow: var(--box-shadow-main);
-    border-radius: 8px;
-}w
+    box-shadow: var(--box-shadow-main-2);
+    border-radius: 12px;
+}
 
 .left {
     background-color: red;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
     padding: 0 !important;
     overflow: hidden;
+    height: 500px;
 }
 
 .right {
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
 }

@@ -9,7 +9,7 @@ import { useState } from 'react'
 const Navbar = () => {
     const [showDropdownProfile, setShowDropdownProfile] = useState(false)
     const [showDropdownCategory, setShowDropdownCategory] = useState(false)
-    const [isLogin, setIslogin] = useState(true)
+    const [isLogin, setIslogin] = useState(false)
 
     return (
         <>
@@ -60,7 +60,7 @@ const Navbar = () => {
                         </Dropdown>
                     </Col>
                     <Col md={7} className="col-flex">
-                        <div className="header-search w-100">
+                        <div className="header-search">
                             <input
                                 type="text"
                                 placeholder="Search in the market"
@@ -122,10 +122,10 @@ const Navbar = () => {
                                 </div>
                             </div>
                         ) : (
-                            <div className="header-guest d-flex justify-content-between ms-5">
+                            <div className="header-guest d-flex justify-content-between ">
                                 <div className="header-guest-content">
                                     <Link className="guest-link" to="/login">
-                                        Sign In
+                                        Đăng Nhập
                                     </Link>
                                 </div>
                                 <div>
@@ -133,7 +133,7 @@ const Navbar = () => {
                                 </div>
                                 <div className="header-guest-content">
                                     <Link className="guest-link" to="/register">
-                                        Sign Up
+                                        Đăng Ký
                                     </Link>
                                 </div>
                             </div>

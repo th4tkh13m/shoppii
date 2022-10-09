@@ -25,6 +25,7 @@
 
 /* header-search */
 .header-search {
+    width: 95%;
     display: flex;
 }
 
@@ -59,14 +60,12 @@
 /* header-btn-icon */
 
 .header-guest {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
     min-width: 85%;
 }
 
 .header-guest-content {
-    width: 60px;
+    width: 80px;
     height: 20px;
 }
 .guest-link {
@@ -90,7 +89,6 @@
 /* Dropdown */
 
 .dropdown-menu {
-    /* display: block !important; */
     padding: 12px 6px 12px 4px !important;
 }
 
