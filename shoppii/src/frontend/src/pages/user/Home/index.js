@@ -1,7 +1,5 @@
-import ProductCard from "../../../components/ProductCard"
-
 function Home() {
-    return <ProductCard></ProductCard>
+    return <main className="container"></main>
 }
 
 export default Home

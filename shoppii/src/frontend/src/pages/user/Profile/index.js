@@ -1,5 +1,25 @@
+import React from 'react'
+import ProfileBox from './components/ProfileBox'
+import ProfileSideBar from './components/ProfileSidebar'
+import { editPro } from '../Profile/components/ProfileSidebar'
+
 function Profile() {
-    return <h1>Profile Page</h1>
+    const [content, setContent] = React.useState(editPro)
+
+    const getActionFromSidebar = action => setContent(action)
+
+    return (
+        <main
+            className="container d-flex justify-content-between h-auto"
+            style={{
+                margin: 0,
+                backgroundColor: '#fafafa',
+            }}
+        >
+            <ProfileSideBar getAction={getActionFromSidebar} />
+            <ProfileBox content={content} />
+        </main>
+    )
 }
 
 export default Profile

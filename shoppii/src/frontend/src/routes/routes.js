@@ -16,10 +16,11 @@ const {
     Cart,
     Checkout,
     ForgetPassword,
-    Login,
+    LoginPage,
     Register,
     ViewShop,
     Product,
+    CardAuth,
 } = paths
 // Routes
 const publicRoutes = [
@@ -49,11 +50,11 @@ const publicRoutes = [
     },
     {
         path: '/login',
-        component: Login,
+        component: CardAuth,
     },
     {
         path: '/register',
-        component: Register,
+        component: CardAuth,
     },
     {
         path: '/shop/:id',

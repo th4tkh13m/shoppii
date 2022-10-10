@@ -15,6 +15,10 @@
     --white: #fff;
     --border-radius-normal: 8px;
     --border-radius-circle: 50%;
+    --transition-normal: all 0.3s ease;
+    --box-shadow-main: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+        rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    --box-shadow-main-2: rgb(133, 131, 131) 5px 5px 10px;
 }
 
 * {
@@ -23,11 +27,29 @@
     box-sizing: border-box;
 }
 
-
 hr {
     color: #c7c7c7ad;
 }
 
 html {
     font-size: 62.5%;
+<<<<<<< HEAD
 }
+=======
+    // overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+.div-body-default {
+    background-color: #fafafa;
+    height: 90vh;
+}
+
+.div-nav-default {
+    background-color: #2877ee;
+}
+>>>>>>> 6477ad88f80128b6bc9faf9431044aec5ba64add

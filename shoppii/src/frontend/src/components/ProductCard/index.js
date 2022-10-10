@@ -13,8 +13,7 @@ import Typography from '@mui/material/Typography'
 function ProductCard() {
     return (
         <div className="product-card">
-            <Card sx={{ maxWidth: 200 }}>
-                <CardMedia
+            <Card sx={{ maxWidth: 200 }}> <CardMedia
                     component="img"
                     height="200"
                     image={Product}
@@ -31,10 +30,17 @@ function ProductCard() {
                     <Typography gutterBottom variant="5" component="div">
                         100.000
                     </Typography>
-                    <AddShoppingCartIcon fontSize='large'></AddShoppingCartIcon>
+                    <Button className='add-cart-btn'>
+                        <AddShoppingCartIcon 
+                            fontSize='large' 
+                            color="primary"
+                        >
+                        </AddShoppingCartIcon>
+                    </Button>
                 </CardActions>
             </Card>
         </div>
+        
     )
 }
 
