@@ -163,7 +163,7 @@ public class CustomerDAO {
             String description = result.getString(3);
             boolean status = result.getBoolean(4);
 
-            shop = new Shop(name, address, description, status);
+            shop = new Shop(shopId, name, address, description, status);
         }
         return shop;
     } 
