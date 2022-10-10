@@ -32,3 +32,14 @@ footer {
     margin: 0 2rem;
     margin-top: 2rem;
 }
+.linkStyle {
+    color: rgb(156 163 175 / 3);
+    text-decoration: none;
+    font-size: 2rem;
+}
+.linkStyle:hover {
+    color: #212529;
+}
+.footerHeading {
+    color: rgb(156 163 175 / 3);
+}

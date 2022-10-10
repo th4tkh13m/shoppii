@@ -14,6 +14,9 @@ function DefaultLayout({ children }) {
             >
                 <Container>{children}</Container>
             </div>
+            <div className="w-100 div-footer-default">
+                <Footer />
+            </div>
         </div>
     )
 }
