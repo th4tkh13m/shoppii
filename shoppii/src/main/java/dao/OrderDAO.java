@@ -27,9 +27,7 @@ public class OrderDAO {
                 int productId = result.getInt(1);
                 int quantity = result.getInt(2);
                 int price = result.getInt(3);
-
                 Product product = ProductDAO.getProductFromId(productId, connection);
-
                 orderItems.add(new OrderItem(product, quantity, price));
             }
             return orderItems;
