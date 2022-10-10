@@ -17,7 +17,8 @@ function App() {
         <div className="App">
             <Routes>
                 {routes.map((route, index) => {
-                    const Layout = role === 'admin' ? PrivateLayout : DefaultLayout
+                    const Layout =
+                        role === 'admin' ? PrivateLayout : DefaultLayout
                     const Page = route.component
                     return (
                         <Route

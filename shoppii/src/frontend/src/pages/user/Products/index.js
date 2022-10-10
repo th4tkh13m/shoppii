@@ -1,5 +1,6 @@
+import ProductDetail from '../../../components/ProductDetail'
 function Products() {
-    return <h1>Products Page</h1>
+    return <ProductDetail></ProductDetail>
 }
 
 export default Products
