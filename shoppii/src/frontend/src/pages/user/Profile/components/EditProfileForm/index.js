@@ -120,11 +120,6 @@ function EditProfileForm() {
                                         control={<Radio size="large" />}
                                         label="Nữ"
                                     />
-                                    <FormControlLabel
-                                        value="other"
-                                        control={<Radio size="large" />}
-                                        label="Khác"
-                                    />
                                 </RadioGroup>
                             </FormControl>{' '}
                         </Row>
