@@ -12,7 +12,6 @@ function Profile() {
         <main
             className="container d-flex justify-content-between h-auto"
             style={{
-                padding: '30px 0 30px 0',
                 margin: 0,
                 backgroundColor: '#fafafa',
             }}

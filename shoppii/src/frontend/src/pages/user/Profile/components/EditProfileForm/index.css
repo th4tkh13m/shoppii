@@ -2,3 +2,11 @@
     margin-left: 8.4rem;
 }
 
+.MuiFormControlLabel-label {
+    font-size: 1.3rem !important;
+}
+
+.css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+    font-size: 1.3rem !important;
+}
+

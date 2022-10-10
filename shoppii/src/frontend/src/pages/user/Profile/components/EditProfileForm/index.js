@@ -73,7 +73,10 @@ function EditProfileForm() {
                                 size="small"
                                 margin="normal"
                                 fullWidth
-                                inputProps={{ style: {fontSize: '1.6rem'} }}
+                                inputProps={{ style: {fontSize: '1.3rem'} }}
+                                InputLabelProps={{
+                                    style: { fontSize: '1.3rem' },
+                                }}
                             />
                         </Row>
                         <Row>
@@ -85,7 +88,10 @@ function EditProfileForm() {
                                 size="small"
                                 margin="normal"
                                 fullWidth
-                                inputProps={{ style: {fontSize: '1.6rem'} }}
+                                inputProps={{ style: {fontSize: '1.3rem'} }}
+                                InputLabelProps={{
+                                    style: { fontSize: '1.3rem' },
+                                }}
                             />
                         </Row>
                         <Row>
@@ -97,12 +103,15 @@ function EditProfileForm() {
                                 size="small"
                                 margin="normal"
                                 fullWidth
-                                inputProps={{ style: {fontSize: '1.6rem'} }}
+                                inputProps={{ style: {fontSize: '1.3rem'} }}
+                                InputLabelProps={{
+                                    style: { fontSize: '1.3rem' },
+                                }}
                             />
                         </Row>
                         <Row>
                             <FormControl>
-                                <FormLabel id="demo-row-radio-buttons-group-label">
+                                <FormLabel id="demo-row-radio-buttons-group-label" sx={{ fontSize: '1.2rem'}}>
                                     Giới tính
                                 </FormLabel>
                                 <RadioGroup
@@ -124,7 +133,7 @@ function EditProfileForm() {
                             </FormControl>{' '}
                         </Row>
                         <Row>
-                            <FormLabel id="demo-row-radio-buttons-group-label">
+                            <FormLabel id="demo-row-radio-buttons-group-label" sx={{ fontSize: '1.2rem'}}>
                                 Ngày sinh
                             </FormLabel>{' '}
                             <br></br>
