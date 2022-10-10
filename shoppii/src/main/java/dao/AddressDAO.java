@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import model.Address;
-import model.Customer;
 
 public class AddressDAO {
     public static ArrayList<Address> getAddressOfUser(int userId, Connection connection) throws SQLException {
