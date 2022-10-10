@@ -64,7 +64,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginGoogle</servlet-name>
-        <url-pattern>/login-google</url-pattern>
+        <url-pattern>/googleAuthentication</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProductsShopServlet</servlet-name>
