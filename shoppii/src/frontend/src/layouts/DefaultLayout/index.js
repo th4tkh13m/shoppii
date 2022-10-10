@@ -8,12 +8,12 @@ function DefaultLayout({ children }) {
                 <Navbar />
             </div>
 
-            <Container
-                style={{ paddingTop: '5rem' }}
+            <div
                 className="w-100 div-body-default"
+                style={{ paddingTop: '5rem' }}
             >
-                {children}
-            </Container>
+                <Container>{children}</Container>
+            </div>
         </div>
     )
 }

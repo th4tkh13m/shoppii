@@ -35,12 +35,6 @@ html {
     // overflow: hidden;
 }
 
-main {
-    padding: 30px 0 30px 0;
-    margin: 0;
-    background-color: #fafafa;
-}
-
 a {
     text-decoration: none;
     color: #333;
@@ -48,9 +42,9 @@ a {
 
 .div-body-default {
     background-color: #fafafa;
+    height: 90vh;
 }
 
 .div-nav-default {
     background-color: #2877ee;
-    height: 10rem;
 }
