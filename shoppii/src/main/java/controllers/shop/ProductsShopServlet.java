@@ -53,7 +53,7 @@ public class ProductsShopServlet extends HttpServlet {
             String name = req.getParameter("name");
             int price = Integer.parseInt(req.getParameter("price"));
             int quantity = Integer.parseInt(req.getParameter("quantity"));
-            String cat = req.getParameter("category");
+            int cat = Integer.parseInt(req.getParameter("category"));
             String des = req.getParameter("description");
             // Product product = new Product(shopId, name, price, quantity, cat, des);
             Product product = ProductDAO.addProduct(new Product(shopId, name, price, quantity, cat, des), connection);
@@ -77,7 +77,7 @@ public class ProductsShopServlet extends HttpServlet {
             String name = req.getParameter("name");
             int price = Integer.parseInt(req.getParameter("price"));
             int quantity = Integer.parseInt(req.getParameter("quantity"));
-            String cat = req.getParameter("category");
+            int cat = Integer.parseInt(req.getParameter("category"));
             String des = req.getParameter("description");
             Product product = new Product(productId, shopId, name, price, quantity, cat, des);
             ProductDAO.updateProduct(product, connection);
