@@ -55,9 +55,8 @@ public class ProductsShopServlet extends HttpServlet {
             int quantity = Integer.parseInt(req.getParameter("quantity"));
             int cat = Integer.parseInt(req.getParameter("category"));
             String des = req.getParameter("description");
-            Product product = new Product(shopId, name, price, quantity, cat, des);
-            // Product product = ProductDAO.addProduct(new Product(shopId, name, price,
-            // quantity, cat, des), connection);
+            Product product = ProductDAO.addProduct(new Product(shopId, name, price,
+            quantity, cat, des), connection);
             String json = gson.toJson(product);
             resp.setStatus(201);
             resp.getOutputStream().println(json);
