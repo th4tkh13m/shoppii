@@ -17,7 +17,6 @@ import dao.RequestDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
 import model.ShopRequest;
-import utils.CustomerSerializer;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 1, // 1 MB
