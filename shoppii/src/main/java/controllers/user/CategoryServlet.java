@@ -26,6 +26,7 @@ public class CategoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
+        resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
         try {
             DBConnect db = new DBConnect();
@@ -33,7 +34,7 @@ public class CategoryServlet extends HttpServlet {
             ArrayList<Category> cate = CategoryDAO.getCategory(connection);
             String json = gson.toJson(cate);
             resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));

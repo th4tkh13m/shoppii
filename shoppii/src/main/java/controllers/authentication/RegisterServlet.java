@@ -52,7 +52,7 @@ public class RegisterServlet extends HttpServlet {
                 jsonElement.getAsJsonObject().addProperty("securityCode", code);
                 String json = gson.toJson(jsonElement);
                 resp.setStatus(201);
-                resp.getOutputStream().println(json);
+                resp.getOutputStream().write(json.getBytes("UTF-8"));
             } else {
                 resp.setStatus(400);
                 resp.getOutputStream().println(gson.toJson(new ErrorHandle("Password not match", 400)));

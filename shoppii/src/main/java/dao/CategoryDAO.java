@@ -32,7 +32,7 @@ public class CategoryDAO {
     public static ArrayList<Category> getCategory(Connection connection) throws SQLException {
         ArrayList<Category> cate = new ArrayList<>();
 
-        String sql = "SELECT * FROM `Category`";
+        String sql = "SELECT * FROM `Category` ORDER BY category_id ASC";
         PreparedStatement statement = connection.prepareStatement(sql);
 
         ResultSet result = statement.executeQuery();

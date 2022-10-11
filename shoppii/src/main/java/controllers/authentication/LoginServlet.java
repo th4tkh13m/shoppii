@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
                 jsonElement.getAsJsonObject().addProperty("hasShop", hasShop);
                 String json = gson.toJson(jsonElement);
                 resp.setStatus(200);
-                resp.getOutputStream().println(json);
+                resp.getOutputStream().write(json.getBytes("UTF-8"));
                 
             } 
         } catch (Exception e) {

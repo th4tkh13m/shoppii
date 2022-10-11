@@ -42,7 +42,7 @@ public class AddressServlet extends HttpServlet {
                     connection);
             String json = gson.toJson(address);
             resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
@@ -62,7 +62,7 @@ public class AddressServlet extends HttpServlet {
             ArrayList<Address> address = AddressDAO.getAddressOfUser(userId, connection);
             String json = gson.toJson(address);
             resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
@@ -108,7 +108,7 @@ public class AddressServlet extends HttpServlet {
                     connection);
             String json = gson.toJson(address);
             resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);

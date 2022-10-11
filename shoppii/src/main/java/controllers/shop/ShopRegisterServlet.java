@@ -38,7 +38,7 @@ public class ShopRegisterServlet extends HttpServlet {
             ShopRequest request = RequestDAO.createRequest(userId, shopName, address, description, connection);
             String json = gson.toJson(request);
             resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
@@ -58,7 +58,7 @@ public class ShopRegisterServlet extends HttpServlet {
             ArrayList<ShopRequest> requests = RequestDAO.getRequests(customerId, connection);
             String json = gson.toJson(requests);
             resp.setStatus(200);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);

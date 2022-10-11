@@ -36,7 +36,7 @@ public class CartServlet extends HttpServlet {
             HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.getCartOfCustomer(userId, connection);
             String json = gson.toJson(cart);
             resp.setStatus(200);
-            resp.getOutputStream().println(json); 
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
@@ -58,7 +58,7 @@ public class CartServlet extends HttpServlet {
             HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.addProductToCart(userId, productId, quantity, connection);
             String json = gson.toJson(cart);
             resp.setStatus(201);
-            resp.getOutputStream().println(json); 
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
@@ -80,7 +80,7 @@ public class CartServlet extends HttpServlet {
             HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.modifyProductQuantity(userId, productId, quantity, connection);
             String json = gson.toJson(cart);
             resp.setStatus(200);
-            resp.getOutputStream().println(json); 
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
@@ -101,7 +101,7 @@ public class CartServlet extends HttpServlet {
             HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.deleteProductFromCart(userId, productId, connection);
             String json = gson.toJson(cart);
             resp.setStatus(200);
-            resp.getOutputStream().println(json); 
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));

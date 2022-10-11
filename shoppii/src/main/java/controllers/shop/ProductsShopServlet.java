@@ -84,7 +84,7 @@ public class ProductsShopServlet extends HttpServlet {
             ProductDAO.updateProduct(product, connection);
             String json = gson.toJson(product);
             resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
@@ -100,7 +100,7 @@ public class ProductsShopServlet extends HttpServlet {
             int productId = Integer.parseInt(req.getParameter("productId"));
             String json = gson.toJson(ProductDAO.deleteProduct(productId, connection));
             resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
