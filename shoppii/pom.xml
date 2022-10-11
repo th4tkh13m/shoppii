@@ -157,6 +157,7 @@
             <username>admin</username>
             <password>admin</password>
             <path>/shoppii/api</path>
+            <contextReloadable>true</contextReloadable>
           </configuration>
         </plugin>
       </plugins>
