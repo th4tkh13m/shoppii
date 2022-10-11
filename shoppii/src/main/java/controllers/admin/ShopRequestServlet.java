@@ -25,7 +25,7 @@ import model.ShopRequest;
 public class ShopRequestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        Gson gson = new Gson();
         resp.setContentType("application/json");
 
         try {
@@ -36,17 +36,19 @@ public class ShopRequestServlet extends HttpServlet {
             ArrayList<ShopRequest> requests = RequestDAO.getRequestsByStatus(status, connection);
             String json = gson.toJson(requests);
             resp.setStatus(200);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
+            connection.close();
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            System.out.println("HELLO");
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        Gson gson = new Gson();
         resp.setContentType("application/json");
 
         try {
@@ -67,7 +69,7 @@ public class ShopRequestServlet extends HttpServlet {
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
         }
     }
 }
