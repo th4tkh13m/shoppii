@@ -18,7 +18,7 @@
         <servlet-class>com.tqkdn.Servlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AddressServlet</servlet-name>
+        <servlet-name>CartServlet</servlet-name>
         <servlet-class>controllers.user.CartServlet</servlet-class>
     </servlet>
     <servlet>

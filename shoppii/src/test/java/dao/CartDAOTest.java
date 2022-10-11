@@ -30,6 +30,7 @@ import model.Customer;
 import model.Product;
 import model.Shop;
 import utils.DBInfo;
+import utils.Utils;
 
 @RunWith (MockitoJUnitRunner.class)
 public class CartDAOTest extends DBInfo {
@@ -61,10 +62,13 @@ public class CartDAOTest extends DBInfo {
         sr.runScript(reader);
     }
 
+    String code = Utils.generateCode();
+
     @Test
     public void testGetCartOfCustomer() {
         try {
-            Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", connection);
+            
+            Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", code, connection);
             // create request
             assertNotNull(RequestDAO
             .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection));
@@ -94,7 +98,7 @@ public class CartDAOTest extends DBInfo {
     @Test
     public void testAddProductToCart() {
         try {
-            Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", connection);
+            Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", code, connection);
             // create request
             assertNotNull(RequestDAO
             .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection));
@@ -122,7 +126,7 @@ public class CartDAOTest extends DBInfo {
     @Test
     public void testDeleteProductFromCart() {
         try {
-            Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", connection);
+            Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", code, connection);
             // create request
             assertNotNull(RequestDAO
             .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection));
@@ -152,7 +156,7 @@ public class CartDAOTest extends DBInfo {
     @Test
     public void testModifyProductQuantity1() {
         try {
-            Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", connection);
+            Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", code, connection);
             // create request
             assertNotNull(RequestDAO
             .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection));

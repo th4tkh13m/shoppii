@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.password4j.Argon2Function;
+import com.password4j.Password;
 import com.password4j.types.Argon2;
 
 import dbconnect.S3Util;
@@ -30,7 +31,7 @@ public class CustomerDAO {
 
     public static Customer getCustomerFromId(int customerId, Connection connection) throws SQLException {
         Customer customer = null;
-            String sql = "SELECT name, mail, phone, dob, sex, password FROM `Customer` WHERE user_id = ?";
+            String sql = "SELECT name, mail, phone, dob, sex, `password`, security_code FROM `Customer` WHERE user_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, customerId);
             ResultSet result = statement.executeQuery();
@@ -41,14 +42,32 @@ public class CustomerDAO {
                 Date dob = result.getDate(4);
                 boolean sex = result.getBoolean(5);
                 String password = result.getString(6);
-                customer = new Customer(customerId, name, mail, phone, dob, sex, password);
+                String code = result.getString(7);
+                customer = new Customer(customerId, name, mail, phone, dob, sex, password, code);
+            }
+            return customer;
+    }
+
+    public static Customer getCustomerFromIdWithoutPass(int customerId, Connection connection) throws SQLException {
+        Customer customer = null;
+            String sql = "SELECT name, mail, phone, dob, sex FROM `Customer` WHERE user_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, customerId);
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                String name = result.getString(1);
+                String mail = result.getString(2);
+                String phone = result.getString(3);
+                Date dob = result.getDate(4);
+                boolean sex = result.getBoolean(5);
+                customer = new Customer(customerId, name, mail, phone, dob, sex);
             }
             return customer;
     }
 
     protected static Customer createCustomer(String name, String mail,
-            String phone, String password) {
-        return new Customer(name, mail, phone, password, argon2);
+            String phone, String password, String code) {
+        return new Customer(name, mail, phone, password, code, argon2);
     }
 
     /**
@@ -63,14 +82,15 @@ public class CustomerDAO {
      * @throws SQLException
      */
     protected static boolean insertCustomer(Customer customer, Connection connection) throws SQLException {
-            String sql = "INSERT INTO `Customer` (name, mail, phone, `password`) VALUES " +
-                    "(?, ?, ?, ?)";
+            String sql = "INSERT INTO `Customer` (name, mail, phone, `password`, security_code) VALUES " +
+                    "(?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
 
             statement.setString(1, customer.getName());
             statement.setString(2, customer.getMail());
             statement.setString(3, customer.getPhone());
             statement.setString(4, customer.getEncryptedPassword());
+            statement.setString(5, customer.getEncryptedCode());
 
             statement.execute();
 
@@ -115,7 +135,7 @@ public class CustomerDAO {
 
     private static Customer getCustomerFromMailOrPhone(String enteredMail, String enteredPhone, Connection connection) throws SQLException {
         Customer customer = null;
-            String sql = "SELECT user_id, name, mail, phone, dob, sex, password FROM `Customer` WHERE mail = ? OR phone = ?";
+            String sql = "SELECT user_id, name, mail, phone, dob, sex, `password`, security_code FROM `Customer` WHERE mail = ? OR phone = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, enteredMail);
             statement.setString(2, enteredPhone);
@@ -128,14 +148,15 @@ public class CustomerDAO {
                 Date dob = result.getDate(5);
                 boolean sex = result.getBoolean(6);
                 String password = result.getString(7);
-                customer = new Customer(customerId, name, mail, phone, dob, sex, password);
+                String code = result.getString(8);
+                customer = new Customer(customerId, name, mail, phone, dob, sex, password, code);
             }
             return customer;
         
     }
 
-    public static Customer register(String mail, String phone, String password, Connection connection) throws SQLException {
-        Customer customer = createCustomer(Utils.generateName(), mail, phone, password);
+    public static Customer register(String mail, String phone, String password, String code, Connection connection) throws SQLException {
+        Customer customer = createCustomer(Utils.generateName(), mail, phone, password, code);
         System.out.println(customer);
         insertCustomer(customer, connection);
         return CustomerDAO.getCustomerFromMailOrPhone(mail, phone, connection);

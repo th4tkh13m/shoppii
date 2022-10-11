@@ -20,4 +20,8 @@ public class Utils {
     public static String generateName() {
         return generateRandomString(10);
     }
+
+    public static String generateCode() {
+        return generateRandomString(12);
+    }
 }

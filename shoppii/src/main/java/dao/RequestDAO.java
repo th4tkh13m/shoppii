@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
+
+import model.Customer;
 import model.ShopRequest;
 
 public class RequestDAO {
@@ -22,8 +24,7 @@ public class RequestDAO {
             String description = result.getString(3);
             String status = result.getString(4);
             Time time = result.getTime(5);
-
-            requests.add(new ShopRequest(CustomerDAO.getCustomerFromId(customerId, connection), name, address,
+            requests.add(new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), name, address,
                     description, status, time));
         }
         return requests;
@@ -44,7 +45,7 @@ public class RequestDAO {
             String description = resultSet.getString(4);
             Time time = resultSet.getTime(6);
 
-            requests.add(new ShopRequest(CustomerDAO.getCustomerFromId(customerId, connection), name, address,
+            requests.add(new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), name, address,
                     description, status, time));
         }
         return requests;
@@ -95,7 +96,7 @@ public class RequestDAO {
         while (result.next()) {
             String status = result.getString(1);
             Time time = result.getTime(2);
-            request = new ShopRequest(CustomerDAO.getCustomerFromId(customerId, connection), shopName, address,
+            request = new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), shopName, address,
                     description, status, time);
         }
         return request;

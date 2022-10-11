@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 
 import dao.CustomerDAO;
 import dbconnect.DBConnect;
@@ -24,7 +26,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO Auto-generated method stub
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         resp.setContentType("application/json");
         try {
             DBConnect db = new DBConnect();
@@ -40,7 +42,10 @@ public class LoginServlet extends HttpServlet {
             String password = req.getParameter("password");
             Customer customer = CustomerDAO.checkLogin(email, phone, password, connection);
             if (customer != null) {
-                String json = gson.toJson(customer);
+                boolean hasShop = CustomerDAO.getShopFromId(customer.getUserId(), connection) != null;
+                JsonElement jsonElement = gson.toJsonTree(customer);
+                jsonElement.getAsJsonObject().addProperty("hasShop", hasShop);
+                String json = gson.toJson(jsonElement);
                 resp.setStatus(200);
                 resp.getOutputStream().println(json);
                 
