@@ -9,14 +9,17 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import java.lang.reflect.Type;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import dao.CartDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
 import model.Product;
 import model.Shop;
+import utils.ProductMap;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 1, // 1 MB
@@ -25,7 +28,10 @@ import model.Shop;
 public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Type type = new TypeToken<HashMap<Shop, HashMap<Product, Integer>>>() {}.getType();
+        gsonBuilder.registerTypeAdapter(type, new ProductMap());
+        Gson gson = gsonBuilder.create();
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
@@ -34,7 +40,9 @@ public class CartServlet extends HttpServlet {
             int userId = Integer.parseInt(req.getParameter("userId"));
 
             HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.getCartOfCustomer(userId, connection);
-            String json = gson.toJson(cart);
+            
+            String json = gson.toJson(cart, type);
+            System.out.println(json);
             resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
