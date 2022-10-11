@@ -31,7 +31,7 @@ public class Customer {
         this.sex = sex;
         this.encryptedPassword = password;
     }
-
+   
     public Customer(int userId, String name, String mail, String phone, Date dob, boolean sex, String password,
             Argon2Function argon2) {
         this.userId = userId;

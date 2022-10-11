@@ -7,6 +7,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.servlet.http.Part;
+
 import com.password4j.Argon2Function;
 import com.password4j.Password;
 import com.password4j.types.Argon2;
@@ -91,22 +94,12 @@ public class CustomerDAO {
             statement.setString(3, customer.getPhone());
             statement.setString(4, customer.getEncryptedPassword());
             statement.setString(5, customer.getEncryptedCode());
-
             statement.execute();
 
             return true;
     }
 
-    /**
-     * @param newCustomer Updated version of the customer object.
-     * @param connection  Connection to the database.
-     * @return
-     * @throws SQLException
-     * @throws IOException
-     * @throws SdkClientException
-     * @throws AwsServiceException
-     * @throws S3Exception
-     */
+ 
 
     public static Customer updateInfo(Customer newCustomer, Connection connection, String fileName, InputStream avatar) throws SQLException, S3Exception, AwsServiceException, SdkClientException, IOException {
             PreparedStatement statement = connection
@@ -114,16 +107,14 @@ public class CustomerDAO {
                             "mail = ?," +
                             "phone = ?," +
                             "dob = ?," +
-                            "sex = ?," +
-                            "password = ? " +
+                            "sex = ?," +       
                             "WHERE user_id = ?");
             statement.setString(1, newCustomer.getName());
             statement.setString(2, newCustomer.getMail());
             statement.setString(3, newCustomer.getPhone());
             statement.setDate(4, newCustomer.getDob());
             statement.setBoolean(5, newCustomer.getSex());
-            statement.setString(6, newCustomer.getEncryptedPassword());
-            statement.setInt(7, newCustomer.getUserId());
+            statement.setInt(6, newCustomer.getUserId());
             statement.executeUpdate();
             if (avatar != null) {
                 S3Util.uploadObject("profile/" + newCustomer.getUserId() +
@@ -132,7 +123,8 @@ public class CustomerDAO {
         
         return getCustomerFromId(newCustomer.getUserId(), connection);
     }
-
+   
+   
     private static Customer getCustomerFromMailOrPhone(String enteredMail, String enteredPhone, Connection connection) throws SQLException {
         Customer customer = null;
             String sql = "SELECT user_id, name, mail, phone, dob, sex, `password`, security_code FROM `Customer` WHERE mail = ? OR phone = ?";
