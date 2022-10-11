@@ -10,6 +10,12 @@
       "group": "build"
     },
     {
+      "label": "Undeploy Web App",
+      "type": "shell",
+      "command": "mvn tomcat7:undeploy",
+      "group": "build"
+    },
+    {
       "label": "Run Tests",
       "type": "shell",
       "command": "mvn -B test",
