@@ -107,7 +107,7 @@ public class CustomerDAO {
                             "mail = ?," +
                             "phone = ?," +
                             "dob = ?," +
-                            "sex = ?," +       
+                            "sex = ? " +       
                             "WHERE user_id = ?");
             statement.setString(1, newCustomer.getName());
             statement.setString(2, newCustomer.getMail());
