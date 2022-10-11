@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Order;
@@ -15,32 +16,29 @@ import model.Product;
 import model.Shop;
 
 public class OrderDAO {
-    public static Order addOrder(int product_id, int quantity, int price, int user_id, String payment_method,
-            String status, int address_id, Connection connection) {
-        try {
-            String sql = "INSERT INTO `Contain` (product_id, quantity, price) VALUES (?,?,?)";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, product_id);
-            statement.setInt(2, quantity);
-            statement.setInt(3, price);
-            statement.execute();
-            String sql1 = "INSERT INTO `Order` (order_id,user_id, payment_method,status,time, address_id) VALUES(?,?,?,?,?,?)";
+    public static ArrayList<Order> addOrder(HashMap<Shop, HashMap<Product, Integer>> confirmedProducts, int userId, String paymentMethod, int addressId, Connection connection) throws SQLException {
+        ArrayList<Order> orders = new ArrayList<>();
+        // Tao order theo shop, moi shop 1 ma order 
+        for (Shop shop : confirmedProducts.keySet()) {
+            String sql1 = "INSERT INTO `Order` (user_id, payment_method, address_id) VALUES(?,?,?)";
             PreparedStatement statement1 = connection.prepareStatement(sql1);
-            statement1.setInt(1, selectMaxOrder(connection));
-            statement1.setInt(2, user_id);
-            statement1.setString(3, payment_method);
-            statement1.setString(4, status);
-            statement1.setTime(5, new Time(System.currentTimeMillis()));
-            statement1.setInt(6, address_id);
+            statement1.setInt(2, userId);
+            statement1.setString(2, paymentMethod);
+            statement1.setInt(3, addressId);
             statement1.execute();
 
-            return new Order(selectMaxOrder(connection), user_id, payment_method, status,
-                    new Time(System.currentTimeMillis()), address_id);
+            for (Product product : confirmedProducts.get(shop).keySet()) {
+                String sql = "INSERT INTO `Contain` (product_id, quantity, price) VALUES (?,?,?)";
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setInt(1, product.getProductId());
+                statement.setInt(2, confirmedProducts.get(shop).get(product));
+                statement.setInt(3, confirmedProducts.get(shop).get(product) * product.getPrice());
+                statement.execute();
+            }
 
-        } catch (Exception e) {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, e);
-            return null;
+            orders.add(getOrderFromId(selectMaxOrder(connection), connection));
         }
+        return orders;
     }
 
     private static int selectMaxOrder(Connection connection) throws SQLException {
@@ -54,10 +52,8 @@ public class OrderDAO {
         return order_id;
     }
 
-    public static ArrayList<OrderItem> getOrderItemsFromId(int orderId, Connection connection) {
+    public static ArrayList<OrderItem> getOrderItemsFromId(int orderId, Connection connection) throws SQLException {
         ArrayList<OrderItem> orderItems = new ArrayList<>();
-
-        try {
             String sql = "SELECT product_id, quantity, price FROM `Contain` WHERE order_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -72,15 +68,10 @@ public class OrderDAO {
                 orderItems.add(new OrderItem(product, quantity, price));
             }
             return orderItems;
-        } catch (Exception e) {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, e);
-            return orderItems;
-        }
     }
 
-    public static Order getOrderFromId(int orderId, Connection connection) {
+    public static Order getOrderFromId(int orderId, Connection connection) throws SQLException {
         Order order = null;
-        try {
             String sql = "SELECT user_id, payment_method, status, time, address_id FROM `Contain` WHERE order_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -98,15 +89,10 @@ public class OrderDAO {
             }
 
             return order;
-        } catch (Exception e) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, e);
-            return order;
-        }
     }
 
-    public static ArrayList<Order> getOrdersByShop(Shop shop, String statusFilter, Connection connection) {
+    public static ArrayList<Order> getOrdersByShop(Shop shop, String statusFilter, Connection connection) throws SQLException {
         ArrayList<Order> orders = new ArrayList<>();
-        try {
             String sql = "SELECT order_id, user_id, payment_method, status, time, address_id " +
                     "FROM `Order` o INNER JOIN `Contain` c ON o.order_id = c.order_id " +
                     "INNER JOIN `Product` p ON p.product_id = c.product_id " +
@@ -129,10 +115,6 @@ public class OrderDAO {
             }
 
             return orders;
-        } catch (Exception e) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, e);
-            return orders;
-        }
     }
 
     private static boolean changeStatus(int orderId, String status, Connection connection) {

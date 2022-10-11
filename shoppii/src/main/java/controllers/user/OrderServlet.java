@@ -2,6 +2,7 @@ package controllers.user;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,15 +25,15 @@ public class OrderServlet extends HttpServlet {
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
-            int product_id = Integer.parseInt(req.getParameter("product_id"));
+            int productId = Integer.parseInt(req.getParameter("product_id"));
             int quantity = Integer.parseInt(req.getParameter("quantity"));
             int price = Integer.parseInt(req.getParameter("price"));
-            int user_id = Integer.parseInt(req.getParameter("user_id"));
-            String payment_method = req.getParameter("payment_method");
+            int userId = Integer.parseInt(req.getParameter("user_id"));
+            String paymentMethod = req.getParameter("payment_method");
             String status = req.getParameter("status");
             int addressId = Integer.parseInt(req.getParameter("address_id")) ;
-            Order order = OrderDAO.addOrder(product_id, quantity, price, user_id, payment_method, status, addressId, connection);
-            String json = gson.toJson(order);
+            ArrayList<Order> orders = OrderDAO.addOrder(null, userId, status, addressId, connection);
+            String json = gson.toJson(orders);
             resp.setStatus(201);
             resp.getOutputStream().println(json);
         } catch (Exception e) {
