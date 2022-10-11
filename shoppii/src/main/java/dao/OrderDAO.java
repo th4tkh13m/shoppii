@@ -18,14 +18,14 @@ public class OrderDAO {
     public static Order addOrder(int product_id, int quantity, int price, int user_id, String payment_method,
             String status, int address_id, Connection connection) {
         try {
-            String sql = "INSERT INTO `Cotain` (product_id, quantity, price) VALUES (?,?,?)";
+            String sql = "INSERT INTO `Contain` (product_id, quantity, price) VALUES (?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, product_id);
             statement.setInt(2, quantity);
             statement.setInt(3, price);
             statement.execute();
             String sql1 = "INSERT INTO `Order` (order_id,user_id, payment_method,status,time, address_id) VALUES(?,?,?,?,?,?)";
-            PreparedStatement statement1 = connection.prepareStatement(sql);
+            PreparedStatement statement1 = connection.prepareStatement(sql1);
             statement1.setInt(1, selectMaxOrder(connection));
             statement1.setInt(2, user_id);
             statement1.setString(3, payment_method);
