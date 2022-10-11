@@ -20,6 +20,12 @@
       "type": "shell",
       "command": "mvn -B test",
       "group": "build"
+    },
+    {
+      "label": "Deploy Web App using Embedded Tomcat",
+      "type": "shell",
+      "command": "mvn cargo:run -DskipTests",
+      "group": "build"
     }
   ]
 }
