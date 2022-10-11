@@ -11,11 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import dao.RequestDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
 import model.ShopRequest;
+import utils.CustomerSerializer;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 1, // 1 MB
@@ -24,7 +26,7 @@ import model.ShopRequest;
 public class ShopRegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         resp.setContentType("application/json");
         try {
             DBConnect db = new DBConnect();

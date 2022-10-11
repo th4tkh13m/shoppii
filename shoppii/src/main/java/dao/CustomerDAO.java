@@ -31,7 +31,7 @@ public class CustomerDAO {
 
     public static Customer getCustomerFromId(int customerId, Connection connection) throws SQLException {
         Customer customer = null;
-            String sql = "SELECT name, mail, phone, dob, sex, password FROM `Customer` WHERE user_id = ?";
+            String sql = "SELECT name, mail, phone, dob, sex, `password`, security_code FROM `Customer` WHERE user_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, customerId);
             ResultSet result = statement.executeQuery();
@@ -42,7 +42,25 @@ public class CustomerDAO {
                 Date dob = result.getDate(4);
                 boolean sex = result.getBoolean(5);
                 String password = result.getString(6);
-                customer = new Customer(customerId, name, mail, phone, dob, sex, password);
+                String code = result.getString(7);
+                customer = new Customer(customerId, name, mail, phone, dob, sex, password, code);
+            }
+            return customer;
+    }
+
+    public static Customer getCustomerFromIdWithoutPass(int customerId, Connection connection) throws SQLException {
+        Customer customer = null;
+            String sql = "SELECT name, mail, phone, dob, sex FROM `Customer` WHERE user_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, customerId);
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                String name = result.getString(1);
+                String mail = result.getString(2);
+                String phone = result.getString(3);
+                Date dob = result.getDate(4);
+                boolean sex = result.getBoolean(5);
+                customer = new Customer(customerId, name, mail, phone, dob, sex);
             }
             return customer;
     }

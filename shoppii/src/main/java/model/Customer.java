@@ -11,12 +11,17 @@ public class Customer {
     @Expose
     private int userId;
     @Expose
-    private String name, mail, phone;
+    private String name;
+    @Expose
+    private String mail;
+    @Expose
+    private String phone;
     @Expose
     private Date dob;
     @Expose
     private boolean sex;
-    private String encryptedPassword, encryptedCode;
+    private String encryptedPassword;
+    private String encryptedCode;
 
     public Customer(String name, String mail, String phone, Date dob, boolean sex, String password) {
         this.name = name;
@@ -90,6 +95,15 @@ public class Customer {
         this.name = name;
         this.mail = mail;
         this.phone = phone;
+    }
+
+    public Customer(int userId, String name, String mail, String phone, Date dob, boolean sex) {
+        this.userId = userId;
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+        this.dob = dob;
+        this.sex = sex;
     }
 
     public void encryptPassword(String plainPassword, Argon2Function argon2) {
