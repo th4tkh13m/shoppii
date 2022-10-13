@@ -25,19 +25,17 @@ import model.Customer;
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO Auto-generated method stub
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         resp.setContentType("application/json");
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
-            String email = null;
-            String phone = null;
-            if (req.getParameter("email") != null) {
-                email = req.getParameter("email");
-            }
-            if (req.getParameter("phone") != null) {
-                phone = req.getParameter("phone");
+            String info = req.getParameter("info");
+            String email = null, phone = null;
+            if (info.contains("@")) {
+                email = info;
+            } else {
+                phone = info;
             }
             String password = req.getParameter("password");
             Customer customer = CustomerDAO.checkLogin(email, phone, password, connection);
