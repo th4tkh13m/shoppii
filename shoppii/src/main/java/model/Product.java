@@ -31,6 +31,12 @@ public class Product {
         this.description = description;
     }
 
+    public Product(int productId, String name, int price) {
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+    }
+
     public int getProductId() {
         return productId;
     }
@@ -98,10 +104,10 @@ public class Product {
     @Override
     public String toString() {
         return "Product [productId=" + productId + ", shopId=" + shopId + ", name=" + name + ", price=" + price
-                + ", quantity=" + quantity + ", category_id=" + categoryId + ", description=" + description + ", images="
+                + ", quantity=" + quantity + ", category_id=" + categoryId + ", description=" + description
+                + ", images="
                 + images + "]";
     }
-
 
     @Override
     public boolean equals(Object obj) {
@@ -138,5 +144,4 @@ public class Product {
         return true;
     }
 
-        
 }

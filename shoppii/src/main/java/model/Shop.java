@@ -75,5 +75,11 @@ public class Shop {
         return "Shop [shopId=" + shopId + ", name=" + name + ", address=" + address + ", description=" + description
                 + ", status=" + status + "]";
     }
+
+
+
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
+    }
     
 }

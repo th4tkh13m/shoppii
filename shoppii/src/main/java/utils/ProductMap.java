@@ -5,14 +5,17 @@ import java.util.HashMap;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
 
 import model.Product;
 import model.Shop;
 
-public class ProductMap implements JsonSerializer<HashMap<Shop, HashMap<Product, Integer>>> {
+public class ProductMap implements JsonSerializer<HashMap<Shop, HashMap<Product, Integer>>> , JsonDeserializer<HashMap<Shop, HashMap<Product, Integer>>> {
 
     @Override
     public JsonElement serialize(HashMap<Shop, HashMap<Product, Integer>> src, Type typeOfSrc,
@@ -25,6 +28,7 @@ public class ProductMap implements JsonSerializer<HashMap<Shop, HashMap<Product,
             shopJson.addProperty("shopName", shop.getName());
             shopJson.addProperty("address", shop.getAddress());
             shopJson.addProperty("description", shop.getDescription());
+            shopJson.addProperty("status", shop.isStatus());
             JsonArray productList = new JsonArray();
 
             for (Product product : src.get(shop).keySet()) {
@@ -42,5 +46,44 @@ public class ProductMap implements JsonSerializer<HashMap<Shop, HashMap<Product,
         
         return obj;
     }
-    
+
+    @Override
+    public HashMap<Shop, HashMap<Product, Integer>> deserialize(JsonElement json, Type typeOfT,
+            JsonDeserializationContext context) throws JsonParseException {
+        if (json.isJsonNull()) {
+            return null;
+        } else {
+
+            HashMap<Shop, HashMap<Product, Integer>> orders = new HashMap<>();
+            JsonObject jsonObject = json.getAsJsonObject();
+            JsonArray shops = jsonObject.get("shops").getAsJsonArray();
+
+            for (JsonElement shopElement : shops) {
+                JsonObject shopObj = shopElement.getAsJsonObject();
+
+                Shop shop = new Shop(shopObj.get("shopId").getAsInt(),
+                shopObj.get("shopName").getAsString(), 
+                shopObj.get("address").getAsString(), 
+                shopObj.get("address").getAsString(),
+                shopObj.get("status").getAsBoolean());
+
+                HashMap<Product, Integer> products = new HashMap<>();
+
+                for (JsonElement productElement : shopObj.get("products").getAsJsonArray()) {
+                    JsonObject productObj = productElement.getAsJsonObject();
+
+                    Product product = new Product(productObj.get("productId").getAsInt(),
+                    productObj.get("productName").getAsString(), 
+                    productObj.get("price").getAsInt());
+
+                    int quantity = productObj.get("quantity").getAsInt();
+
+                    products.put(product, quantity);
+                }
+                orders.put(shop, products);
+            }
+
+            return orders;
+        }
+    }  
 }
