@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 
-import model.Customer;
 import model.ShopRequest;
 
 public class RequestDAO {

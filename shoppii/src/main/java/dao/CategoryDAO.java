@@ -4,15 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import model.Address;
 import model.Category;
-import model.Customer;
 
 public class CategoryDAO {
     public static Category getCategoryFromId(int category_id, Connection connection) throws SQLException {

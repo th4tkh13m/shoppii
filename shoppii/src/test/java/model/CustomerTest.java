@@ -4,12 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Date;
+
 import org.junit.Test;
 
 import com.password4j.Argon2Function;
 import com.password4j.types.Argon2;
-
-import model.Customer;
 
 public class CustomerTest {
     private int memory = 2048;
