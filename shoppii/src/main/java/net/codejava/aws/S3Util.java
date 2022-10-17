@@ -1,7 +1,10 @@
 package net.codejava.aws;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -56,5 +59,12 @@ public class S3Util {
                 PutObjectRequest request = PutObjectRequest.builder()
                                 .bucket(BUCKET).key(folderName + "/").build();
                 client.putObject(request, RequestBody.empty());
+        }
+
+        public static InputStream getImageInputStream(String imageURL) throws IOException {
+                URL url = new URL(imageURL);
+                URLConnection connection = url.openConnection();
+                InputStream is = new BufferedInputStream(connection.getInputStream());
+                return is;
         }
 }
