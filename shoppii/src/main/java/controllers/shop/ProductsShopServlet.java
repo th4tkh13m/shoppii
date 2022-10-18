@@ -53,16 +53,16 @@ public class ProductsShopServlet extends HttpServlet {
             String name = req.getParameter("name");
             int price = Integer.parseInt(req.getParameter("price"));
             int quantity = Integer.parseInt(req.getParameter("quantity"));
-            String cat = req.getParameter("category");
+            int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
-            // Product product = new Product(shopId, name, price, quantity, cat, des);
-            Product product = ProductDAO.addProduct(new Product(shopId, name, price, quantity, cat, des), connection);
+            Product product = ProductDAO.addProduct(new Product(shopId, name, price,
+            quantity, cat, des), connection);
             String json = gson.toJson(product);
             resp.setStatus(201);
             resp.getOutputStream().println(json);
         } catch (Exception e) {
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
     }
 
@@ -77,13 +77,13 @@ public class ProductsShopServlet extends HttpServlet {
             String name = req.getParameter("name");
             int price = Integer.parseInt(req.getParameter("price"));
             int quantity = Integer.parseInt(req.getParameter("quantity"));
-            String cat = req.getParameter("category");
+            int cat = Integer.parseInt(req.getParameter("category"));
             String des = req.getParameter("description");
             Product product = new Product(productId, shopId, name, price, quantity, cat, des);
             ProductDAO.updateProduct(product, connection);
             String json = gson.toJson(product);
             resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
@@ -97,11 +97,9 @@ public class ProductsShopServlet extends HttpServlet {
             DBConnect dbConnect = new DBConnect();
             Connection connection = dbConnect.getConnection();
             int productId = Integer.parseInt(req.getParameter("productId"));
-            if (ProductDAO.deleteProduct(productId, connection)) {
-                String json = gson.toJson(true);
-                resp.setStatus(201);
-                resp.getOutputStream().println(json);
-            }
+            String json = gson.toJson(ProductDAO.deleteProduct(productId, connection));
+            resp.setStatus(201);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));

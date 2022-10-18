@@ -4,15 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import dbconnect.DBConnect;
-import model.Customer;
-import model.Shop;
 import model.ShopRequest;
 
 public class RequestDAO {
@@ -29,8 +23,7 @@ public class RequestDAO {
             String description = result.getString(3);
             String status = result.getString(4);
             Time time = result.getTime(5);
-
-            requests.add(new ShopRequest(CustomerDAO.getCustomerFromId(customerId, connection), name, address,
+            requests.add(new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), name, address,
                     description, status, time));
         }
         return requests;
@@ -51,18 +44,18 @@ public class RequestDAO {
             String description = resultSet.getString(4);
             Time time = resultSet.getTime(6);
 
-            requests.add(new ShopRequest(CustomerDAO.getCustomerFromId(customerId, connection), name, address,
+            requests.add(new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), name, address,
                     description, status, time));
         }
         return requests;
     }
 
-    private static boolean checkUserHasPendingRequest(int customerId, Connection connection) throws SQLException {
+    private static boolean checkUserHasStatusRequest(int customerId, String status, Connection connection) throws SQLException {
         String sql = "SELECT status FROM ShopRequests WHERE customer_id = ? AND status = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
 
         statement.setInt(1, customerId);
-        statement.setString(2, "Pending");
+        statement.setString(2, status);
 
         ResultSet result = statement.executeQuery();
         while (result.next()) {
@@ -71,11 +64,21 @@ public class RequestDAO {
         return false;
     }
 
+    private static boolean checkUserHasPendingRequest(int customerId, Connection connection) throws SQLException {
+        return checkUserHasStatusRequest(customerId, "Pending", connection);
+    }
+
+    private static boolean checkUserHasAcceptedRequest(int customerId, Connection connection) throws SQLException {
+        return checkUserHasStatusRequest(customerId, "Accepted", connection);
+    }
+
     public static ShopRequest createRequest(int customerId, String shopName,
             String address, String description, Connection connection) throws Exception {
         ShopRequest request = null;
         if (checkUserHasPendingRequest(customerId, connection)) {
             throw new Exception("User has pending request");
+        } else if (checkUserHasAcceptedRequest(customerId, connection)) {
+            throw new Exception("User has a Shop");
         }
         String sql = "INSERT INTO ShopRequests(customer_id, name, address, description) VALUES " +
                 "(?, ?, ?, ?);";
@@ -92,7 +95,7 @@ public class RequestDAO {
         while (result.next()) {
             String status = result.getString(1);
             Time time = result.getTime(2);
-            request = new ShopRequest(CustomerDAO.getCustomerFromId(customerId, connection), shopName, address,
+            request = new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), shopName, address,
                     description, status, time);
         }
         return request;

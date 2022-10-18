@@ -4,7 +4,6 @@ public class Shop {
     private int shopId;
     private String name, address, description;
     private boolean status;
-    private String avatarLink;
 
     public Shop(String name, String address, String description, boolean status) {
         this.name = name;
@@ -12,6 +11,18 @@ public class Shop {
         this.description = description;
         this.status = status;
     }
+
+    
+
+    public Shop(int shopId, String name, String address, String description, boolean status) {
+        this.shopId = shopId;
+        this.name = name;
+        this.address = address;
+        this.description = description;
+        this.status = status;
+    }
+
+
 
     public int getShopId() {
         return shopId;
@@ -49,11 +60,26 @@ public class Shop {
         this.status = status;
     }
 
-    public String getAvatarLink() {
-        return avatarLink;
+    @Override
+    public boolean equals(Object obj) {
+        if (getClass() != obj.getClass())
+            return false;
+        Shop other = (Shop) obj;
+        if (shopId != other.shopId)
+            return false;
+        return true;
     }
 
-    public void setAvatarLink(String avatarLink) {
-        this.avatarLink = avatarLink;
+    @Override
+    public String toString() {
+        return "Shop [shopId=" + shopId + ", name=" + name + ", address=" + address + ", description=" + description
+                + ", status=" + status + "]";
     }
+
+
+
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
+    }
+    
 }

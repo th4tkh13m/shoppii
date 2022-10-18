@@ -1,8 +1,13 @@
 package errors;
 
+import com.google.gson.annotations.Expose;
+
 public class ErrorHandle extends Error {
+    @Expose
     String message;
+    @Expose
     int statusCode;
+    @Expose
     Exception e;
 
     public ErrorHandle(String message, int statusCode) {

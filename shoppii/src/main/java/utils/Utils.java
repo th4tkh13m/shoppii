@@ -2,6 +2,8 @@ package utils;
 
 import java.util.Random;
 
+import javax.servlet.http.Part;
+
 public class Utils {
     private static String generateRandomString(int length) {
         int leftLimit = 48; // numeral '0'
@@ -19,5 +21,17 @@ public class Utils {
 
     public static String generateName() {
         return generateRandomString(10);
+    }
+
+    public static String generateCode() {
+        return generateRandomString(12);
+    }
+
+    public static String getFileName(Part part) {
+        String contentDisposition = part.getHeader("content-disposition");
+        int beginIndex = contentDisposition.indexOf("filename=") + 10;
+        int endIndex = contentDisposition.length() - 1;
+         
+        return contentDisposition.substring(beginIndex, endIndex);
     }
 }

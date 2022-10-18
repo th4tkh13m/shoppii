@@ -2,17 +2,26 @@ package model;
 
 import java.sql.Date;
 
+import com.google.gson.annotations.Expose;
 import com.password4j.Argon2Function;
 import com.password4j.Hash;
 import com.password4j.Password;
 
 public class Customer {
+    @Expose
     private int userId;
-    private String name, mail, phone;
+    @Expose
+    private String name;
+    @Expose
+    private String mail;
+    @Expose
+    private String phone;
+    @Expose
     private Date dob;
+    @Expose
     private boolean sex;
     private String encryptedPassword;
-    private String avatarLink;
+    private String encryptedCode;
 
     public Customer(String name, String mail, String phone, Date dob, boolean sex, String password) {
         this.name = name;
@@ -22,7 +31,7 @@ public class Customer {
         this.sex = sex;
         this.encryptedPassword = password;
     }
-
+   
     public Customer(int userId, String name, String mail, String phone, Date dob, boolean sex, String password,
             Argon2Function argon2) {
         this.userId = userId;
@@ -56,12 +65,63 @@ public class Customer {
         this.encryptedPassword = password;
     }
 
-    public Customer(String name, String mail, String phone, String password, Argon2Function argon2) {
+    public Customer(int userId, String name, String mail, String phone, Date dob, boolean sex, String encryptedPassword,
+            String encryptedCode) {
+        this.userId = userId;
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+        this.dob = dob;
+        this.sex = sex;
+        this.encryptedPassword = encryptedPassword;
+        this.encryptedCode = encryptedCode;
+    }
+
+    public Customer(String name, String mail, String phone, String password, String code, Argon2Function argon2) {
         this.name = name;
         this.mail = mail;
         this.phone = phone;
         Hash hash = Password.hash(password).with(argon2);
         this.encryptedPassword = hash.getResult();
+        hash = Password.hash(code).with(argon2);
+        this.encryptedCode = hash.getResult();
+    }
+
+    public String getEncryptedCode() {
+        return encryptedCode;
+    }
+
+    public Customer(String name, String mail, String phone) {
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+    }
+
+    public Customer(int userId, String name, String mail, String phone, Date dob, boolean sex) {
+        this.userId = userId;
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+        this.dob = dob;
+        this.sex = sex;
+    }
+
+    public void encryptPassword(String plainPassword, Argon2Function argon2) {
+        Hash hash = Password.hash(plainPassword).with(argon2);
+        this.encryptedPassword = hash.getResult();
+    }
+
+    public void encryptSecuityCode(String plainPassword, Argon2Function argon2) {
+        Hash hash = Password.hash(plainPassword).with(argon2);
+        this.encryptedPassword = hash.getResult();
+    }
+
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
+    }
+
+    public void setEncryptedCode(String encryptedCode) {
+        this.encryptedCode = encryptedCode;
     }
 
     public int getUserId() {
@@ -156,18 +216,15 @@ public class Customer {
         return Password.check(plainPassword, encryptedPassword).with(argon2);
     }
 
+    public boolean verifyCode(String plainCode) {
+        Argon2Function argon2 = Argon2Function.getInstanceFromHash(encryptedCode);
+        return Password.check(plainCode, encryptedCode).with(argon2);
+    }
+
     @Override
     public String toString() {
         return "Customer [dob=" + dob + ", encryptedPassword=" + encryptedPassword + ", mail=" + mail + ", name=" + name
                 + ", phone=" + phone + ", sex=" + sex + ", userId=" + userId + "]";
-    }
-
-    public String getAvatarLink() {
-        return avatarLink;
-    }
-
-    public void setAvatarLink(String avartarLink) {
-        this.avatarLink = avartarLink;
     }
 
 }
