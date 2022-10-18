@@ -102,7 +102,7 @@ public class CustomerDAOTest extends DBInfo {
         
         Customer customer;
         try {
-            customer = CustomerDAO.register("an@gmail.com", null, "abc123", code, connection);
+            customer = CustomerDAO.register("0123456789", "abc123", code, connection);
             customer.setName("Binh");
         customer.setMail("binh@gmail.com");
         Customer updatedCustomer = CustomerDAO.updateInfo(customer, connection, null, null);
@@ -120,7 +120,7 @@ public class CustomerDAOTest extends DBInfo {
     @Test
     public void checkLoginByMailTest1() {
         try {
-            CustomerDAO.register("an@gmail.com", null, "abc123", code, connection);
+            CustomerDAO.register("0123456789", "abc123", code, connection);
             assertNotNull(CustomerDAO.checkLogin("an@gmail.com", null, "abc123", connection));
         } catch (AssertionError e) {
             // TODO Auto-generated catch block
@@ -137,7 +137,7 @@ public class CustomerDAOTest extends DBInfo {
     @Test
     public void checkLoginByMailTest2() {
         try {
-            CustomerDAO.register("an@gmail.com", null, "abc123", code, connection);
+            CustomerDAO.register("0123456789", "abc123", code, connection);
             CustomerDAO.checkLogin("an@gmail.com", null, "abc1", connection);
             System.out.println(CustomerDAO.checkLogin("an@gmail.com", null, "abc1", connection));
         } catch (SQLException e) {
@@ -154,7 +154,7 @@ public class CustomerDAOTest extends DBInfo {
     @Test
     public void checkLoginByPhoneTest1() {
         try {
-            CustomerDAO.register(null, "0123456789", "abc123", code, connection);
+            CustomerDAO.register("0123456789", "abc123", code, connection);
             CustomerDAO.checkLogin(null, "0123456789", "abc1", connection);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -171,7 +171,7 @@ public class CustomerDAOTest extends DBInfo {
     public void checkLoginByPhoneTest2() {
         
         try {
-            CustomerDAO.register(null, "0123456789", "abc123", code, connection);
+            CustomerDAO.register("0123456789", "abc123", code, connection);
             assertNotNull(CustomerDAO.checkLogin(null, "0123456789", "abc123", connection));
         } catch (Exception e) {
             // TODO Auto-generated catch block

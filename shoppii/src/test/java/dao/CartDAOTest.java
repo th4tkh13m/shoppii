@@ -68,7 +68,7 @@ public class CartDAOTest extends DBInfo {
     public void testGetCartOfCustomer() {
         try {
             
-            Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", code, connection);
+            Customer customer = CustomerDAO.register("0123456789", "abc123", code, connection);
             // create request
             assertNotNull(RequestDAO
             .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection));
@@ -98,7 +98,7 @@ public class CartDAOTest extends DBInfo {
     @Test
     public void testAddProductToCart() {
         try {
-            Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", code, connection);
+            Customer customer = CustomerDAO.register("0123456789", "abc123", code, connection);
             // create request
             assertNotNull(RequestDAO
             .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection));
@@ -126,7 +126,7 @@ public class CartDAOTest extends DBInfo {
     @Test
     public void testDeleteProductFromCart() {
         try {
-            Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", code, connection);
+            Customer customer = CustomerDAO.register("0123456789", "abc123", code, connection);
             // create request
             assertNotNull(RequestDAO
             .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection));
@@ -156,7 +156,7 @@ public class CartDAOTest extends DBInfo {
     @Test
     public void testModifyProductQuantity1() {
         try {
-            Customer customer = CustomerDAO.register("an@gmail.com", null, "abc123", code, connection);
+            Customer customer = CustomerDAO.register("0123456789", "abc123", code, connection);
             // create request
             assertNotNull(RequestDAO
             .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection));
