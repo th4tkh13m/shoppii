@@ -5,9 +5,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import java.sql.Statement;
+
 import model.Product;
 
 public class ProductDAO {
+    public static int getMaxId(Connection connection) throws SQLException {
+        String sql = "SELECT MAX(product_id) FROM `Product`";
+        Statement statement = connection.createStatement();
+        ResultSet result = statement.executeQuery(sql);
+        while (result.next()) {
+            return result.getInt(1);
+        }
+        return 0;
+    }
+
     public static Product getProductFromId(int productId, Connection connection) throws SQLException {
         Product product = null;
         String sql = "SELECT shop_id, name, price, quantity, category_id, description FROM `Product` WHERE product_id = ?";
@@ -67,7 +80,7 @@ public class ProductDAO {
         statement.setInt(5, product.getcategoryId());
         statement.setString(6, product.getDescription());
         statement.executeUpdate();
-        return product;
+        return getProductFromId(getMaxId(connection), connection);
     }
 
     public static Product updateProduct(Product product, Connection connection) throws SQLException {
@@ -80,7 +93,7 @@ public class ProductDAO {
         statement.setString(5, product.getDescription());
         statement.setInt(6, product.getProductId());
         statement.executeUpdate();
-        return product;
+        return getProductFromId(product.getProductId(), connection);
     }
 
     public static Product deleteProduct(int productId, Connection connection) throws SQLException {
@@ -93,7 +106,7 @@ public class ProductDAO {
 
     // search
     public static ArrayList<Product> searchProduct(String productName, Connection connection) throws SQLException {
-        ArrayList<Product> product = new ArrayList<>();
+        ArrayList<Product> products = new ArrayList<>();
         String sql = " SELECT * FROM `product` WHERE name like '%'?'%' ";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, productName);       
@@ -101,9 +114,9 @@ public class ProductDAO {
         while (result.next()) {
             int productId = result.getInt(1);
             Product p = getProductFromId(productId, connection); 
-            product.add(p);
+            products.add(p);
         }
-        return product;
+        return products;
     }
 
     // filter
