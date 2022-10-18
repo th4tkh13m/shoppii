@@ -40,26 +40,17 @@ public class LoginGoogle extends HttpServlet {
             String rePassword = req.getParameter("rePassword");
             System.out.println(name + " " + email + " " + password + " " + rePassword);
             if (password.equals(rePassword)) {
-                Boolean isRegistered = CustomerDAO.checkEmailExist(email, connection);
                 Customer customer = null;
                 String json = null;
-                if (!isRegistered) {
-                    customer = CustomerDAO.register(email, "123", password, code, connection);
-                    customer.setName(name);
-                    JsonElement jsonElement = gson.toJsonTree(customer);
-                    jsonElement.getAsJsonObject().addProperty("securityCode", code);
-                    json = gson.toJson(jsonElement);
-                    resp.setStatus(201);
-                    resp.getOutputStream().write(json.getBytes("UTF-8"));
-                } else {
-                    customer = CustomerDAO.getCustomerFromMail(email, connection);
-                    boolean hasShop = CustomerDAO.getShopFromId(customer.getUserId(), connection) != null;
-                    JsonElement jsonElement = gson.toJsonTree(customer);
-                    jsonElement.getAsJsonObject().addProperty("hasShop", hasShop);
-                    json = gson.toJson(jsonElement);
-                    resp.setStatus(201);
-                    resp.getOutputStream().write(json.getBytes("UTF-8"));
-                }
+
+                customer = CustomerDAO.register(email, password, code, connection);
+                customer.setName(name);
+                JsonElement jsonElement = gson.toJsonTree(customer);
+                jsonElement.getAsJsonObject().addProperty("securityCode", code);
+                json = gson.toJson(jsonElement);
+                resp.setStatus(201);
+                resp.getOutputStream().write(json.getBytes("UTF-8"));
+
             } else {
                 resp.setStatus(400);
                 resp.getOutputStream().println(gson.toJson(new ErrorHandle("Password not match", 400)));
