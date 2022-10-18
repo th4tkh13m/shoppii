@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.amazonaws.services.s3.model.ObjectMetadata;
+
 
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
@@ -42,8 +42,7 @@ public class S3Util {
         public static void uploadFileViaGoogle(String fileName, String url)
                         throws S3Exception, AwsServiceException, SdkClientException, IOException {
                 InputStream inputStream = getImageInputStream(url);
-                ObjectMetadata metadata = new ObjectMetadata();
-                metadata.setContentType("image/jpeg");
+  
                 // metadata.setContentLength();
                 PutObjectRequest request = PutObjectRequest.builder()
                                 .bucket(BUCKET)
