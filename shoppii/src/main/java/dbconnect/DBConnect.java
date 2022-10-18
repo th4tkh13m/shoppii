@@ -46,9 +46,20 @@ public class DBConnect {
         }
     }
 
-    public DBConnect(String className, String sqlType, String host,
-             String dbName, String userName, String password) throws ClassNotFoundException, SQLException {
+    public DBConnect(String className, String sqlType, String host, String userName, String password) throws ClassNotFoundException, SQLException {
             String url = "jdbc:" + sqlType +"://" + host; 
+
+            // Declare SQL class name
+            Class.forName(className);
+
+            // Create connection to the database
+            connection = DriverManager.getConnection(url, userName, password);
+            System.out.println("LOGIN OK");
+    }
+
+    public DBConnect(String className, String sqlType, String host,
+            String dbName, String userName, String password) throws ClassNotFoundException, SQLException {
+            String url = "jdbc:" + sqlType +"://" + host + "/" + dbName; 
 
             // Declare SQL class name
             Class.forName(className);

@@ -64,5 +64,11 @@ public class ShopRequest {
         this.time = time;
     }
 
+    @Override
+    public String toString() {
+        return "ShopRequest [address=" + address + ", customer=" + customer + ", description=" + description + ", name="
+                + name + ", status=" + status + ", time=" + time + "]";
+    }
+
     
 }

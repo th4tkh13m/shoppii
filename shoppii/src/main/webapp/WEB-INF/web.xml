@@ -1,77 +1,148 @@
-<!DOCTYPE web-app PUBLIC
-"-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 <web-app>
     <display-name>Archetype Created Web Application</display-name>
 
     <!-- Filters -->
+    <filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>filters.CORSFilter</filter-class>
+    </filter>
 
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <!-- Sevlet Mappings -->
     <servlet>
         <servlet-name>Servlet</servlet-name>
         <servlet-class>com.tqkdn.Servlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>FileUploadServlet</servlet-name>
-        <servlet-class>net.codejava.aws.FileUploadServlet</servlet-class>
+        <servlet-name>CartServlet</servlet-name>
+        <servlet-class>controllers.user.CartServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>FileDeleteServlet</servlet-name>
-        <servlet-class>net.codejava.aws.FileDeleteServlet</servlet-class>
+        <servlet-name>AddressServlet</servlet-name>
+        <servlet-class>controllers.user.AddressServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CategoryServlet</servlet-name>
+        <servlet-class>controllers.user.CategoryServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>controllers.authentication.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>controllers.authentication.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginGoogle</servlet-name>
+        <servlet-class>controllers.authentication.LoginGoogle</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductsShopServlet</servlet-name>
+        <servlet-class>controllers.shop.ProductsShopServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShopRegisterServlet</servlet-name>
+        <servlet-class>controllers.shop.ShopRegisterServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShopRequestServlet</servlet-name>
+        <servlet-class>controllers.admin.ShopRequestServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductServlet</servlet-name>
+        <servlet-class>controllers.user.ProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckEmailExist</servlet-name>
+        <servlet-class>controllers.authentication.CheckEmailExist</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
         <url-pattern>/servlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>FileUploadServlet</servlet-name>
-        <url-pattern>/uploadservlet</url-pattern>
+        <servlet-name>AddressServlet</servlet-name>
+        <url-pattern>/address</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>FileDeleteServlet</servlet-name>
-        <url-pattern>/delete</url-pattern>
+        <servlet-name>CartServlet</servlet-name>
+        <url-pattern>/cart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/auth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/user/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginGoogle</servlet-name>
+        <url-pattern>/user/googleAuthentication</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductsShopServlet</servlet-name>
+        <url-pattern>/shop/products</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShopRegisterServlet</servlet-name>
+        <url-pattern>/shop/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShopRequestServlet</servlet-name>
+        <url-pattern>/admin/request</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CategoryServlet</servlet-name>
+        <url-pattern>/category</url-pattern>
     </servlet-mapping>
 
     <!-- Environment variables -->
 
     <!-- Database information variables -->
-    <env-entry> 
-        <env-entry-name>userName</env-entry-name>         
-        <env-entry-value>admin</env-entry-value> 
+    <env-entry>
+        <env-entry-name>userName</env-entry-name>
+        <env-entry-value>admin</env-entry-value>
         <env-entry-type>java.lang.String</env-entry-type>
     </env-entry>
-    <env-entry> 
-        <env-entry-name>password</env-entry-name>         
-        <env-entry-value>admin</env-entry-value> 
+    <env-entry>
+        <env-entry-name>password</env-entry-name>
+        <env-entry-value>admin</env-entry-value>
         <env-entry-type>java.lang.String</env-entry-type>
     </env-entry>
-    <env-entry> 
-        <env-entry-name>dbName</env-entry-name>         
-        <env-entry-value>TQKDN</env-entry-value> 
+    <env-entry>
+        <env-entry-name>dbName</env-entry-name>
+        <env-entry-value>TQKDN</env-entry-value>
         <env-entry-type>java.lang.String</env-entry-type>
     </env-entry>
-    <env-entry> 
-        <env-entry-name>className</env-entry-name>         
-        <env-entry-value>com.mysql.cj.jdbc.Driver</env-entry-value> 
+    <env-entry>
+        <env-entry-name>className</env-entry-name>
+        <env-entry-value>com.mysql.cj.jdbc.Driver</env-entry-value>
         <env-entry-type>java.lang.String</env-entry-type>
     </env-entry>
-    <env-entry> 
-        <env-entry-name>sqlType</env-entry-name>         
-        <env-entry-value>mysql</env-entry-value> 
+    <env-entry>
+        <env-entry-name>sqlType</env-entry-name>
+        <env-entry-value>mysql</env-entry-value>
         <env-entry-type>java.lang.String</env-entry-type>
     </env-entry>
 
     <!-- NOTE: Change this to localhost if MySQL is deploy locally, else database host. -->
-    <env-entry> 
-        <env-entry-name>host</env-entry-name>         
-        <env-entry-value>127.0.0.1</env-entry-value> 
+    <env-entry>
+        <env-entry-name>host</env-entry-name>
+        <env-entry-value>127.0.0.1</env-entry-value>
         <env-entry-type>java.lang.String</env-entry-type>
     </env-entry>
 
     <!-- S3 information -->
-    <env-entry> 
-        <env-entry-name>bucket</env-entry-name>         
-        <env-entry-value>photo-shoppii</env-entry-value> 
+    <env-entry>
+        <env-entry-name>bucket</env-entry-name>
+        <env-entry-value>photo-shoppii</env-entry-value>
         <env-entry-type>java.lang.String</env-entry-type>
     </env-entry>
 </web-app>
