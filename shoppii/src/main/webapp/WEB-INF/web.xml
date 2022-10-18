@@ -39,7 +39,7 @@
     </servlet>
     <servlet>
         <servlet-name>LoginGoogle</servlet-name>
-        <servlet-class>controllers.authentication.LoginByGoogle</servlet-class>
+        <servlet-class>controllers.authentication.LoginGoogle</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ProductsShopServlet</servlet-name>
@@ -76,7 +76,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginGoogle</servlet-name>
-        <url-pattern>/googleAuthentication</url-pattern>
+        <url-pattern>/user/googleAuthentication</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProductsShopServlet</servlet-name>

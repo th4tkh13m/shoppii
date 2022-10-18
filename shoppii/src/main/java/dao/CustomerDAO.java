@@ -186,4 +186,26 @@ public class CustomerDAO {
         ResultSet result = statement.executeQuery();
         return result.next();
     }
+
+    public static Customer getCustomerFromMail(String enteredMail, Connection connection)
+            throws SQLException {
+        Customer customer = null;
+        String sql = "SELECT user_id, name, mail, phone, dob, sex, `password`, security_code FROM `Customer` WHERE mail = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, enteredMail);
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            int customerId = result.getInt(1);
+            String name = result.getString(2);
+            String mail = result.getString(3);
+            String phone = result.getString(4);
+            Date dob = result.getDate(5);
+            boolean sex = result.getBoolean(6);
+            String password = result.getString(7);
+            String code = result.getString(8);
+            customer = new Customer(customerId, name, mail, phone, dob, sex, password, code);
+        }
+        return customer;
+
+    }
 }
