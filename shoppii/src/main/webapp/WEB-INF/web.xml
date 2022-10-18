@@ -39,7 +39,7 @@
     </servlet>
     <servlet>
         <servlet-name>LoginGoogle</servlet-name>
-        <servlet-class>controllers.authentication.LoginByGoogle</servlet-class>
+        <servlet-class>controllers.authentication.LoginGoogle</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ProductsShopServlet</servlet-name>
@@ -56,6 +56,10 @@
     <servlet>
         <servlet-name>ProductServlet</servlet-name>
         <servlet-class>controllers.user.ProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckEmailExist</servlet-name>
+        <servlet-class>controllers.authentication.CheckEmailExist</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -80,7 +84,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginGoogle</servlet-name>
-        <url-pattern>/googleAuthentication</url-pattern>
+        <url-pattern>/user/googleAuthentication</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProductsShopServlet</servlet-name>
@@ -98,10 +102,7 @@
         <servlet-name>CategoryServlet</servlet-name>
         <url-pattern>/category</url-pattern>
     </servlet-mapping>
-   <servlet-mapping>
-        <servlet-name>ProductServlet</servlet-name>
-        <url-pattern>/search</url-pattern>
-    </servlet-mapping>
+
     <!-- Environment variables -->
 
     <!-- Database information variables -->
