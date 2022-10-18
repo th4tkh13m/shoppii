@@ -3,13 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 18, 2022 at 12:54 PM
+-- Generation Time: Oct 18, 2022 at 02:39 PM
 -- Server version: 10.8.3-MariaDB-1:10.8.3+maria~jammy
 -- PHP Version: 8.0.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+07:00";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -47,6 +47,13 @@ CREATE TABLE `Cart` (
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Cart`
+--
+
+INSERT INTO `Cart` (`user_id`, `product_id`, `quantity`) VALUES
+(3, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -103,9 +110,18 @@ CREATE TABLE `Customer` (
   `dob` date DEFAULT NULL,
   `sex` tinyint(1) DEFAULT NULL,
   `password` varchar(4096) DEFAULT NULL,
-  `security_code` varchar(4096) NOT NULL,
-  CHECK (NOT `phone` IS NULL OR NOT `mail` IS NULL)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `security_code` varchar(4096) NOT NULL
+) ;
+
+--
+-- Dumping data for table `Customer`
+--
+
+INSERT INTO `Customer` (`user_id`, `name`, `mail`, `phone`, `dob`, `sex`, `password`, `security_code`) VALUES
+(1, 'rnQLAvaHt3', NULL, '0123456789', NULL, NULL, '$argon2i$v=19$m=2048,t=10,p=1$$fGnUm65WsmUCo48RP++2HomyqBQ2Oq4KBke6FQFc8QwUWAo2Q430Qo8GnUD/9JTj9okHiOP/UMhDiAXkaylxmxvVCy8yM4sqOax2qTkzvQ2NeHeIr0YbumNDxqsZe3mERJ4mF5aXLH6nAaDQmZq6MwIuid2YL8bCa7PsOuM8HQo', '$argon2i$v=19$m=2048,t=10,p=1$$i5ne7a17e7aNyiOHW7kGA2PCU3vJ8jQAtgkKJTXQT78J7SeWbjmuATB0k7R49jkHa3PHajWqb9XmFgOX6ayaihPM3Z5Cj5VMnGLHoQdI1EUxXknRIiRyyJCc3zjFRfZVP5xLdqs5Ar0VlGxTZohsi1qIzBzesaI+K18dJ4+10pI'),
+(2, 'rsAaD8nQkS', NULL, '0987654321', NULL, NULL, '$argon2i$v=19$m=2048,t=10,p=1$$eCEkfIeA1n+DbEwxb4RlePpUpyXwv4EZLgiPuVbirOLfoe/jMNJM0aGYdF17OwAfe0tOJhPv1HHV3DAp+gfc2ji1exjOE3tF6qMAY93DxiQ/P218cZDLfhc4TGJ3PRquC3QDKPUbI9K3jE+jnaWNpaKeaqIj/EOsCD/2Pib+1u0', '$argon2i$v=19$m=2048,t=10,p=1$$KVDqJTgUcthD9Hzps+otms3rTHWikpsMIsoaSxfvpoAyNnGrmFpa9r0RUGRki3fLVjQeo0h3DxnQ0va4T1VqXTrszWuS2WPRMg/ZmDSWfAy60B9fdt1kThqQWZmtq4z9pABRwm9u/VXxQ3CJ4dy44emLKE5BhM91vZ7oP7ACz4c'),
+(3, 'mH9TcWQyPc', NULL, '0905123456', NULL, NULL, '$argon2i$v=19$m=2048,t=10,p=1$$eCEkfIeA1n+DbEwxb4RlePpUpyXwv4EZLgiPuVbirOLfoe/jMNJM0aGYdF17OwAfe0tOJhPv1HHV3DAp+gfc2ji1exjOE3tF6qMAY93DxiQ/P218cZDLfhc4TGJ3PRquC3QDKPUbI9K3jE+jnaWNpaKeaqIj/EOsCD/2Pib+1u0', '$argon2i$v=19$m=2048,t=10,p=1$$KVDqJTgUcthD9Hzps+otms3rTHWikpsMIsoaSxfvpoAyNnGrmFpa9r0RUGRki3fLVjQeo0h3DxnQ0va4T1VqXTrszWuS2WPRMg/ZmDSWfAy60B9fdt1kThqQWZmtq4z9pABRwm9u/VXxQ3CJ4dy44emLKE5BhM91vZ7oP7ACz4c'),
+(4, 'Fg1DTkygx6', NULL, '0901234567', NULL, NULL, '$argon2i$v=19$m=2048,t=10,p=1$$eCEkfIeA1n+DbEwxb4RlePpUpyXwv4EZLgiPuVbirOLfoe/jMNJM0aGYdF17OwAfe0tOJhPv1HHV3DAp+gfc2ji1exjOE3tF6qMAY93DxiQ/P218cZDLfhc4TGJ3PRquC3QDKPUbI9K3jE+jnaWNpaKeaqIj/EOsCD/2Pib+1u0', '$argon2i$v=19$m=2048,t=10,p=1$$KVDqJTgUcthD9Hzps+otms3rTHWikpsMIsoaSxfvpoAyNnGrmFpa9r0RUGRki3fLVjQeo0h3DxnQ0va4T1VqXTrszWuS2WPRMg/ZmDSWfAy60B9fdt1kThqQWZmtq4z9pABRwm9u/VXxQ3CJ4dy44emLKE5BhM91vZ7oP7ACz4c');
 
 -- --------------------------------------------------------
 
@@ -138,6 +154,13 @@ CREATE TABLE `Product` (
   `description` varchar(5000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `Product`
+--
+
+INSERT INTO `Product` (`product_id`, `shop_id`, `name`, `price`, `quantity`, `category_id`, `description`) VALUES
+(1, 2, 'NiceHCK EB2S ', 25, 10000, 2, 'Nicehck EB2S 3.5mm Metal CNC HIFI Earbud 15.4mm LCP Nháº¡c Äá»ng Ãm nháº¡c giá»ng hÃ¡t Tai nghe cÃ³ dÃ¢y Tai nghe HD B40 / B70 / EBX21\n\nThÃ´ng tin chi tiáº¿t:\nThÆ°Æ¡ng hiá»u: NICEHCK\nMÃ´ hÃ¬nh: EB2S\nLoáº¡i sáº£n pháº©m: Tai nghe\nÄÆ¡n vá» trÃ¬nh Äiá»u khiá»n: Äá»ng 15,4mm\nMÃ ng: MÃ ng loa LCP\nÄá» nháº¡y: 112dB / mW\nTrá» khÃ¡ng: 32Î©\nÄÃ¡p á»©ng táº§n sá»: 20-25kHz\nLoáº¡i giáº¯c cáº¯m: 3.5 mm\nCháº¥t liá»u vá»: Há»£p kim nhÃ´m\nVáº­t liá»u cÃ¡p: Äá» tinh khiáº¿t cao OFC\nChiá»u dÃ i cÃ¡p: Khoáº£ng 1,2m');
+
 -- --------------------------------------------------------
 
 --
@@ -151,6 +174,14 @@ CREATE TABLE `Shop` (
   `description` varchar(5000) DEFAULT NULL,
   `status` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Shop`
+--
+
+INSERT INTO `Shop` (`shop_id`, `name`, `address`, `description`, `status`) VALUES
+(1, 'Apple Official Store', 'VietNam', 'Sell Official Apple\'s products ', 1),
+(2, 'NiceHCK Official Store', 'China', 'Sell audio accessories', 1);
 
 -- --------------------------------------------------------
 
@@ -166,6 +197,16 @@ CREATE TABLE `ShopRequests` (
   `status` enum('Pending','Accepted','Rejected') DEFAULT 'Pending',
   `time` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ShopRequests`
+--
+
+INSERT INTO `ShopRequests` (`customer_id`, `name`, `address`, `description`, `status`, `time`) VALUES
+(1, 'Apple Official Store', 'VietNam', 'Sell Apple\'s products', 'Rejected', '2022-10-18 13:43:55'),
+(1, 'Apple Official Store', 'VietNam', 'Sell Official Apple\'s products ', 'Accepted', '2022-10-18 13:50:19'),
+(3, 'Scam store', 'VietNam', 'Sell real dollars', 'Rejected', '2022-10-18 14:03:13'),
+(2, 'NiceHCK Official Store', 'China', 'Sell audio accessories', 'Accepted', '2022-10-18 14:04:14');
 
 --
 -- Indexes for dumped tables
@@ -268,7 +309,7 @@ ALTER TABLE `Order`
 -- AUTO_INCREMENT for table `Product`
 --
 ALTER TABLE `Product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
