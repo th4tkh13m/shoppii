@@ -90,4 +90,12 @@ public class ProductDAO {
         statement.executeUpdate();
         return getProductFromId(productId, connection);
     }
+
+    // search
+
+
+    //filter
+
+
+    //sort
 }
