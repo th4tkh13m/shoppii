@@ -24,7 +24,7 @@
     {
       "label": "Deploy Web App using Embedded Tomcat",
       "type": "shell",
-      "command": "mvn cargo:run -DskipTests",
+      "command": "mvn package cargo:run -DskipTests",
       "group": "build"
     }
   ]
