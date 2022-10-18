@@ -143,12 +143,11 @@ public class CustomerDAO {
 
     }
 
-    public static Customer register(String mail, String phone, String password, String code, Connection connection)
-            throws SQLException {
-        Customer customer = createCustomer(Utils.generateName(), mail, phone, password, code);
+    public static Customer register(String phone, String password, String code, Connection connection) throws SQLException {
+        Customer customer = createCustomer(Utils.generateName(), null, phone, password, code);
         System.out.println(customer);
         insertCustomer(customer, connection);
-        return CustomerDAO.getCustomerFromMailOrPhone(mail, phone, connection);
+        return CustomerDAO.getCustomerFromMailOrPhone(null, phone, connection);
 
     }
 

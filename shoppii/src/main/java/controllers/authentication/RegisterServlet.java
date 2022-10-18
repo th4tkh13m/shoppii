@@ -34,19 +34,12 @@ public class RegisterServlet extends HttpServlet {
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
-            String email = null;
-            String phone = null;
-            if (req.getParameter("email") != null) {
-                email = req.getParameter("email");
-            }
-            if (req.getParameter("phone") != null) {
-                phone = req.getParameter("phone");
-            }
+            String phone = req.getParameter("phone");
             String password = req.getParameter("password");
             String rePassword = req.getParameter("rePassword");
 
             if (password.equals(rePassword)) {
-                Customer customer = CustomerDAO.register(email, phone, password, code, connection);
+                Customer customer = CustomerDAO.register(phone, password, code, connection);
                 
                 JsonElement jsonElement = gson.toJsonTree(customer);
                 jsonElement.getAsJsonObject().addProperty("securityCode", code);
