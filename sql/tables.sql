@@ -3,13 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 09, 2022 at 04:25 PM
+-- Generation Time: Oct 18, 2022 at 12:54 PM
 -- Server version: 10.8.3-MariaDB-1:10.8.3+maria~jammy
 -- PHP Version: 8.0.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+07:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -31,7 +31,7 @@ CREATE TABLE `Address` (
   `user_id` int(11) NOT NULL,
   `receiver_address` varchar(255) DEFAULT NULL,
   `receiver_name` varchar(255) DEFAULT NULL,
-  `receiver_phone` tinytext DEFAULT NULL,
+  `receiver_phone` varchar(10) DEFAULT NULL,
   `is_default` tinyint(1) DEFAULT 0,
   `address_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -56,24 +56,25 @@ CREATE TABLE `Cart` (
 
 CREATE TABLE `Category` (
   `category_id` int(11) NOT NULL,
-  `category_name` varchar(100) NOT NULL
+  `category_name` varchar(100) NOT NULL,
+  `imgLink` varchar(5000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `Category`
 --
 
-INSERT INTO `Category` (`category_id`, `category_name`) VALUES
-(10, 'Khác'),
-(4, 'Phương tiện giao thông'),
-(8, 'Sắc đẹp'),
-(5, 'Sách'),
-(7, 'Sức khoẻ'),
-(3, 'Thể thao'),
-(2, 'Thiết bị điện tử'),
-(1, 'Thời trang'),
-(6, 'Trang sức phụ kiện'),
-(9, 'Vật dụng đời sống');
+INSERT INTO `Category` (`category_id`, `category_name`, `imgLink`) VALUES
+(1, 'Thời trang', 'https://cf.shopee.vn/file/687f3967b7c2fe6a134a2c11894eea4b_tn'),
+(2, 'Thiết bị điện tử', 'https://cf.shopee.vn/file/978b9e4cb61c611aaaf58664fae133c5_tn'),
+(3, 'Thể thao', 'https://cf.shopee.vn/file/6cb7e633f8b63757463b676bd19a50e4_tn'),
+(4, 'Phương tiện giao thông', 'https://cf.shopee.vn/file/3fb459e3449905545701b418e8220334_tn'),
+(5, 'Sách', 'https://cf.shopee.vn/file/36013311815c55d303b0e6c62d6a8139_tn'),
+(6, 'Trang sức phụ kiện', 'https://cf.shopee.vn/file/8e71245b9659ea72c1b4e737be5cf42e_tn'),
+(7, 'Sức khoẻ', 'https://cf.shopee.vn/file/49119e891a44fa135f5f6f5fd4cfc747_tn'),
+(8, 'Sắc đẹp', 'https://cf.shopee.vn/file/ef1f336ecc6f97b790d5aae9916dcb72_tn'),
+(9, 'Vật dụng đời sống', 'https://cf.shopee.vn/file/24b194a695ea59d384768b7b471d563f_tn'),
+(10, 'Khác', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Symbol_Resin_Code_7_OTHER.svg/1000px-Symbol_Resin_Code_7_OTHER.svg.png');
 
 -- --------------------------------------------------------
 
@@ -102,7 +103,8 @@ CREATE TABLE `Customer` (
   `dob` date DEFAULT NULL,
   `sex` tinyint(1) DEFAULT NULL,
   `password` varchar(4096) DEFAULT NULL,
-  `security_code` varchar(4096) NOT NULL
+  `security_code` varchar(4096) NOT NULL,
+  CHECK (NOT `phone` IS NULL OR NOT `mail` IS NULL)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -202,8 +204,8 @@ ALTER TABLE `Contain`
 --
 ALTER TABLE `Customer`
   ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `mail` (`mail`),
-  ADD UNIQUE KEY `phone` (`phone`);
+  ADD UNIQUE KEY `phone` (`phone`),
+  ADD UNIQUE KEY `mail` (`mail`);
 
 --
 -- Indexes for table `Order`
