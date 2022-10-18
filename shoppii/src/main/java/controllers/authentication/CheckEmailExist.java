@@ -17,7 +17,6 @@ import dao.CustomerDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
 import model.Customer;
-import utils.Utils;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 1, // 1 MB
@@ -32,7 +31,7 @@ public class CheckEmailExist extends HttpServlet {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
             String email = req.getParameter("email");
-            Boolean isRegistered = CustomerDAO.checkEmailExist(email, connection);
+            boolean isRegistered = CustomerDAO.checkEmailExist(email, connection);
             Customer customer = null;
             String json = null;
             if (!isRegistered) {
