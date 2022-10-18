@@ -42,7 +42,6 @@ public class LoginGoogle extends HttpServlet {
             if (password.equals(rePassword)) {
                 Customer customer = null;
                 String json = null;
-
                 customer = CustomerDAO.register(email, password, code, connection);
                 customer.setName(name);
                 JsonElement jsonElement = gson.toJsonTree(customer);
