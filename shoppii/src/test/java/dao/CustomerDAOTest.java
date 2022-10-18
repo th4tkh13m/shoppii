@@ -120,7 +120,10 @@ public class CustomerDAOTest extends DBInfo {
     @Test
     public void checkLoginByMailTest1() {
         try {
-            CustomerDAO.register("0123456789", "abc123", code, connection);
+            Customer customer = CustomerDAO.register("0123456789", "abc123", code, connection);
+            customer.setMail("an@gmail.com");
+            CustomerDAO.updateInfo(customer, connection, dbName, null);
+            
             assertNotNull(CustomerDAO.checkLogin("an@gmail.com", null, "abc123", connection));
         } catch (AssertionError e) {
             // TODO Auto-generated catch block
