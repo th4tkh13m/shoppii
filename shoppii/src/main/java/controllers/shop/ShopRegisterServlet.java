@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import dao.RequestDAO;
 import dbconnect.DBConnect;
@@ -24,7 +25,7 @@ import model.ShopRequest;
 public class ShopRegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         resp.setContentType("application/json");
         try {
             DBConnect db = new DBConnect();
@@ -33,14 +34,13 @@ public class ShopRegisterServlet extends HttpServlet {
             String shopName = req.getParameter("shopName");
             String address = req.getParameter("address");
             String description = req.getParameter("description");
-
             ShopRequest request = RequestDAO.createRequest(userId, shopName, address, description, connection);
             String json = gson.toJson(request);
             resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
     }
 
@@ -57,7 +57,7 @@ public class ShopRegisterServlet extends HttpServlet {
             ArrayList<ShopRequest> requests = RequestDAO.getRequests(customerId, connection);
             String json = gson.toJson(requests);
             resp.setStatus(200);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);

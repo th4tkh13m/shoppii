@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import com.password4j.Argon2Function;
 import com.password4j.types.Argon2;
 
@@ -30,25 +31,43 @@ public class CustomerDAO {
 
     public static Customer getCustomerFromId(int customerId, Connection connection) throws SQLException {
         Customer customer = null;
-            String sql = "SELECT name, mail, phone, dob, sex, password FROM `Customer` WHERE user_id = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, customerId);
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
-                String name = result.getString(1);
-                String mail = result.getString(2);
-                String phone = result.getString(3);
-                Date dob = result.getDate(4);
-                boolean sex = result.getBoolean(5);
-                String password = result.getString(6);
-                customer = new Customer(customerId, name, mail, phone, dob, sex, password);
-            }
-            return customer;
+        String sql = "SELECT name, mail, phone, dob, sex, `password`, security_code FROM `Customer` WHERE user_id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, customerId);
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            String name = result.getString(1);
+            String mail = result.getString(2);
+            String phone = result.getString(3);
+            Date dob = result.getDate(4);
+            boolean sex = result.getBoolean(5);
+            String password = result.getString(6);
+            String code = result.getString(7);
+            customer = new Customer(customerId, name, mail, phone, dob, sex, password, code);
+        }
+        return customer;
+    }
+
+    public static Customer getCustomerFromIdWithoutPass(int customerId, Connection connection) throws SQLException {
+        Customer customer = null;
+        String sql = "SELECT name, mail, phone, dob, sex FROM `Customer` WHERE user_id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, customerId);
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            String name = result.getString(1);
+            String mail = result.getString(2);
+            String phone = result.getString(3);
+            Date dob = result.getDate(4);
+            boolean sex = result.getBoolean(5);
+            customer = new Customer(customerId, name, mail, phone, dob, sex);
+        }
+        return customer;
     }
 
     protected static Customer createCustomer(String name, String mail,
-            String phone, String password) {
-        return new Customer(name, mail, phone, password, argon2);
+            String phone, String password, String code) {
+        return new Customer(name, mail, phone, password, code, argon2);
     }
 
     /**
@@ -63,86 +82,77 @@ public class CustomerDAO {
      * @throws SQLException
      */
     protected static boolean insertCustomer(Customer customer, Connection connection) throws SQLException {
-            String sql = "INSERT INTO `Customer` (name, mail, phone, `password`) VALUES " +
-                    "(?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(sql);
+        String sql = "INSERT INTO `Customer` (name, mail, phone, `password`, security_code) VALUES " +
+                "(?, ?, ?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(sql);
 
-            statement.setString(1, customer.getName());
-            statement.setString(2, customer.getMail());
-            statement.setString(3, customer.getPhone());
-            statement.setString(4, customer.getEncryptedPassword());
+        statement.setString(1, customer.getName());
+        statement.setString(2, customer.getMail());
+        statement.setString(3, customer.getPhone());
+        statement.setString(4, customer.getEncryptedPassword());
+        statement.setString(5, customer.getEncryptedCode());
+        statement.execute();
 
-            statement.execute();
-
-            return true;
+        return true;
     }
 
-    /**
-     * @param newCustomer Updated version of the customer object.
-     * @param connection  Connection to the database.
-     * @return
-     * @throws SQLException
-     * @throws IOException
-     * @throws SdkClientException
-     * @throws AwsServiceException
-     * @throws S3Exception
-     */
+    public static Customer updateInfo(Customer newCustomer, Connection connection, String fileName, InputStream avatar)
+            throws SQLException, S3Exception, AwsServiceException, SdkClientException, IOException {
+        PreparedStatement statement = connection
+                .prepareStatement("UPDATE `Customer` SET name = ?," +
+                        "mail = ?," +
+                        "phone = ?," +
+                        "dob = ?," +
+                        "sex = ? " +
+                        "WHERE user_id = ?");
+        statement.setString(1, newCustomer.getName());
+        statement.setString(2, newCustomer.getMail());
+        statement.setString(3, newCustomer.getPhone());
+        statement.setDate(4, newCustomer.getDob());
+        statement.setBoolean(5, newCustomer.getSex());
+        statement.setInt(6, newCustomer.getUserId());
+        statement.executeUpdate();
+        if (avatar != null) {
+            S3Util.uploadObject("profile/" + newCustomer.getUserId() +
+                    "/user/avatar/" + fileName, avatar);
+        }
 
-    public static Customer updateInfo(Customer newCustomer, Connection connection, String fileName, InputStream avatar) throws SQLException, S3Exception, AwsServiceException, SdkClientException, IOException {
-            PreparedStatement statement = connection
-                    .prepareStatement("UPDATE `Customer` SET name = ?," +
-                            "mail = ?," +
-                            "phone = ?," +
-                            "dob = ?," +
-                            "sex = ?," +
-                            "password = ? " +
-                            "WHERE user_id = ?");
-            statement.setString(1, newCustomer.getName());
-            statement.setString(2, newCustomer.getMail());
-            statement.setString(3, newCustomer.getPhone());
-            statement.setDate(4, newCustomer.getDob());
-            statement.setBoolean(5, newCustomer.getSex());
-            statement.setString(6, newCustomer.getEncryptedPassword());
-            statement.setInt(7, newCustomer.getUserId());
-            statement.executeUpdate();
-            if (avatar != null) {
-                S3Util.uploadObject("profile/" + newCustomer.getUserId() +
-                        "/user/avatar/" + fileName, avatar);
-            }
-        
         return getCustomerFromId(newCustomer.getUserId(), connection);
     }
 
-    private static Customer getCustomerFromMailOrPhone(String enteredMail, String enteredPhone, Connection connection) throws SQLException {
+    private static Customer getCustomerFromMailOrPhone(String enteredMail, String enteredPhone, Connection connection)
+            throws SQLException {
         Customer customer = null;
-            String sql = "SELECT user_id, name, mail, phone, dob, sex, password FROM `Customer` WHERE mail = ? OR phone = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, enteredMail);
-            statement.setString(2, enteredPhone);
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
-                int customerId = result.getInt(1);
-                String name = result.getString(2);
-                String mail = result.getString(3);
-                String phone = result.getString(4);
-                Date dob = result.getDate(5);
-                boolean sex = result.getBoolean(6);
-                String password = result.getString(7);
-                customer = new Customer(customerId, name, mail, phone, dob, sex, password);
-            }
-            return customer;
-        
+        String sql = "SELECT user_id, name, mail, phone, dob, sex, `password`, security_code FROM `Customer` WHERE mail = ? OR phone = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, enteredMail);
+        statement.setString(2, enteredPhone);
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            int customerId = result.getInt(1);
+            String name = result.getString(2);
+            String mail = result.getString(3);
+            String phone = result.getString(4);
+            Date dob = result.getDate(5);
+            boolean sex = result.getBoolean(6);
+            String password = result.getString(7);
+            String code = result.getString(8);
+            customer = new Customer(customerId, name, mail, phone, dob, sex, password, code);
+        }
+        return customer;
+
     }
 
-    public static Customer register(String mail, String phone, String password, Connection connection) throws SQLException {
-        Customer customer = createCustomer(Utils.generateName(), mail, phone, password);
+    public static Customer register(String phone, String password, String code, Connection connection) throws SQLException {
+        Customer customer = createCustomer(Utils.generateName(), null, phone, password, code);
         System.out.println(customer);
         insertCustomer(customer, connection);
-        return CustomerDAO.getCustomerFromMailOrPhone(mail, phone, connection);
+        return CustomerDAO.getCustomerFromMailOrPhone(null, phone, connection);
 
     }
 
-    public static Customer checkLogin(String enteredMail, String enteredPhone, String enteredPassword, Connection connection) throws Exception {
+    public static Customer checkLogin(String enteredMail, String enteredPhone, String enteredPassword,
+            Connection connection) throws Exception {
         Customer customer = getCustomerFromMailOrPhone(enteredMail, enteredPhone, connection);
         if (customer.verifyPassword(enteredPassword)) {
             return customer;
@@ -163,8 +173,38 @@ public class CustomerDAO {
             String description = result.getString(3);
             boolean status = result.getBoolean(4);
 
-            shop = new Shop(name, address, description, status);
+            shop = new Shop(shopId, name, address, description, status);
         }
         return shop;
-    } 
+    }
+
+    public static boolean checkEmailExist(String mail, Connection connection) throws SQLException {
+        String sql = "SELECT mail FROM `Customer` WHERE mail = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, mail);
+        ResultSet result = statement.executeQuery();
+        return result.next();
+    }
+
+    public static Customer getCustomerFromMail(String enteredMail, Connection connection)
+            throws SQLException {
+        Customer customer = null;
+        String sql = "SELECT user_id, name, mail, phone, dob, sex, `password`, security_code FROM `Customer` WHERE mail = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, enteredMail);
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            int customerId = result.getInt(1);
+            String name = result.getString(2);
+            String mail = result.getString(3);
+            String phone = result.getString(4);
+            Date dob = result.getDate(5);
+            boolean sex = result.getBoolean(6);
+            String password = result.getString(7);
+            String code = result.getString(8);
+            customer = new Customer(customerId, name, mail, phone, dob, sex, password, code);
+        }
+        return customer;
+
+    }
 }

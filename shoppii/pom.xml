@@ -157,8 +157,37 @@
             <username>admin</username>
             <password>admin</password>
             <path>/shoppii/api</path>
+            <contextReloadable>true</contextReloadable>
           </configuration>
         </plugin>
+
+         <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.8.3</version>
+                <configuration>
+                    <container>
+                        <containerId>tomcat9x</containerId>
+                        <type>embedded</type>
+                    </container>
+                    <deployables>
+                        <deployable>
+                            <type>war</type>
+                            <location>${project.build.directory}/${project.build.finalName}.war</location>
+                            <properties>
+                                <context>/</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
+                    <configfiles>
+                    <configfile>
+                            <file>src/main/resources/tomcat/context.xml</file>
+                            <todir>conf/Catalina/localhost/</todir>
+                            <tofile>${project.build.finalName}.xml</tofile>
+                        </configfile>
+                  </configfiles>
+                </configuration>
+            </plugin>
       </plugins>
     </pluginManagement>
   </build>

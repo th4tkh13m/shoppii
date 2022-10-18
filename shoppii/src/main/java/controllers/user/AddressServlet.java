@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,11 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import dao.AddressDAO;
-import dao.CustomerDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
 import model.Address;
-import model.Customer;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 1, // 1 MB
@@ -42,7 +39,7 @@ public class AddressServlet extends HttpServlet {
                     connection);
             String json = gson.toJson(address);
             resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
@@ -62,7 +59,7 @@ public class AddressServlet extends HttpServlet {
             ArrayList<Address> address = AddressDAO.getAddressOfUser(userId, connection);
             String json = gson.toJson(address);
             resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
@@ -108,7 +105,7 @@ public class AddressServlet extends HttpServlet {
                     connection);
             String json = gson.toJson(address);
             resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
