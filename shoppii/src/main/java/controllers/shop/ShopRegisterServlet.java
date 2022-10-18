@@ -34,14 +34,13 @@ public class ShopRegisterServlet extends HttpServlet {
             String shopName = req.getParameter("shopName");
             String address = req.getParameter("address");
             String description = req.getParameter("description");
-
             ShopRequest request = RequestDAO.createRequest(userId, shopName, address, description, connection);
             String json = gson.toJson(request);
             resp.setStatus(201);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
     }
 

@@ -53,7 +53,7 @@ public class ProductsShopServlet extends HttpServlet {
             String name = req.getParameter("name");
             int price = Integer.parseInt(req.getParameter("price"));
             int quantity = Integer.parseInt(req.getParameter("quantity"));
-            int cat = Integer.parseInt(req.getParameter("category"));
+            int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
             Product product = ProductDAO.addProduct(new Product(shopId, name, price,
             quantity, cat, des), connection);
@@ -62,7 +62,7 @@ public class ProductsShopServlet extends HttpServlet {
             resp.getOutputStream().println(json);
         } catch (Exception e) {
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
     }
 
