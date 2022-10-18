@@ -45,16 +45,16 @@ public class ProductDAO {
 
     public static ArrayList<Product> getProductByShopId(int shopId, Connection connection) throws SQLException {
         ArrayList<Product> list = new ArrayList<>();
-            String sql = "SELECT product_id FROM Product where shop_id=?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, shopId);
-            ResultSet result = statement.executeQuery();
-            while (result.next()){
-                int id = result.getInt(1);
-                Product p = getProductFromId(id, connection);
-                list.add(p);
-            }
-            return list;
+        String sql = "SELECT product_id FROM Product where shop_id=?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, shopId);
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            int id = result.getInt(1);
+            Product p = getProductFromId(id, connection);
+            list.add(p);
+        }
+        return list;
     }
 
     public static Product addProduct(Product product, Connection connection) throws SQLException {
@@ -83,7 +83,7 @@ public class ProductDAO {
         return product;
     }
 
-    public static Product deleteProduct(int productId, Connection connection) throws SQLException{
+    public static Product deleteProduct(int productId, Connection connection) throws SQLException {
         String sql = "DELETE FROM Product WHERE product_id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, productId);
@@ -92,10 +92,21 @@ public class ProductDAO {
     }
 
     // search
+    public static ArrayList<Product> searchProduct(String productName, Connection connection) throws SQLException {
+        ArrayList<Product> product = new ArrayList<>();
+        String sql = " SELECT * FROM `product` WHERE name like '%'?'%' ";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, productName);       
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            int productId = result.getInt(1);
+            Product p = getProductFromId(productId, connection); 
+            product.add(p);
+        }
+        return product;
+    }
 
+    // filter
 
-    //filter
-
-
-    //sort
+    // sort
 }
