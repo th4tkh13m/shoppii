@@ -25,7 +25,7 @@ import model.ShopRequest;
 public class ShopRegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        Gson gson = new Gson();
         resp.setContentType("application/json");
         try {
             DBConnect db = new DBConnect();
