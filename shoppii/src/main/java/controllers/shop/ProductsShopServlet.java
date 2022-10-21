@@ -69,6 +69,8 @@ public class ProductsShopServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
         resp.setContentType("application/json");
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         try {
             DBConnect dbConnect = new DBConnect();
             Connection connection = dbConnect.getConnection();
@@ -77,8 +79,9 @@ public class ProductsShopServlet extends HttpServlet {
             String name = req.getParameter("name");
             int price = Integer.parseInt(req.getParameter("price"));
             int quantity = Integer.parseInt(req.getParameter("quantity"));
-            int cat = Integer.parseInt(req.getParameter("category"));
+            int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
+            System.out.println(des);
             Product product = new Product(productId, shopId, name, price, quantity, cat, des);
             ProductDAO.updateProduct(product, connection);
             String json = gson.toJson(product);
