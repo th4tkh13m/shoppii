@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 18, 2022 at 02:38 PM
--- Server version: 10.8.3-MariaDB-1:10.8.3+maria~jammy
--- PHP Version: 8.0.23
+-- Generation Time: Oct 21, 2022 at 03:33 PM
+-- Server version: 10.9.3-MariaDB-1:10.9.3+maria~ubu2204
+-- PHP Version: 8.0.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -111,7 +111,7 @@ CREATE TABLE `Customer` (
   `sex` tinyint(1) DEFAULT NULL,
   `password` varchar(4096) DEFAULT NULL,
   `security_code` varchar(4096) NOT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `Customer`
@@ -121,7 +121,8 @@ INSERT INTO `Customer` (`user_id`, `name`, `mail`, `phone`, `dob`, `sex`, `passw
 (1, 'rnQLAvaHt3', NULL, '0123456789', NULL, NULL, '$argon2i$v=19$m=2048,t=10,p=1$$fGnUm65WsmUCo48RP++2HomyqBQ2Oq4KBke6FQFc8QwUWAo2Q430Qo8GnUD/9JTj9okHiOP/UMhDiAXkaylxmxvVCy8yM4sqOax2qTkzvQ2NeHeIr0YbumNDxqsZe3mERJ4mF5aXLH6nAaDQmZq6MwIuid2YL8bCa7PsOuM8HQo', '$argon2i$v=19$m=2048,t=10,p=1$$i5ne7a17e7aNyiOHW7kGA2PCU3vJ8jQAtgkKJTXQT78J7SeWbjmuATB0k7R49jkHa3PHajWqb9XmFgOX6ayaihPM3Z5Cj5VMnGLHoQdI1EUxXknRIiRyyJCc3zjFRfZVP5xLdqs5Ar0VlGxTZohsi1qIzBzesaI+K18dJ4+10pI'),
 (2, 'rsAaD8nQkS', NULL, '0987654321', NULL, NULL, '$argon2i$v=19$m=2048,t=10,p=1$$eCEkfIeA1n+DbEwxb4RlePpUpyXwv4EZLgiPuVbirOLfoe/jMNJM0aGYdF17OwAfe0tOJhPv1HHV3DAp+gfc2ji1exjOE3tF6qMAY93DxiQ/P218cZDLfhc4TGJ3PRquC3QDKPUbI9K3jE+jnaWNpaKeaqIj/EOsCD/2Pib+1u0', '$argon2i$v=19$m=2048,t=10,p=1$$KVDqJTgUcthD9Hzps+otms3rTHWikpsMIsoaSxfvpoAyNnGrmFpa9r0RUGRki3fLVjQeo0h3DxnQ0va4T1VqXTrszWuS2WPRMg/ZmDSWfAy60B9fdt1kThqQWZmtq4z9pABRwm9u/VXxQ3CJ4dy44emLKE5BhM91vZ7oP7ACz4c'),
 (3, 'mH9TcWQyPc', NULL, '0905123456', NULL, NULL, '$argon2i$v=19$m=2048,t=10,p=1$$eCEkfIeA1n+DbEwxb4RlePpUpyXwv4EZLgiPuVbirOLfoe/jMNJM0aGYdF17OwAfe0tOJhPv1HHV3DAp+gfc2ji1exjOE3tF6qMAY93DxiQ/P218cZDLfhc4TGJ3PRquC3QDKPUbI9K3jE+jnaWNpaKeaqIj/EOsCD/2Pib+1u0', '$argon2i$v=19$m=2048,t=10,p=1$$KVDqJTgUcthD9Hzps+otms3rTHWikpsMIsoaSxfvpoAyNnGrmFpa9r0RUGRki3fLVjQeo0h3DxnQ0va4T1VqXTrszWuS2WPRMg/ZmDSWfAy60B9fdt1kThqQWZmtq4z9pABRwm9u/VXxQ3CJ4dy44emLKE5BhM91vZ7oP7ACz4c'),
-(4, 'Fg1DTkygx6', NULL, '0901234567', NULL, NULL, '$argon2i$v=19$m=2048,t=10,p=1$$eCEkfIeA1n+DbEwxb4RlePpUpyXwv4EZLgiPuVbirOLfoe/jMNJM0aGYdF17OwAfe0tOJhPv1HHV3DAp+gfc2ji1exjOE3tF6qMAY93DxiQ/P218cZDLfhc4TGJ3PRquC3QDKPUbI9K3jE+jnaWNpaKeaqIj/EOsCD/2Pib+1u0', '$argon2i$v=19$m=2048,t=10,p=1$$KVDqJTgUcthD9Hzps+otms3rTHWikpsMIsoaSxfvpoAyNnGrmFpa9r0RUGRki3fLVjQeo0h3DxnQ0va4T1VqXTrszWuS2WPRMg/ZmDSWfAy60B9fdt1kThqQWZmtq4z9pABRwm9u/VXxQ3CJ4dy44emLKE5BhM91vZ7oP7ACz4c');
+(4, 'Fg1DTkygx6', NULL, '0901234567', NULL, NULL, '$argon2i$v=19$m=2048,t=10,p=1$$eCEkfIeA1n+DbEwxb4RlePpUpyXwv4EZLgiPuVbirOLfoe/jMNJM0aGYdF17OwAfe0tOJhPv1HHV3DAp+gfc2ji1exjOE3tF6qMAY93DxiQ/P218cZDLfhc4TGJ3PRquC3QDKPUbI9K3jE+jnaWNpaKeaqIj/EOsCD/2Pib+1u0', '$argon2i$v=19$m=2048,t=10,p=1$$KVDqJTgUcthD9Hzps+otms3rTHWikpsMIsoaSxfvpoAyNnGrmFpa9r0RUGRki3fLVjQeo0h3DxnQ0va4T1VqXTrszWuS2WPRMg/ZmDSWfAy60B9fdt1kThqQWZmtq4z9pABRwm9u/VXxQ3CJ4dy44emLKE5BhM91vZ7oP7ACz4c'),
+(5, '0ReWRfySq5', NULL, '0345678901', NULL, NULL, '$argon2i$v=19$m=2048,t=10,p=1$$eCEkfIeA1n+DbEwxb4RlePpUpyXwv4EZLgiPuVbirOLfoe/jMNJM0aGYdF17OwAfe0tOJhPv1HHV3DAp+gfc2ji1exjOE3tF6qMAY93DxiQ/P218cZDLfhc4TGJ3PRquC3QDKPUbI9K3jE+jnaWNpaKeaqIj/EOsCD/2Pib+1u0', '$argon2i$v=19$m=2048,t=10,p=1$$gZz0ftnOWxRl6dDnMmWQcKTpO7KBa0ML8LaKtZpJmDWBGl0cavtpyDGIHLeFOVHxAgiN41GzDVsO8o++IIrar8m/ndaUpS4ykA6Xd3c5BpDQEgOZ6CP0hw6jQ7pk+dI1tNbV9cAbRnTEvS67ZyasEp2aFa5vUtUfqmCTdNbl8yI');
 
 -- --------------------------------------------------------
 
@@ -159,7 +160,8 @@ CREATE TABLE `Product` (
 --
 
 INSERT INTO `Product` (`product_id`, `shop_id`, `name`, `price`, `quantity`, `category_id`, `description`) VALUES
-(1, 2, 'NiceHCK EB2S ', 25, 10000, 2, 'Nicehck EB2S 3.5mm Metal CNC HIFI Earbud 15.4mm LCP Nháº¡c Äá»ng Ãm nháº¡c giá»ng hÃ¡t Tai nghe cÃ³ dÃ¢y Tai nghe HD B40 / B70 / EBX21\n\nThÃ´ng tin chi tiáº¿t:\nThÆ°Æ¡ng hiá»u: NICEHCK\nMÃ´ hÃ¬nh: EB2S\nLoáº¡i sáº£n pháº©m: Tai nghe\nÄÆ¡n vá» trÃ¬nh Äiá»u khiá»n: Äá»ng 15,4mm\nMÃ ng: MÃ ng loa LCP\nÄá» nháº¡y: 112dB / mW\nTrá» khÃ¡ng: 32Î©\nÄÃ¡p á»©ng táº§n sá»: 20-25kHz\nLoáº¡i giáº¯c cáº¯m: 3.5 mm\nCháº¥t liá»u vá»: Há»£p kim nhÃ´m\nVáº­t liá»u cÃ¡p: Äá» tinh khiáº¿t cao OFC\nChiá»u dÃ i cÃ¡p: Khoáº£ng 1,2m');
+(1, 2, 'NiceHCK EB2S ', 25, 10000, 2, 'Nicehck EB2S 3.5mm Metal CNC HIFI Earbud 15.4mm LCP Nháº¡c Äá»ng Ãm nháº¡c giá»ng hÃ¡t Tai nghe cÃ³ dÃ¢y Tai nghe HD B40 / B70 / EBX21\n\nThÃ´ng tin chi tiáº¿t:\nThÆ°Æ¡ng hiá»u: NICEHCK\nMÃ´ hÃ¬nh: EB2S\nLoáº¡i sáº£n pháº©m: Tai nghe\nÄÆ¡n vá» trÃ¬nh Äiá»u khiá»n: Äá»ng 15,4mm\nMÃ ng: MÃ ng loa LCP\nÄá» nháº¡y: 112dB / mW\nTrá» khÃ¡ng: 32Î©\nÄÃ¡p á»©ng táº§n sá»: 20-25kHz\nLoáº¡i giáº¯c cáº¯m: 3.5 mm\nCháº¥t liá»u vá»: Há»£p kim nhÃ´m\nVáº­t liá»u cÃ¡p: Äá» tinh khiáº¿t cao OFC\nChiá»u dÃ i cÃ¡p: Khoáº£ng 1,2m'),
+(2, 1, 'Apple iPad Gen 9th 10.2-inch Wi-Fi 64GB', 11990000, 10000, 2, 'Mạnh mẽ. Dễ sử dụng. Đa năng. iPad mới có màn hình Retina tuyệt đẹp, chip A13 Bionic mạnh mẽ, camera trước Ultra Wide có tính năng Trung Tâm Màn Hình, tương thích với Apple Pencil và Smart Keyboard (1). iPad giúp bạn dễ dàng làm được nhiều việc hơn nữa. Tất cả tính năng với mức giá ấn tượng.\n\n\nTính năng nổi bật\n\n•	Màn hình Retina 10.2 inch sống động với True Tone\n\n•	Chip A13 Bionic với Neural Engine\n\n•	Camera sau Wide 8MP, camera trước Ultra Wide 12MP với tính năng Trung Tâm Màn Hình\n\n•	Ổ lưu trữ lên tới 64GB\n\n•	Loa stereo\n\n•	Xác thực bảo mật với Touch ID\n\n•	Wi-Fi 802.11ac và dữ liệu di động LTE chuẩn Gigabit (2)\n\n•	Thời lượng pin lên tới 10 giờ (3)\n\n•	Cổng kết nối Lightning để sạc và kết nối phụ kiện\n\n•	Tương thích với Apple Pencil (thế hệ thứ 1) và Smart Keyboard (1)\n\n•	iPadOS 15 sở hữu sức mạnh độc đáo, dễ sử dụng và được thiết kế cho tính đa năng của iPad\n\n\nPháp lý \n\nỨng dụng có sẵn trên App Store. Nội dung được cung cấp có thể thay đổi.\n\n(1) Phụ kiện được bán riêng. Khả năng tương thích tùy thuộc thế hệ sản phẩm.\n\n(2) Cần có gói cước dữ liệu. Mạng LTE chuẩn Gigabit, 4G LTE Advanced, 4G LTE và gọi Wi-Fi chỉ khả dụng ở một số thị trường và được cung cấp qua một số nhà mạng. Tốc độ phụ thuộc vào thông lượng lý thuyết và có thể thay đổi tùy địa điểm và nhà mạng. Để biết thông tin về hỗ trợ mạng LTE, vui lòng liên hệ nhà mạng và truy cập apple.com/ipad/cellular.\n\n(3) Thời lượng pin khác nhau tùy theo cách sử dụng và cấu hình. Truy cập apple.com/batteries để biết thêm thông tin.\n\n\nBộ sản phẩm bao gồm: \n\n•	iPad\n\n•	Dây sạc Lighting to USB-C\n\n•	20W USB Power Adaper\n\n•	HDSD Bảo hành điện tử 12 tháng.\n\n\nThông tin bảo hành:\n\nBảo hành: 12 tháng kể từ ngày kích hoạt sản phẩm.\n\nKích hoạt bảo hành tại: https://checkcoverage.apple.com/vn/en/\n\n\nHướng dẫn kiểm tra địa điểm bảo hành gần nhất:\n\nBước 1: Truy cập vào đường link https://getsupport.apple.com/?caller=grl&locale=en_VN \n\nBước 2: Chọn sản phẩm.\n\nBước 3: Điền Apple ID, nhập mật khẩu.\n\nSau khi hoàn tất, hệ thống sẽ gợi ý những trung tâm bảo hành gần nhất.\n\n\nModel: A2602 : 10.2-inch');
 
 -- --------------------------------------------------------
 
@@ -297,7 +299,7 @@ ALTER TABLE `Category`
 -- AUTO_INCREMENT for table `Customer`
 --
 ALTER TABLE `Customer`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `Order`
@@ -309,7 +311,7 @@ ALTER TABLE `Order`
 -- AUTO_INCREMENT for table `Product`
 --
 ALTER TABLE `Product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
