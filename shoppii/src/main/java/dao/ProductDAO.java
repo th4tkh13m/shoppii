@@ -105,14 +105,15 @@ public class ProductDAO {
     }
 
     // search
-    public static ArrayList<Product> searchProduct(String productName, Connection connection) throws SQLException {
+    public static ArrayList<Product> searchProduct(String keyword, Connection connection) throws SQLException {
         ArrayList<Product> products = new ArrayList<>();
-        String sql = " SELECT * FROM `product` WHERE name like '%'?'%' ";
+        String sql = " SELECT product_id FROM `Product` WHERE LOWER(name) like ? ";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, productName);       
+        statement.setString(1, "%" + keyword + "%");       
         ResultSet result = statement.executeQuery();
         while (result.next()) {
             int productId = result.getInt(1);
+            System.out.println(productId);
             Product p = getProductFromId(productId, connection); 
             products.add(p);
         }

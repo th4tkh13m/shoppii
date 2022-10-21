@@ -54,8 +54,8 @@
         <servlet-class>controllers.admin.ShopRequestServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ProductServlet</servlet-name>
-        <servlet-class>controllers.user.ProductServlet</servlet-class>
+        <servlet-name>ProductSearchServlet</servlet-name>
+        <servlet-class>controllers.user.ProductSearchServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CheckEmailExist</servlet-name>
@@ -105,6 +105,10 @@
     <servlet-mapping>
         <servlet-name>CheckEmailExist</servlet-name>
         <url-pattern>/isRegistered</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductSearchServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
     </servlet-mapping>
 
     <!-- Environment variables -->
