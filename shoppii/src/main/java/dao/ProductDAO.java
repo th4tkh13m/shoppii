@@ -151,6 +151,9 @@ public class ProductDAO {
         if (filters.getEndPrice() != null) {
             WHERE_CLAUSE_ARRAY.add("pd.price <= " + filters.getEndPrice());
         }
+        if (WHERE_CLAUSE.equalsIgnoreCase("WHERE")) {
+            WHERE_CLAUSE = "";
+        }
         int limit = filters.getLimit();
         int page = filters.getPage();
         int offset = (limit * page) - limit;

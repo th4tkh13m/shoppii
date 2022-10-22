@@ -34,12 +34,13 @@ public class ProductsShopServlet extends HttpServlet {
             int shopId = Integer.parseInt(req.getParameter("shopId"));
             ArrayList<Product> products = new ArrayList<>();
             products = ProductDAO.getProductByShopId(shopId, connection);
+            System.out.println(products);
             String json = gson.toJson(products);
-            resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.setStatus(200);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
         }
     }
 
@@ -58,7 +59,7 @@ public class ProductsShopServlet extends HttpServlet {
             int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
             Product product = ProductDAO.addProduct(new Product(shopId, name, price,
-            quantity, cat, des), connection);
+                    quantity, cat, des), connection);
             String json = gson.toJson(product);
             resp.setStatus(201);
             resp.getOutputStream().println(json);
