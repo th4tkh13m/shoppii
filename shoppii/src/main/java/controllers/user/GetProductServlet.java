@@ -34,7 +34,6 @@ public class GetProductServlet extends HttpServlet {
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
-            resp.setContentType("application/json");
             String keyword = null, categoryId = null, startPrice = null, endPrice = null, sort = null, location = null;
             int page = 1;
             if (req.getParameter("keyword") != null) {
