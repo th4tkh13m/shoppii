@@ -9,6 +9,8 @@ public class Product {
     private int categoryId;
     private String description;
     private ArrayList<String> images;
+    private Shop shop;
+    private Category category;
 
     public Product(int productId, int shopId, String name, int price, int quantity, int categoryId,
             String description) {
@@ -19,6 +21,17 @@ public class Product {
         this.quantity = quantity;
         this.categoryId = categoryId;
         this.description = description;
+    }
+
+    public Product(int productId, String name, int price, int quantity,
+            String description, Shop shop, Category category) {
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description;
+        this.shop = shop;
+        this.category = category;
     }
 
     public Product(int shopId, String name, int price, int quantity, int categoryId,
@@ -99,6 +112,30 @@ public class Product {
 
     public void setImages(ArrayList<String> images) {
         this.images = images;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 
     @Override

@@ -23,23 +23,25 @@ import model.Product;
 )
 public class ProductSearchServlet extends HttpServlet {
     // @Override
-    // protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    //     Gson gson = new Gson();
-    //     DBConnect db = new DBConnect();
-    //     Connection connection = db.getConnection();
-    //     resp.setContentType("application/json");
-    //     try {
-    //         String theCommand = req.getParameter("command");
-    //         switch (theCommand) {
-    //             case "Search":
-    //                 searchProduct(req, resp);
-    //                 break;
-    //         }
-    //     } catch (Exception e) {
-    //         // TODO: handle exception
-    //         resp.setStatus(500);
-    //         resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
-    //     }
+    // protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws
+    // ServletException, IOException {
+    // Gson gson = new Gson();
+    // DBConnect db = new DBConnect();
+    // Connection connection = db.getConnection();
+    // resp.setContentType("application/json");
+    // try {
+    // String theCommand = req.getParameter("command");
+    // switch (theCommand) {
+    // case "Search":
+    // searchProduct(req, resp);
+    // break;
+    // }
+    // } catch (Exception e) {
+    // // TODO: handle exception
+    // resp.setStatus(500);
+    // resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went
+    // wrong", 500)));
+    // }
 
     // }
 

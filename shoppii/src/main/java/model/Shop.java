@@ -12,7 +12,12 @@ public class Shop {
         this.status = status;
     }
 
-    
+    public Shop(int shopId, String name, String address) {
+        this.shopId = shopId;
+        this.name = name;
+        this.address = address;
+
+    }
 
     public Shop(int shopId, String name, String address, String description, boolean status) {
         this.shopId = shopId;
@@ -21,8 +26,6 @@ public class Shop {
         this.description = description;
         this.status = status;
     }
-
-
 
     public int getShopId() {
         return shopId;
@@ -76,10 +79,8 @@ public class Shop {
                 + ", status=" + status + "]";
     }
 
-
-
     public void setShopId(int shopId) {
         this.shopId = shopId;
     }
-    
+
 }

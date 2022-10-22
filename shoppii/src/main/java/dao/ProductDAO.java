@@ -5,10 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import java.sql.Statement;
 
 import model.Product;
+import model.Category;
+import model.Shop;
 
 public class ProductDAO {
     public static int getMaxId(Connection connection) throws SQLException {
@@ -109,12 +110,86 @@ public class ProductDAO {
         ArrayList<Product> products = new ArrayList<>();
         String sql = " SELECT product_id FROM `Product` WHERE LOWER(name) like ? ";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, "%" + keyword + "%");       
+        statement.setString(1, "%" + keyword + "%");
         ResultSet result = statement.executeQuery();
         while (result.next()) {
             int productId = result.getInt(1);
-            System.out.println(productId);
-            Product p = getProductFromId(productId, connection); 
+            Product p = getProductFromId(productId, connection);
+            products.add(p);
+        }
+        return products;
+    }
+
+    public static ArrayList<Product> getProducts(Filters filters, Connection connection) throws SQLException {
+        ArrayList<Product> products = new ArrayList<>();
+        String sql = "SELECT pd.product_id, pd.shop_id, pd.name, pd.price, pd.quantity, pd.description,  pd.category_id, ct.category_name, ct.imgLink, pd.shop_id, s.name, s.address from (product pd inner join category ct on pd.category_id = ct.category_id) inner join shop s on s.shop_id = pd.shop_id";
+        ArrayList<String> WHERE_CLAUSE_ARRAY = new ArrayList<>();
+        String WHERE_CLAUSE = "WHERE";
+        String ORDER_BY_CLAUSE = "";
+        String LIMIT_CLAUSE = "";
+        // WHERE_CLAUSE
+        System.out.println("keyword" + filters.getKeyword());
+        System.out.println("cate id" + filters.getCategoryId());
+        System.out.println("location" + filters.getLocation());
+        System.out.println("start price" + filters.getStartPrice());
+        System.out.println("end price" + filters.getEndPrice());
+        System.out.println("limit" + filters.getLimit());
+        System.out.println("page" + filters.getPage());
+
+        if (filters.getKeyword() != null) {
+            WHERE_CLAUSE_ARRAY.add("LOWER(pd.name) like '%" + filters.getKeyword() + "%'");
+        }
+        if (filters.getCategoryId() != null) {
+            WHERE_CLAUSE_ARRAY.add("pd.category_id = " + filters.getCategoryId());
+        }
+        if (filters.getLocation() != null) {
+            WHERE_CLAUSE_ARRAY.add("LOWER(s.address) like '%" + filters.location + "%'");
+        }
+        if (filters.getStartPrice() != null) {
+            WHERE_CLAUSE_ARRAY.add("pd.price >= " + filters.getStartPrice());
+        }
+        if (filters.getEndPrice() != null) {
+            WHERE_CLAUSE_ARRAY.add("pd.price <= " + filters.getEndPrice());
+        }
+        int limit = filters.getLimit();
+        int page = filters.getPage();
+        int offset = (limit * page) - limit;
+        LIMIT_CLAUSE = " LIMIT " + limit + " OFFSET " + offset;
+        if (filters.getSort() != null) {
+            ORDER_BY_CLAUSE = " ORDER BY pd.price " + filters.getSort();
+        }
+        for (String sentences : WHERE_CLAUSE_ARRAY) {
+            if (WHERE_CLAUSE_ARRAY.indexOf(sentences) == 0) {
+                WHERE_CLAUSE += " " + sentences;
+            } else {
+                WHERE_CLAUSE += " AND " + sentences;
+            }
+
+        }
+        System.out.println(WHERE_CLAUSE);
+        System.out.println(ORDER_BY_CLAUSE);
+        System.out.println(LIMIT_CLAUSE);
+        sql += " " + WHERE_CLAUSE + ORDER_BY_CLAUSE + LIMIT_CLAUSE;
+        System.out.println(sql);
+        PreparedStatement statement = connection.prepareStatement(sql);
+
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            int productId = result.getInt(1);
+            int shopId = result.getInt(2);
+            String name = result.getString(3);
+            int price = result.getInt(4);
+            int quantity = result.getInt(5);
+            String description = result.getString(6);
+            int categoryId = result.getInt(7);
+            String categoryName = result.getString(8);
+            String categoryImgLink = result.getString(9);
+            String shopName = result.getString(11);
+            String shopAddress = result.getString(12);
+            Shop shop = new Shop(shopId, shopName, shopAddress);
+            Category category = new Category(categoryId, categoryName, categoryImgLink);
+            Product p = new Product(productId, name, price, quantity, description, shop, category);
+            // Product p = getProductFromId(productId, connection);
             products.add(p);
         }
         return products;

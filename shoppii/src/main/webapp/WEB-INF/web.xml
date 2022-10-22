@@ -65,6 +65,10 @@
         <servlet-name>ResetPassword</servlet-name>
         <servlet-class>controllers.authentication.ResetPassword</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetProductServlet</servlet-name>
+        <servlet-class>controllers.user.GetProductServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
@@ -118,6 +122,11 @@
         <servlet-name>ResetPassword</servlet-name>
         <url-pattern>/reset-password</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetProductServlet</servlet-name>
+        <url-pattern>/products</url-pattern>
+    </servlet-mapping>
+
     <!-- Environment variables -->
 
     <!-- Database information variables -->

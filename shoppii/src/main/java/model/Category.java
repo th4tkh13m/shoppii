@@ -3,11 +3,19 @@ package model;
 public class Category {
     private int category_id;
     private String category_name;
+    private String categoryImg;
 
     public Category(int category_id, String category_name) {
         this.category_id = category_id;
         this.category_name = category_name;
     }
+
+    public Category(int category_id, String category_name, String categoryImg) {
+        this.category_id = category_id;
+        this.category_name = category_name;
+        this.categoryImg = categoryImg;
+    }
+
     public int getCategory_id() {
         return category_id;
     }
