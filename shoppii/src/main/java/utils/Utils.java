@@ -8,6 +8,8 @@ import java.util.Random;
 
 import javax.servlet.http.Part;
 
+import model.Token;
+
 public class Utils {
     private static String generateRandomString(int length) {
         int leftLimit = 48; // numeral '0'
@@ -59,7 +61,7 @@ public class Utils {
 
         FileWriter fileWriter = new FileWriter(tokenFile, true);
         PrintWriter writer = new PrintWriter(fileWriter);
-        writer.write(tokenId + "," + customerId + "," + token);
+        writer.write((new Token(tokenId, customerId, token)).toString());
         writer.close();
         fileWriter.close();
         return true;

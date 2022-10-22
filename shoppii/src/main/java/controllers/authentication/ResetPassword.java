@@ -24,7 +24,7 @@ import utils.Utils;
 )
 public class ResetPassword extends HttpServlet{
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
         resp.setContentType("application/json");
 
@@ -50,6 +50,8 @@ public class ResetPassword extends HttpServlet{
             if (customer != null) {
                 int tokenId = 1;
                 String token = Utils.generateToken();
+
+                Utils.writeTokenInfoToFile(tokenId, customer.getUserId(), token);
                 
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("tokenId", tokenId);
@@ -64,5 +66,10 @@ public class ResetPassword extends HttpServlet{
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
     }
 }
