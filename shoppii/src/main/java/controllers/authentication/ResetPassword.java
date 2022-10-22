@@ -48,7 +48,7 @@ public class ResetPassword extends HttpServlet{
             
 
             if (customer != null) {
-                int tokenId = 1;
+                int tokenId = Utils.getLastIndex();
                 String token = Utils.generateToken();
 
                 Utils.writeTokenInfoToFile(tokenId, customer.getUserId(), token);
@@ -70,6 +70,33 @@ public class ResetPassword extends HttpServlet{
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+        Gson gson = new Gson();
+        resp.setContentType("application/json");
+        try {
+            DBConnect db = new DBConnect();
+            Connection connection = db.getConnection();
+
+            int tokenId = Integer.parseInt(req.getParameter("tokenId"));
+            String token = req.getParameter("token");
+
+            int customerId = Utils.checkToken(tokenId, token);
+            if (customerId != 0) {
+                String password = req.getParameter("password");
+                String rePassword = req.getParameter("rePassword");
+                System.out.println("HEELO");
+                if (password.equals(rePassword)) {
+                    CustomerDAO.resetPassword(rePassword, CustomerDAO.getCustomerFromId(customerId, connection), connection);
+                    String json = gson.toJson("OK");
+                    resp.setStatus(200);
+                    resp.getOutputStream().println(json);
+                } else {
+                    throw new Exception();
+                }
+            } else throw new Exception();
+        } catch (Exception e) {
+            resp.setStatus(500);
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(),
+            500)));
+        }
     }
 }

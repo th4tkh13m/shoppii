@@ -64,7 +64,7 @@ public class Token {
     
         long diffInMin = ChronoUnit.MINUTES.between(time, now);
         if (diffInMin > 10) {
-            isExpired = true;
+            this.isExpired = true;
         }
     }
     @Override

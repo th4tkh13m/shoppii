@@ -224,6 +224,12 @@ public class CustomerDAO {
 
     public static Customer resetPassword(String password, Customer customer, Connection connection) throws S3Exception, AwsServiceException, SdkClientException, SQLException, IOException {
         customer.encryptPassword(password, argon2);
-        return updateInfo(customer, connection, null, null);
+        String sql = "UPDATE Customer SET password = ? WHERE user_id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, customer.getEncryptedPassword());
+        statement.setInt(2, customer.getUserId());
+
+        statement.executeUpdate();
+        return getCustomerFromId(customer.getUserId(), connection);
     }
 }
