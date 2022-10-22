@@ -212,6 +212,18 @@ public class CustomerDAO {
             customer = new Customer(customerId, name, mail, phone, dob, sex, password, code);
         }
         return customer;
+    }
 
+    public static Customer checkResetPasswordInfo(String email, String phone, String securityCode, Connection connection) throws SQLException {
+        Customer customer = getCustomerFromMailOrPhone(email, phone, connection);
+        if (customer.verifyCode(securityCode)) {
+            return customer;
+        }
+        return null;
+    }
+
+    public static Customer resetPassword(String password, Customer customer, Connection connection) throws S3Exception, AwsServiceException, SdkClientException, SQLException, IOException {
+        customer.encryptPassword(password, argon2);
+        return updateInfo(customer, connection, null, null);
     }
 }
