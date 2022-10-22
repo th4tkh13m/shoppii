@@ -68,8 +68,8 @@ public class GetProductServlet extends HttpServlet {
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
-            // resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(),
-            // 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(),
+            500)));
         }
 
     }
