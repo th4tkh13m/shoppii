@@ -46,6 +46,8 @@ public class ProductsShopServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
         resp.setContentType("application/json");
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         try {
             DBConnect dbConnect = new DBConnect();
             Connection connection = dbConnect.getConnection();

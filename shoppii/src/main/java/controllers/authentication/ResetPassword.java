@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import dao.CustomerDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
 import model.Customer;
+import utils.Utils;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 1, // 1 MB
@@ -22,7 +24,7 @@ import model.Customer;
 )
 public class ResetPassword extends HttpServlet{
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
         resp.setContentType("application/json");
 
@@ -43,9 +45,21 @@ public class ResetPassword extends HttpServlet{
             String code = req.getParameter("code");
 
             Customer customer = CustomerDAO.checkResetPasswordInfo(email, phone, code, connection);
-            String json = gson.toJson(customer);
-            resp.setStatus(200);
-            resp.getOutputStream().println(json);
+            
+
+            if (customer != null) {
+                int tokenId = 1;
+                String token = Utils.generateToken();
+                
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("tokenId", tokenId);
+                jsonObject.addProperty("token", token);
+                String json = gson.toJson(jsonObject);
+                resp.setStatus(200);
+                resp.getOutputStream().println(json);
+            } else {
+                throw new Exception("Error!");
+            }       
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
