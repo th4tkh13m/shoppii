@@ -3,25 +3,14 @@ package model;
 import java.util.ArrayList;
 
 public class Product {
-    private int productId, shopId;
+    private int productId;
     private String name;
     private int price, quantity;
-    private int categoryId;
     private String description;
     private ArrayList<String> images;
     private Shop shop;
     private Category category;
 
-    public Product(int productId, int shopId, String name, int price, int quantity, int categoryId,
-            String description) {
-        this.productId = productId;
-        this.shopId = shopId;
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-        this.categoryId = categoryId;
-        this.description = description;
-    }
 
     public Product(int productId, String name, int price, int quantity,
             String description, Shop shop, Category category) {
@@ -34,15 +23,18 @@ public class Product {
         this.category = category;
     }
 
-    public Product(int shopId, String name, int price, int quantity, int categoryId,
-            String description) {
-        this.shopId = shopId;
+   
+
+    public Product(String name, int price, int quantity, String description, Shop shop, Category category) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-        this.categoryId = categoryId;
         this.description = description;
+        this.shop = shop;
+        this.category = category;
     }
+
+
 
     public Product(int productId, String name, int price) {
         this.productId = productId;
@@ -54,10 +46,7 @@ public class Product {
         return productId;
     }
 
-    public int getShopId() {
-        return shopId;
-    }
-
+  
     public String getName() {
         return name;
     }
@@ -70,9 +59,6 @@ public class Product {
         return quantity;
     }
 
-    public int getcategoryId() {
-        return categoryId;
-    }
 
     public String getDescription() {
         return description;
@@ -82,10 +68,7 @@ public class Product {
         this.productId = productId;
     }
 
-    public void setShopId(int shopId) {
-        this.shopId = shopId;
-    }
-
+  
     public void setName(String name) {
         this.name = name;
     }
@@ -98,9 +81,7 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public void setcategory_id(int categoryId) {
-        this.categoryId = categoryId;
-    }
+  
 
     public void setDescription(String description) {
         this.description = description;
@@ -114,9 +95,6 @@ public class Product {
         this.images = images;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
 
     public void setShop(Shop shop) {
         this.shop = shop;
@@ -126,9 +104,6 @@ public class Product {
         this.category = category;
     }
 
-    public int getCategoryId() {
-        return categoryId;
-    }
 
     public Shop getShop() {
         return shop;
@@ -137,48 +112,4 @@ public class Product {
     public Category getCategory() {
         return category;
     }
-
-    @Override
-    public String toString() {
-        return "Product [productId=" + productId + ", shopId=" + shopId + ", name=" + name + ", price=" + price
-                + ", quantity=" + quantity + ", category_id=" + categoryId + ", description=" + description
-                + ", images="
-                + images + "]";
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Product other = (Product) obj;
-        if (productId != other.productId)
-            return false;
-        if (shopId != other.shopId)
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (price != other.price)
-            return false;
-        if (quantity != other.quantity)
-            return false;
-        if (categoryId == 0) {
-            if (other.categoryId != 0)
-                return false;
-        } else if (!(categoryId == other.categoryId))
-            return false;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
-            return false;
-        return true;
-    }
-
 }
