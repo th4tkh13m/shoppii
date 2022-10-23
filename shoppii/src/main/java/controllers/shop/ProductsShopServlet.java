@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import dao.CategoryDAO;
-import dao.CustomerDAO;
 import dao.ProductDAO;
+import dao.ShopDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
 import model.Product;
@@ -61,7 +61,7 @@ public class ProductsShopServlet extends HttpServlet {
             int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
             Product product = ProductDAO.addProduct(new Product(name, price,
-                    quantity, des, CustomerDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(cat, connection)), connection);
+                    quantity, des, ShopDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(cat, connection)), connection);
             String json = gson.toJson(product);
             resp.setStatus(201);
             resp.getOutputStream().println(json);
@@ -88,7 +88,7 @@ public class ProductsShopServlet extends HttpServlet {
             String des = req.getParameter("description");
             System.out.println(des);
             Product product = new Product(productId, name, price,
-            quantity, des, CustomerDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(cat, connection));
+            quantity, des, ShopDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(cat, connection));
             ProductDAO.updateProduct(product, connection);
             String json = gson.toJson(product);
             resp.setStatus(201);

@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import model.Product;
 import model.Category;
@@ -40,8 +40,7 @@ public class ProductDAO {
             String description = result.getString(6);
 
             product = new Product(productId, name, price, quantity, description,
-                    CustomerDAO.getShopFromId(shopId, connection),
-                    CategoryDAO.getCategoryFromId(categoryId, connection));
+                    ShopDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(categoryId, connection));
         }
 
         return product;
