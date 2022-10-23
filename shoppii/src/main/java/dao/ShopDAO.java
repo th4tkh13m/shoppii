@@ -4,11 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.util.ArrayList;
 
 import model.Shop;
-import model.ShopRequest;
 
 public class ShopDAO {
 

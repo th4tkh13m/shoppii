@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import dao.CategoryDAO;
-import dao.CustomerDAO;
 import dao.ProductDAO;
 import dao.ShopDAO;
 import dbconnect.DBConnect;

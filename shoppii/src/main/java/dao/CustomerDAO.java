@@ -13,7 +13,6 @@ import com.password4j.types.Argon2;
 
 import dbconnect.S3Util;
 import model.Customer;
-import model.Shop;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.services.s3.model.S3Exception;
