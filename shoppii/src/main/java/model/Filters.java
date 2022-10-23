@@ -1,21 +1,39 @@
-package dao;
+package model;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Filters {
-    String keyword, sort, location, startPrice, endPrice, categoryId;
+    String keyword, sort, startPrice, endPrice;
+    String[] locations, categoriesId;
     HashMap<String, String> filtersMap = new HashMap<>();
     int limit = 2, page = 1;
 
-    public Filters(String keyword, String categoryId, String startPrice, String endPrice, String sort,
-            String location, int page) {
+    public Filters(String keyword, String sort, String startPrice, String endPrice, String[] locations,
+            String[] categoriesId, int page) {
         this.keyword = keyword;
-        this.categoryId = categoryId;
+        this.sort = sort;
         this.startPrice = startPrice;
         this.endPrice = endPrice;
-        this.sort = sort;
-        this.location = location;
+        this.locations = locations;
+        this.categoriesId = categoriesId;
         this.page = page;
+    }
+
+    public void setLocations(String[] locations) {
+        this.locations = locations;
+    }
+
+    public void setCategoriesId(String[] categoriesId) {
+        this.categoriesId = categoriesId;
+    }
+
+    public String[] getLocations() {
+        return locations;
+    }
+
+    public String[] getCategoriesId() {
+        return categoriesId;
     }
 
     public int getLimit() {
@@ -42,20 +60,12 @@ public class Filters {
         return sort;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
     public String getStartPrice() {
         return startPrice;
     }
 
     public String getEndPrice() {
         return endPrice;
-    }
-
-    public String getCategoryId() {
-        return categoryId;
     }
 
     public HashMap<String, String> getFiltersMap() {
@@ -70,10 +80,6 @@ public class Filters {
         this.sort = sort;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public void setStartPrice(String startPrice) {
         this.startPrice = startPrice;
     }
@@ -82,19 +88,16 @@ public class Filters {
         this.endPrice = endPrice;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public void setFiltersMap(HashMap<String, String> filters) {
         this.filtersMap = filters;
     }
 
     @Override
     public String toString() {
-        return "Filters [keyword=" + keyword + ", sort=" + sort + ", location=" + location + ", startPrice="
-                + startPrice + ", endPrice=" + endPrice + ", categoryId=" + categoryId + ", filtersMap=" + filtersMap
-                + ", limit=" + limit + ", page=" + page + "]";
+        return "Filters [keyword=" + keyword + ", sort=" + sort + ", startPrice=" + startPrice + ", endPrice="
+                + endPrice + ", locations=" + Arrays.toString(locations) + ", categoriesId="
+                + Arrays.toString(categoriesId) + ", filtersMap=" + filtersMap + ", limit=" + limit + ", page=" + page
+                + "]";
     }
 
 }

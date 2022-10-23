@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import dao.Filters;
 import dao.ProductDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
+import model.Filters;
 import model.Product;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
@@ -34,17 +34,20 @@ public class GetProductServlet extends HttpServlet {
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
-            String keyword = null, categoryId = null, startPrice = null, endPrice = null, sort = null, location = null;
+            String[] locations = req.getParameterValues("location");
+            String[] categoriesId = req.getParameterValues("categoryId");
+            String keyword = null, startPrice = null, endPrice = null, sort = null, location = null;
             int page = 1;
             if (req.getParameter("keyword") != null) {
                 keyword = req.getParameter("keyword");
             }
-            if (req.getParameter("categoryId") != null) {
-                categoryId = req.getParameter("categoryId");
-            }
-            if (req.getParameter("location") != null) {
-                location = req.getParameter("location");
-            }
+            // if (req.getParameter("categoryId") != null) {
+            // categoriesId = req.getParameterValues("categoryId");
+            // }
+            // if (req.getParameterValues("location") != null) {
+            // locations = req.getParameterValues("location");
+            // }
+            System.out.println(categoriesId);
             if (req.getParameter("startPrice") != null) {
                 startPrice = req.getParameter("startPrice");
             }
@@ -57,19 +60,20 @@ public class GetProductServlet extends HttpServlet {
             if (req.getParameter("page") != null) {
                 page = Integer.parseInt(req.getParameter("page"));
             }
-            System.out.println("keyword: " + keyword + " categoryId: " + categoryId + " location: " + location
-                    + " startPrice: " + startPrice + " endPrice: " + endPrice + " sort: " + sort);
-            Filters filter = new Filters(keyword, categoryId, startPrice, endPrice, sort, location, page);
+            ;
+            Filters filter = new Filters(keyword, sort, startPrice, endPrice,
+                    locations, categoriesId, page);
             System.out.println(filter.toString());
+
             ArrayList<Product> products = ProductDAO.getProducts(filter, connection);
             String json = gson.toJson(products);
-            resp.setStatus(201);
+            resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(),
-            500)));
+                    500)));
         }
 
     }
