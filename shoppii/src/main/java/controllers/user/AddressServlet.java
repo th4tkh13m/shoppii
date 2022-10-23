@@ -25,11 +25,13 @@ public class AddressServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
-        DBConnect db = new DBConnect();
-        Connection connection = db.getConnection();
+        
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
         try {
-
+            DBConnect db = new DBConnect();
+            Connection connection = db.getConnection();
             int userId = Integer.parseInt(req.getParameter("userId"));
             String receiverAddress = req.getParameter("receiverAddress");
             String receiverName = req.getParameter("receiverName");

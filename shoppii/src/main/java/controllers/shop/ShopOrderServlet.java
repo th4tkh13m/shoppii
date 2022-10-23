@@ -1,4 +1,4 @@
-package controllers.admin;
+package controllers.shop;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -12,16 +12,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import dao.RequestDAO;
+import dao.CustomerDAO;
+import dao.OrderDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
-import model.ShopRequest;
+import model.Order;
+import model.Shop;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 1, // 1 MB
         maxRequestSize = 1024 * 1024 * 1 // 1 MB
 )
-public class ShopRequestServlet extends HttpServlet {
+public class ShopOrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
@@ -30,17 +32,18 @@ public class ShopRequestServlet extends HttpServlet {
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
-
+            int shopId = Integer.parseInt(req.getParameter("shopId"));
             String status = req.getParameter("status");
-            ArrayList<ShopRequest> requests = RequestDAO.getRequestsByStatus(status, connection);
-            String json = gson.toJson(requests);
+            Shop shop = CustomerDAO.getShopFromId(shopId, connection);
+            ArrayList<Order> orders = OrderDAO.getOrdersByShop(shop, status, connection);
+            System.out.println(orders);
+            String json = gson.toJson(orders);
             resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
-            connection.close();
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
     }
 
@@ -54,14 +57,13 @@ public class ShopRequestServlet extends HttpServlet {
             Connection connection = db.getConnection();
 
             String status = req.getParameter("status");
-            int customerId = Integer.parseInt(req.getParameter("userId"));
-            ShopRequest request = null;
+            int orderId = Integer.parseInt(req.getParameter("orderId"));
+            Order order = null;
             if (status.equalsIgnoreCase("Accepted")) {
-                request = RequestDAO.acceptRequest(customerId, connection);
-            } else {
-                request = RequestDAO.rejectRequest(customerId, connection);
-            }
-            String json = gson.toJson(request);
+                order = OrderDAO.acceptOrder(orderId, connection);
+            } else 
+                order = OrderDAO.rejectOrder(orderId, connection);
+            String json = gson.toJson(order);
             resp.setStatus(200);
             resp.getOutputStream().println(json);
         } catch (Exception e) {

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import dao.CategoryDAO;
+import dao.CustomerDAO;
 import dao.ProductDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
@@ -34,18 +36,21 @@ public class ProductsShopServlet extends HttpServlet {
             int shopId = Integer.parseInt(req.getParameter("shopId"));
             ArrayList<Product> products = new ArrayList<>();
             products = ProductDAO.getProductByShopId(shopId, connection);
+            System.out.println(products);
             String json = gson.toJson(products);
-            resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.setStatus(200);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
         }
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
         resp.setContentType("application/json");
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         try {
             DBConnect dbConnect = new DBConnect();
             Connection connection = dbConnect.getConnection();
@@ -55,8 +60,8 @@ public class ProductsShopServlet extends HttpServlet {
             int quantity = Integer.parseInt(req.getParameter("quantity"));
             int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
-            Product product = ProductDAO.addProduct(new Product(shopId, name, price,
-            quantity, cat, des), connection);
+            Product product = ProductDAO.addProduct(new Product(name, price,
+                    quantity, des, CustomerDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(cat, connection)), connection);
             String json = gson.toJson(product);
             resp.setStatus(201);
             resp.getOutputStream().println(json);
@@ -69,6 +74,8 @@ public class ProductsShopServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
         resp.setContentType("application/json");
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         try {
             DBConnect dbConnect = new DBConnect();
             Connection connection = dbConnect.getConnection();
@@ -77,9 +84,11 @@ public class ProductsShopServlet extends HttpServlet {
             String name = req.getParameter("name");
             int price = Integer.parseInt(req.getParameter("price"));
             int quantity = Integer.parseInt(req.getParameter("quantity"));
-            int cat = Integer.parseInt(req.getParameter("category"));
+            int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
-            Product product = new Product(productId, shopId, name, price, quantity, cat, des);
+            System.out.println(des);
+            Product product = new Product(productId, name, price,
+            quantity, des, CustomerDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(cat, connection));
             ProductDAO.updateProduct(product, connection);
             String json = gson.toJson(product);
             resp.setStatus(201);

@@ -42,7 +42,6 @@ public class CartServlet extends HttpServlet {
             HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.getCartOfCustomer(userId, connection);
             
             String json = gson.toJson(cart, type);
-            System.out.println(json);
             resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
@@ -53,7 +52,10 @@ public class CartServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Type type = new TypeToken<HashMap<Shop, HashMap<Product, Integer>>>() {}.getType();
+        gsonBuilder.registerTypeAdapter(type, new ProductMap());
+        Gson gson = gsonBuilder.create();
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
@@ -64,7 +66,7 @@ public class CartServlet extends HttpServlet {
             int quantity = Integer.parseInt(req.getParameter("quantity"));
 
             HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.addProductToCart(userId, productId, quantity, connection);
-            String json = gson.toJson(cart);
+            String json = gson.toJson(cart, type);
             resp.setStatus(201);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
@@ -75,7 +77,10 @@ public class CartServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Type type = new TypeToken<HashMap<Shop, HashMap<Product, Integer>>>() {}.getType();
+        gsonBuilder.registerTypeAdapter(type, new ProductMap());
+        Gson gson = gsonBuilder.create();
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
@@ -86,7 +91,7 @@ public class CartServlet extends HttpServlet {
             int quantity = Integer.parseInt(req.getParameter("quantity"));
 
             HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.modifyProductQuantity(userId, productId, quantity, connection);
-            String json = gson.toJson(cart);
+            String json = gson.toJson(cart, type);
             resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
@@ -97,7 +102,10 @@ public class CartServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Type type = new TypeToken<HashMap<Shop, HashMap<Product, Integer>>>() {}.getType();
+        gsonBuilder.registerTypeAdapter(type, new ProductMap());
+        Gson gson = gsonBuilder.create();
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
@@ -107,7 +115,7 @@ public class CartServlet extends HttpServlet {
             int productId = Integer.parseInt(req.getParameter("productId"));
 
             HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.deleteProductFromCart(userId, productId, connection);
-            String json = gson.toJson(cart);
+            String json = gson.toJson(cart, type);
             resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {

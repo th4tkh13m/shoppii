@@ -3,3 +3,4 @@ shoppii/nb-configuration.xml
 *.log
 /shoppii/nbproject/
 scripts/products*
+shoppii/token.txt

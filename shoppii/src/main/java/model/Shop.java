@@ -5,6 +5,10 @@ public class Shop {
     private String name, address, description;
     private boolean status;
 
+    public Shop() {
+
+    }
+
     public Shop(String name, String address, String description, boolean status) {
         this.name = name;
         this.address = address;
@@ -12,7 +16,12 @@ public class Shop {
         this.status = status;
     }
 
-    
+    public Shop(int shopId, String name, String address) {
+        this.shopId = shopId;
+        this.name = name;
+        this.address = address;
+
+    }
 
     public Shop(int shopId, String name, String address, String description, boolean status) {
         this.shopId = shopId;
@@ -22,7 +31,12 @@ public class Shop {
         this.status = status;
     }
 
+    public Shop(String name, String address, String description) {
 
+        this.name = name;
+        this.address = address;
+        this.description = description;
+    }
 
     public int getShopId() {
         return shopId;
@@ -76,10 +90,8 @@ public class Shop {
                 + ", status=" + status + "]";
     }
 
-
-
     public void setShopId(int shopId) {
         this.shopId = shopId;
     }
-    
+
 }

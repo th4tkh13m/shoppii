@@ -143,11 +143,18 @@ public class CustomerDAO {
 
     }
 
-    public static Customer register(String phone, String password, String code, Connection connection) throws SQLException {
-        Customer customer = createCustomer(Utils.generateName(), null, phone, password, code);
+    public static Customer register(String phone, String mail, String password, String code, Connection connection)
+            throws SQLException {
+        Customer customer = null;
+        if (phone == null) {
+            customer = createCustomer(Utils.generateName(), mail, null, password, code);
+        }
+        if (mail == null) {
+            customer = createCustomer(Utils.generateName(), null, phone, password, code);
+        }
         System.out.println(customer);
         insertCustomer(customer, connection);
-        return CustomerDAO.getCustomerFromMailOrPhone(null, phone, connection);
+        return CustomerDAO.getCustomerFromMailOrPhone(mail, phone, connection);
 
     }
 
@@ -205,6 +212,24 @@ public class CustomerDAO {
             customer = new Customer(customerId, name, mail, phone, dob, sex, password, code);
         }
         return customer;
+    }
 
+    public static Customer checkResetPasswordInfo(String email, String phone, String securityCode, Connection connection) throws SQLException {
+        Customer customer = getCustomerFromMailOrPhone(email, phone, connection);
+        if (customer.verifyCode(securityCode)) {
+            return customer;
+        }
+        return null;
+    }
+
+    public static Customer resetPassword(String password, Customer customer, Connection connection) throws S3Exception, AwsServiceException, SdkClientException, SQLException, IOException {
+        customer.encryptPassword(password, argon2);
+        String sql = "UPDATE Customer SET password = ? WHERE user_id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, customer.getEncryptedPassword());
+        statement.setInt(2, customer.getUserId());
+
+        statement.executeUpdate();
+        return getCustomerFromId(customer.getUserId(), connection);
     }
 }
