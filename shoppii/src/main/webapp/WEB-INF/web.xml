@@ -77,6 +77,10 @@
         <servlet-name>ShopInformationServlet</servlet-name>
         <servlet-class>controllers.shop.ShopInformationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>controllers.user.OrderServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
@@ -141,6 +145,10 @@
     <servlet-mapping>
         <servlet-name>ShopInformationServlet</servlet-name>
         <url-pattern>/shop/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/order</url-pattern>
     </servlet-mapping>
 
     <!-- Environment variables -->

@@ -59,12 +59,13 @@ public class ProductMap implements JsonSerializer<HashMap<Shop, HashMap<Product,
             JsonArray shops = jsonObject.get("shops").getAsJsonArray();
 
             for (JsonElement shopElement : shops) {
+                System.out.println("IN SHOP");
                 JsonObject shopObj = shopElement.getAsJsonObject();
 
                 Shop shop = new Shop(shopObj.get("shopId").getAsInt(),
                 shopObj.get("shopName").getAsString(), 
                 shopObj.get("address").getAsString(), 
-                shopObj.get("address").getAsString(),
+                shopObj.get("description").getAsString(),
                 shopObj.get("status").getAsBoolean());
 
                 HashMap<Product, Integer> products = new HashMap<>();
