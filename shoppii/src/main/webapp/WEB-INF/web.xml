@@ -54,6 +54,10 @@
         <servlet-class>controllers.admin.ShopRequestServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ShopOrderServlet</servlet-name>
+        <servlet-class>controllers.shop.ShopOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ProductSearchServlet</servlet-name>
         <servlet-class>controllers.user.ProductSearchServlet</servlet-class>
     </servlet>
@@ -105,6 +109,10 @@
     <servlet-mapping>
         <servlet-name>ShopRegisterServlet</servlet-name>
         <url-pattern>/shop/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShopOrderServlet</servlet-name>
+        <url-pattern>/shop/order</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ShopRequestServlet</servlet-name>

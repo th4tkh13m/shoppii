@@ -38,7 +38,7 @@ public class ProductDAO {
             int categoryId = result.getInt(5);
             String description = result.getString(6);
 
-            product = new Product(productId, shopId, name, price, quantity, categoryId, description);
+            product = new Product(productId, name, price, quantity, description, CustomerDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(categoryId, connection));
         }
 
         return product;
@@ -74,11 +74,11 @@ public class ProductDAO {
     public static Product addProduct(Product product, Connection connection) throws SQLException {
         String sql = "INSERT INTO Product (shop_id, name, price, quantity, category_id, description) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, product.getShopId());
+        statement.setInt(1, product.getShop().getShopId());
         statement.setString(2, product.getName());
         statement.setInt(3, product.getPrice());
         statement.setInt(4, product.getQuantity());
-        statement.setInt(5, product.getcategoryId());
+        statement.setInt(5, product.getCategory().getCategory_id());
         statement.setString(6, product.getDescription());
         statement.executeUpdate();
         return getProductFromId(getMaxId(connection), connection);
@@ -90,7 +90,7 @@ public class ProductDAO {
         statement.setString(1, product.getName());
         statement.setInt(2, product.getPrice());
         statement.setInt(3, product.getQuantity());
-        statement.setInt(4, product.getcategoryId());
+        statement.setInt(4, product.getCategory().getCategory_id());
         statement.setString(5, product.getDescription());
         statement.setInt(6, product.getProductId());
         statement.executeUpdate();
@@ -122,7 +122,7 @@ public class ProductDAO {
 
     public static ArrayList<Product> getProducts(Filters filters, Connection connection) throws SQLException {
         ArrayList<Product> products = new ArrayList<>();
-        String sql = "SELECT pd.product_id, pd.shop_id, pd.name, pd.price, pd.quantity, pd.description,  pd.category_id, ct.category_name, ct.imgLink, pd.shop_id, s.name, s.address from (product pd inner join category ct on pd.category_id = ct.category_id) inner join shop s on s.shop_id = pd.shop_id";
+        String sql = "SELECT product_id FROM Product";
         ArrayList<String> WHERE_CLAUSE_ARRAY = new ArrayList<>();
         String WHERE_CLAUSE = "WHERE";
         String ORDER_BY_CLAUSE = "";
@@ -151,6 +151,9 @@ public class ProductDAO {
         if (filters.getEndPrice() != null) {
             WHERE_CLAUSE_ARRAY.add("pd.price <= " + filters.getEndPrice());
         }
+        if (WHERE_CLAUSE.equalsIgnoreCase("WHERE")) {
+            WHERE_CLAUSE = "";
+        }
         int limit = filters.getLimit();
         int page = filters.getPage();
         int offset = (limit * page) - limit;
@@ -176,20 +179,8 @@ public class ProductDAO {
         ResultSet result = statement.executeQuery();
         while (result.next()) {
             int productId = result.getInt(1);
-            int shopId = result.getInt(2);
-            String name = result.getString(3);
-            int price = result.getInt(4);
-            int quantity = result.getInt(5);
-            String description = result.getString(6);
-            int categoryId = result.getInt(7);
-            String categoryName = result.getString(8);
-            String categoryImgLink = result.getString(9);
-            String shopName = result.getString(11);
-            String shopAddress = result.getString(12);
-            Shop shop = new Shop(shopId, shopName, shopAddress);
-            Category category = new Category(categoryId, categoryName, categoryImgLink);
-            Product p = new Product(productId, name, price, quantity, description, shop, category);
-            // Product p = getProductFromId(productId, connection);
+           
+            Product p = getProductFromId(productId, connection);
             products.add(p);
         }
         return products;
