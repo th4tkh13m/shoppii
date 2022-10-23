@@ -38,7 +38,7 @@ public class ShopInformationServlet extends HttpServlet {
                 } catch (Exception e) {
                         resp.setStatus(500);
                         resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
-                
+
                 }
 
         }
