@@ -40,8 +40,7 @@ public class ShopRequestServlet extends HttpServlet {
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
-            System.out.println("HELLO");
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
         }
     }
 
@@ -68,7 +67,7 @@ public class ShopRequestServlet extends HttpServlet {
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
         }
     }
 }
