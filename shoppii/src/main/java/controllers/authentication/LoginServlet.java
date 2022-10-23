@@ -14,6 +14,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 
 import dao.CustomerDAO;
+import dao.ShopDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
 import model.Customer;
@@ -40,7 +41,7 @@ public class LoginServlet extends HttpServlet {
             String password = req.getParameter("password");
             Customer customer = CustomerDAO.checkLogin(email, phone, password, connection);
             if (customer != null) {
-                boolean hasShop = CustomerDAO.getShopFromId(customer.getUserId(), connection) != null;
+                boolean hasShop = ShopDAO.getShopFromId(customer.getUserId(), connection) != null;
                 JsonElement jsonElement = gson.toJsonTree(customer);
                 jsonElement.getAsJsonObject().addProperty("hasShop", hasShop);
                 String json = gson.toJson(jsonElement);

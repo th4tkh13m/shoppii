@@ -14,6 +14,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 
 import dao.CustomerDAO;
+import dao.ShopDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
 import model.Customer;
@@ -39,7 +40,7 @@ public class CheckEmailExist extends HttpServlet {
                 resp.getOutputStream().println(gson.toJson(new ErrorHandle("Not found this email address", 404)));
             } else {
                 customer = CustomerDAO.getCustomerFromMail(email, connection);
-                boolean hasShop = CustomerDAO.getShopFromId(customer.getUserId(), connection) != null;
+                boolean hasShop = ShopDAO.getShopFromId(customer.getUserId(), connection) != null;
                 JsonElement jsonElement = gson.toJsonTree(customer);
                 jsonElement.getAsJsonObject().addProperty("hasShop", hasShop);
                 json = gson.toJson(jsonElement);

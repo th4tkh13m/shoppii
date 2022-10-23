@@ -38,7 +38,7 @@ public class ProductDAO {
             int categoryId = result.getInt(5);
             String description = result.getString(6);
 
-            product = new Product(productId, name, price, quantity, description, CustomerDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(categoryId, connection));
+            product = new Product(productId, name, price, quantity, description, ShopDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(categoryId, connection));
         }
 
         return product;

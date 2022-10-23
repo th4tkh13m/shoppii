@@ -168,23 +168,6 @@ public class CustomerDAO {
         }
     }
 
-    public static Shop getShopFromId(int shopId, Connection connection) throws SQLException {
-        Shop shop = null;
-        String sql = "SELECT name, address, description, status FROM `Shop` WHERE shop_id = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, shopId);
-        ResultSet result = statement.executeQuery();
-        while (result.next()) {
-            String name = result.getString(1);
-            String address = result.getString(2);
-            String description = result.getString(3);
-            boolean status = result.getBoolean(4);
-
-            shop = new Shop(shopId, name, address, description, status);
-        }
-        return shop;
-    }
-
     public static boolean checkEmailExist(String mail, Connection connection) throws SQLException {
         String sql = "SELECT mail FROM `Customer` WHERE mail = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
