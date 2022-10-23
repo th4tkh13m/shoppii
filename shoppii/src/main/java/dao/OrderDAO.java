@@ -93,7 +93,7 @@ public class OrderDAO {
 
     public static ArrayList<Order> getOrdersByShop(Shop shop, String statusFilter, Connection connection) throws SQLException {
         ArrayList<Order> orders = new ArrayList<>();
-            String sql = "SELECT order_id, user_id, payment_method, status, time, address_id " +
+            String sql = "SELECT o.order_id, user_id, payment_method, status, time, address_id " +
                     "FROM `Order` o INNER JOIN `Contain` c ON o.order_id = c.order_id " +
                     "INNER JOIN `Product` p ON p.product_id = c.product_id " +
                     "WHERE p.shop_id = ? AND status = ?";
@@ -117,28 +117,24 @@ public class OrderDAO {
             return orders;
     }
 
-    private static boolean changeStatus(int orderId, String status, Connection connection) {
-        try {
-            String sql = "UPDATE `Order` SET status = ? WHERE order_id = ?";
+    private static Order changeStatus(int orderId, String status, Connection connection) throws SQLException {
+        String sql = "UPDATE `Order` SET status = ? WHERE order_id = ?";
 
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, status);
-            statement.setInt(2, orderId);
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, status);
+        statement.setInt(2, orderId);
 
-            statement.executeUpdate();
-            return true;
-        } catch (Exception e) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, e);
-            return false;
-        }
+        statement.executeUpdate();
+        return getOrderFromId(orderId, connection);
+            
     }
 
-    public static boolean acceptOrder(int orderId, Connection connection) {
+    public static Order acceptOrder(int orderId, Connection connection) throws SQLException {
         return changeStatus(orderId, "Accepted", connection);
 
     }
 
-    public static boolean rejectOrder(int orderId, Connection connection) {
+    public static Order rejectOrder(int orderId, Connection connection) throws SQLException {
         return changeStatus(orderId, "Rejected", connection);
     }
 

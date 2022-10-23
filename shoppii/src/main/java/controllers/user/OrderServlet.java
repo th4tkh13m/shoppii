@@ -25,9 +25,6 @@ public class OrderServlet extends HttpServlet {
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
-            int productId = Integer.parseInt(req.getParameter("product_id"));
-            int quantity = Integer.parseInt(req.getParameter("quantity"));
-            int price = Integer.parseInt(req.getParameter("price"));
             int userId = Integer.parseInt(req.getParameter("user_id"));
             String paymentMethod = req.getParameter("payment_method");
             String status = req.getParameter("status");
