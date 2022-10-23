@@ -122,7 +122,7 @@ public class ProductDAO {
 
     public static ArrayList<Product> getProducts(Filters filters, Connection connection) throws SQLException {
         ArrayList<Product> products = new ArrayList<>();
-        String sql = "SELECT pd.product_id, pd.shop_id, pd.name, pd.price, pd.quantity, pd.description,  pd.category_id, ct.category_name, ct.imgLink, pd.shop_id, s.name, s.address from (product pd inner join category ct on pd.category_id = ct.category_id) inner join shop s on s.shop_id = pd.shop_id";
+        String sql = "SELECT pd.product_id, pd.shop_id, pd.name, pd.price, pd.quantity, pd.description,  pd.category_id, ct.category_name, ct.imgLink, pd.shop_id, s.name, s.address from (Product pd inner join Category ct on pd.category_id = ct.category_id) inner join Shop s on s.shop_id = pd.shop_id";
         ArrayList<String> WHERE_CLAUSE_ARRAY = new ArrayList<>();
         String WHERE_CLAUSE = "WHERE";
         String ORDER_BY_CLAUSE = "";
