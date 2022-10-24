@@ -37,4 +37,11 @@ public class ShopDAO {
         statement.executeUpdate();
         return getShopFromId(shopId, connection);
     }
+
+    public static void deleteShop(int shopId, Connection connection) throws SQLException {
+        String sql = " UPDATE `Shop` SET status = 0 where id = ? ";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, shopId);
+        statement.executeUpdate();
+    }
 }
