@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import model.Order;
 import model.OrderItem;
@@ -22,17 +20,18 @@ public class OrderDAO {
         for (Shop shop : confirmedProducts.keySet()) {
             String sql1 = "INSERT INTO `Order` (user_id, payment_method, address_id) VALUES(?,?,?)";
             PreparedStatement statement1 = connection.prepareStatement(sql1);
-            statement1.setInt(2, userId);
+            statement1.setInt(1, userId);
             statement1.setString(2, paymentMethod);
             statement1.setInt(3, addressId);
             statement1.execute();
 
             for (Product product : confirmedProducts.get(shop).keySet()) {
-                String sql = "INSERT INTO `Contain` (product_id, quantity, price) VALUES (?,?,?)";
+                String sql = "INSERT INTO `Contain` (order_id, product_id, quantity, price) VALUES (?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setInt(1, product.getProductId());
-                statement.setInt(2, confirmedProducts.get(shop).get(product));
-                statement.setInt(3, confirmedProducts.get(shop).get(product) * product.getPrice());
+                statement.setInt(1, selectMaxOrder(connection));
+                statement.setInt(2, product.getProductId());
+                statement.setInt(3, confirmedProducts.get(shop).get(product));
+                statement.setInt(4, confirmedProducts.get(shop).get(product) * product.getPrice());
                 statement.execute();
             }
 
@@ -72,7 +71,7 @@ public class OrderDAO {
 
     public static Order getOrderFromId(int orderId, Connection connection) throws SQLException {
         Order order = null;
-            String sql = "SELECT user_id, payment_method, status, time, address_id FROM `Contain` WHERE order_id = ?";
+            String sql = "SELECT user_id, payment_method, status, time, address_id FROM `Order` WHERE order_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
 
             statement.setInt(1, orderId);

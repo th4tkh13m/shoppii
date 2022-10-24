@@ -4,11 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import model.Product;
 import model.Category;
+import model.Filters;
 import model.Shop;
 
 public class ProductDAO {
@@ -38,7 +39,8 @@ public class ProductDAO {
             int categoryId = result.getInt(5);
             String description = result.getString(6);
 
-            product = new Product(productId, name, price, quantity, description, CustomerDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(categoryId, connection));
+            product = new Product(productId, name, price, quantity, description,
+                    ShopDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(categoryId, connection));
         }
 
         return product;
@@ -122,37 +124,49 @@ public class ProductDAO {
 
     public static ArrayList<Product> getProducts(Filters filters, Connection connection) throws SQLException {
         ArrayList<Product> products = new ArrayList<>();
-        String sql = "SELECT product_id FROM Product";
+        String sql = "SELECT product_id, category_id FROM Product pd inner join Shop s on pd.shop_id = s.shop_id";
         ArrayList<String> WHERE_CLAUSE_ARRAY = new ArrayList<>();
         String WHERE_CLAUSE = "WHERE";
         String ORDER_BY_CLAUSE = "";
         String LIMIT_CLAUSE = "";
-        // WHERE_CLAUSE
-        System.out.println("keyword" + filters.getKeyword());
-        System.out.println("cate id" + filters.getCategoryId());
-        System.out.println("location" + filters.getLocation());
-        System.out.println("start price" + filters.getStartPrice());
-        System.out.println("end price" + filters.getEndPrice());
-        System.out.println("limit" + filters.getLimit());
-        System.out.println("page" + filters.getPage());
 
         if (filters.getKeyword() != null) {
             WHERE_CLAUSE_ARRAY.add("LOWER(pd.name) like '%" + filters.getKeyword() + "%'");
         }
-        if (filters.getCategoryId() != null) {
-            WHERE_CLAUSE_ARRAY.add("pd.category_id = " + filters.getCategoryId());
+        if (filters.getCategoriesId() != null) {
+            // WHERE_CLAUSE_ARRAY.add("pd.category_id = " + filters.get());
+            String[] categoriesId = filters.getCategoriesId();
+            String categoriesIdString = "(";
+            for (int i = 0; i < categoriesId.length; i++) {
+                categoriesIdString += "category_id = " + categoriesId[i];
+                if (i < categoriesId.length - 1) {
+                    categoriesIdString += " OR ";
+                } else {
+                    categoriesIdString += ")";
+                }
+            }
+            WHERE_CLAUSE_ARRAY.add(categoriesIdString);
         }
-        if (filters.getLocation() != null) {
-            WHERE_CLAUSE_ARRAY.add("LOWER(s.address) like '%" + filters.location + "%'");
+        if (filters.getLocations() != null) {
+            // WHERE_CLAUSE_ARRAY.add("LOWER(s.address) like '%" + filters.location + "%'");
+            String[] locations = filters.getLocations();
+            String locationsString = "(";
+            for (int i = 0; i < locations.length; i++) {
+                locationsString += "LOWER(s.address) like '%" + locations[i] + "%'";
+                if (i < locations.length - 1) {
+                    locationsString += " OR ";
+                } else {
+                    locationsString += ")";
+                }
+            }
+            WHERE_CLAUSE_ARRAY.add(locationsString);
+            System.out.println(locationsString);
         }
         if (filters.getStartPrice() != null) {
             WHERE_CLAUSE_ARRAY.add("pd.price >= " + filters.getStartPrice());
         }
         if (filters.getEndPrice() != null) {
             WHERE_CLAUSE_ARRAY.add("pd.price <= " + filters.getEndPrice());
-        }
-        if (WHERE_CLAUSE.equalsIgnoreCase("WHERE")) {
-            WHERE_CLAUSE = "";
         }
         int limit = filters.getLimit();
         int page = filters.getPage();
@@ -161,17 +175,20 @@ public class ProductDAO {
         if (filters.getSort() != null) {
             ORDER_BY_CLAUSE = " ORDER BY pd.price " + filters.getSort();
         }
-        for (String sentences : WHERE_CLAUSE_ARRAY) {
-            if (WHERE_CLAUSE_ARRAY.indexOf(sentences) == 0) {
-                WHERE_CLAUSE += " " + sentences;
-            } else {
-                WHERE_CLAUSE += " AND " + sentences;
+        if (WHERE_CLAUSE_ARRAY.size() < 1) {
+            WHERE_CLAUSE = "";
+        } else {
+            for (String sentences : WHERE_CLAUSE_ARRAY) {
+                if (WHERE_CLAUSE_ARRAY.indexOf(sentences) == 0) {
+                    WHERE_CLAUSE += " " + sentences;
+                } else {
+                    WHERE_CLAUSE += " AND " + sentences;
+                }
             }
-
         }
         System.out.println(WHERE_CLAUSE);
-        System.out.println(ORDER_BY_CLAUSE);
-        System.out.println(LIMIT_CLAUSE);
+        // System.out.println(ORDER_BY_CLAUSE);
+        // System.out.println(LIMIT_CLAUSE);
         sql += " " + WHERE_CLAUSE + ORDER_BY_CLAUSE + LIMIT_CLAUSE;
         System.out.println(sql);
         PreparedStatement statement = connection.prepareStatement(sql);
@@ -179,7 +196,6 @@ public class ProductDAO {
         ResultSet result = statement.executeQuery();
         while (result.next()) {
             int productId = result.getInt(1);
-           
             Product p = getProductFromId(productId, connection);
             products.add(p);
         }

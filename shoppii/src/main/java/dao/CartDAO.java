@@ -34,7 +34,7 @@ public class CartDAO {
 
         ResultSet result = statement.executeQuery();
         while (result.next()) {
-            cart.put(CustomerDAO.getShopFromId(result.getInt(1), connection), new HashMap<>());
+            cart.put(ShopDAO.getShopFromId(result.getInt(1), connection), new HashMap<>());
         }
 
         // Put shop's product into hashmap

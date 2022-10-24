@@ -64,7 +64,7 @@ public class RequestDAOTest extends DBInfo{
         System.out.println("TEST: Create new Shop Request.");
         Customer customer;
         try {
-            customer = CustomerDAO.register("0123456789", null, "abc123", code, connection);
+            customer = CustomerDAO.register("111111", null, "abc123", code, connection);
             assertNotNull(RequestDAO
             .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection));
         System.out.println("Test passed.");
@@ -81,7 +81,7 @@ public class RequestDAOTest extends DBInfo{
         System.out.println("TEST: Get Shop Requests list.");
         Customer customer;
         try {
-            customer = CustomerDAO.register("0123456789", null, "abc123", code, connection);
+            customer = CustomerDAO.register("11111", null, "abc123", code, connection);
             RequestDAO
             .createRequest(customer.getUserId(), "Apple", "US", "Sell overpriced things", connection);
             Thread.sleep(1000);

@@ -3,17 +3,14 @@ package controllers.shop;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
-
-import dao.CustomerDAO;
 import dao.OrderDAO;
+import dao.ShopDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
 import model.Order;
@@ -34,7 +31,7 @@ public class ShopOrderServlet extends HttpServlet {
             Connection connection = db.getConnection();
             int shopId = Integer.parseInt(req.getParameter("shopId"));
             String status = req.getParameter("status");
-            Shop shop = CustomerDAO.getShopFromId(shopId, connection);
+            Shop shop = ShopDAO.getShopFromId(shopId, connection);
             ArrayList<Order> orders = OrderDAO.getOrdersByShop(shop, status, connection);
             System.out.println(orders);
             String json = gson.toJson(orders);
@@ -61,7 +58,7 @@ public class ShopOrderServlet extends HttpServlet {
             Order order = null;
             if (status.equalsIgnoreCase("Accepted")) {
                 order = OrderDAO.acceptOrder(orderId, connection);
-            } else 
+            } else
                 order = OrderDAO.rejectOrder(orderId, connection);
             String json = gson.toJson(order);
             resp.setStatus(200);
