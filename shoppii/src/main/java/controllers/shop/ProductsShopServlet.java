@@ -29,13 +29,19 @@ public class ProductsShopServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
         try {
+            String keyword = null;
+            if (req.getParameter("keyword") != null) {
+                keyword = req.getParameter("keyword");
+            }
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
             int shopId = Integer.parseInt(req.getParameter("shopId"));
             ArrayList<Product> products = new ArrayList<>();
-            products = ProductDAO.getProductByShopId(shopId, connection);
+            products = ProductDAO.getProductByShopId(shopId, keyword, connection);
             System.out.println(products);
             String json = gson.toJson(products);
             resp.setStatus(200);
@@ -61,7 +67,8 @@ public class ProductsShopServlet extends HttpServlet {
             int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
             Product product = ProductDAO.addProduct(new Product(name, price,
-                    quantity, des, ShopDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(cat, connection)), connection);
+                    quantity, des, ShopDAO.getShopFromId(shopId, connection),
+                    CategoryDAO.getCategoryFromId(cat, connection)), connection);
             String json = gson.toJson(product);
             resp.setStatus(201);
             resp.getOutputStream().println(json);
@@ -88,7 +95,8 @@ public class ProductsShopServlet extends HttpServlet {
             String des = req.getParameter("description");
             System.out.println(des);
             Product product = new Product(productId, name, price,
-            quantity, des, ShopDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(cat, connection));
+                    quantity, des, ShopDAO.getShopFromId(shopId, connection),
+                    CategoryDAO.getCategoryFromId(cat, connection));
             ProductDAO.updateProduct(product, connection);
             String json = gson.toJson(product);
             resp.setStatus(201);
