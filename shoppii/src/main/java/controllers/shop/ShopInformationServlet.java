@@ -72,13 +72,14 @@ public class ShopInformationServlet extends HttpServlet {
                 resp.setContentType("application/json");
                 req.setCharacterEncoding("UTF-8");
                 resp.setCharacterEncoding("UTF-8");
-
                 try {
                         DBConnect db = new DBConnect();
                         Connection connection = db.getConnection();
                         int shopId = Integer.parseInt(req.getParameter("shopId"));
+                        ShopDAO.deleteShop(shopId, connection);
                 } catch (Exception e) {
-                        // TODO: handle exception
+                        resp.setStatus(500);
+                        resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
                 }
         }
 }
