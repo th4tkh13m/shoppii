@@ -1,0 +1,51 @@
+@import 'normalize.css';
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap');
+
+:root {
+    // Overwrite bootstrap
+    --bs-body-font-family: 'Roboto', sans-serif;
+    --bs-body-font-size: 1.6rem;
+
+    // Variables
+    --main-light-blue: #3399FF;
+    --main-blue: #2877ee;
+    --main-dark: #252734;
+    --main-white: #fafafa;
+    --white: #fff;
+    --border-radius-normal: 8px;
+    --border-radius-circle: 50%;
+    --transition-normal: all 0.3s ease;
+    --box-shadow-main: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+        rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    --box-shadow-main-2: rgb(133, 131, 131) 5px 5px 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+hr {
+    color: #c7c7c7ad;
+}
+
+html {
+    font-size: 62.5%;
+    // overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+.div-body-default {
+    background-color: #fafafa;
+    height: 90vh;
+}
+
+.div-nav-default {
+    background-color: #2877ee;
+}

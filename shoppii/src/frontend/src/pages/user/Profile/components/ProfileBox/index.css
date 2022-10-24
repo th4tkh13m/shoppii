@@ -1,0 +1,28 @@
+.profile-box {
+    background-color: white;
+    width: 85rem;
+    height: auto;
+    padding: 1.5rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+        rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.box-contain {
+    width: 70rem;
+    height: auto;
+    margin-bottom: 3rem;
+}
+
+.box-header {
+    border-bottom: 1.5px solid #efefef;
+    padding: 1rem 0;
+    margin: 1.5rem;
+}
+
+.box-header h2 {
+    color: black;
+}
+.box-header div {
+    color: #555;
+    font-size: 1.2rem;
+}
