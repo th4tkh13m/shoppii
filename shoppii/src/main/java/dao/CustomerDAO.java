@@ -150,7 +150,7 @@ public class CustomerDAO {
         }
         if (mail == null) {
             customer = createCustomer(Utils.generateName(), null, phone, password, code);
-        }
+        } 
         System.out.println(customer);
         insertCustomer(customer, connection);
         return CustomerDAO.getCustomerFromMailOrPhone(mail, phone, connection);
