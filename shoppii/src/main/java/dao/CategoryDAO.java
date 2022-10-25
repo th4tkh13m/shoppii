@@ -17,8 +17,8 @@ public class CategoryDAO {
         ResultSet result = statement.executeQuery();
         while (result.next()) {
             String category_name = result.getString(1);
-           cate = new Category(category_id, category_name);
-          
+            cate = new Category(category_id, category_name);
+
         }
         return cate;
     }
@@ -33,7 +33,8 @@ public class CategoryDAO {
         while (result.next()) {
             int category_id = result.getInt(1);
             String category_name = result.getString(2);
-            cate.add(new Category(category_id, category_name));
+            String imgLink = result.getString(3);
+            cate.add(new Category(category_id, category_name, imgLink));
         }
         return cate;
     }
