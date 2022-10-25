@@ -54,7 +54,7 @@ public class ShopDAO {
         ResultSet result = statement.executeQuery();
         while (result.next()) {
             int id = result.getInt(1);
-            String address = result.getString(1);
+            String address = result.getString(2);
             locations.add(new Shop(id, address));
         }
         return locations;
