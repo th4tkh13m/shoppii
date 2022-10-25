@@ -41,12 +41,6 @@ public class GetProductServlet extends HttpServlet {
             if (req.getParameter("keyword") != null) {
                 keyword = req.getParameter("keyword");
             }
-            // if (req.getParameter("categoryId") != null) {
-            // categoriesId = req.getParameterValues("categoryId");
-            // }
-            // if (req.getParameterValues("location") != null) {
-            // locations = req.getParameterValues("location");
-            // }
             System.out.println(categoriesId);
             if (req.getParameter("startPrice") != null) {
                 startPrice = req.getParameter("startPrice");
