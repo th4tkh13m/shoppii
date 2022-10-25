@@ -34,11 +34,12 @@ public class OrderServlet extends HttpServlet {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
             int userId = Integer.parseInt(req.getParameter("user_id"));
-            String paymentMethod = req.getParameter("payment_method");
+            
             String status = req.getParameter("status");
             int addressId = Integer.parseInt(req.getParameter("address_id")) ;
-            ArrayList<Order> orders = OrderDAO.addOrder(null, userId, status, addressId, connection);
-            String json = gson.toJson(orders);
+            // ArrayList<Order> orders = OrderDAO.getOrderFromId(1, connection);
+            Order order = OrderDAO.getOrderFromId(1, connection);
+            String json = gson.toJson(order);
             resp.setStatus(201);
             resp.getOutputStream().println(json);
         } catch (Exception e) {
@@ -57,17 +58,19 @@ public class OrderServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         try {
-            // DBConnect db = new DBConnect();
-            // Connection connection = db.getConnection();
-
+            DBConnect db = new DBConnect();
+            Connection connection = db.getConnection();
+            int userId = Integer.parseInt(req.getParameter("userId"));
             String orderJson = req.getParameter("orders");
+            int addressId = Integer.parseInt(req.getParameter("addressId"));
+            String paymentMethod = req.getParameter("paymentMethod");
             HashMap<Shop, HashMap<Product, Integer>> orders = gson.fromJson(orderJson, type);
-            
+            OrderDAO.addOrder(orders, userId, paymentMethod, addressId, connection);
             
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
         }
     }
 }

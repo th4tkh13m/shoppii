@@ -116,7 +116,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ShopOrderServlet</servlet-name>
-        <url-pattern>/shop/order</url-pattern>
+        <url-pattern>/shop/orders</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ShopRequestServlet</servlet-name>
