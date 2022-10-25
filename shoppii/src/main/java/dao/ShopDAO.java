@@ -38,10 +38,11 @@ public class ShopDAO {
         return getShopFromId(shopId, connection);
     }
 
-    public static void deleteShop(int shopId, Connection connection) throws SQLException {
-        String sql = " UPDATE `Shop` SET status = 0 where id = ? ";
+    public static String deleteShop(int shopId, Connection connection) throws SQLException {
+        String sql = " UPDATE `Shop` SET status = 0 where shop_id = ? ";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, shopId);
         statement.executeUpdate();
+        return "Shop delete success!";
     }
 }
