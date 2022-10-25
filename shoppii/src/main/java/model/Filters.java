@@ -7,7 +7,7 @@ public class Filters {
     String keyword, sort, startPrice, endPrice;
     String[] locations, categoriesId;
     HashMap<String, String> filtersMap = new HashMap<>();
-    int limit = 2, page = 1;
+    int limit = 9, page = 1;
 
     public Filters(String keyword, String sort, String startPrice, String endPrice, String[] locations,
             String[] categoriesId, int page) {
