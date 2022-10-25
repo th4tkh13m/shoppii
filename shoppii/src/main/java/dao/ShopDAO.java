@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import model.Shop;
 
@@ -44,5 +45,18 @@ public class ShopDAO {
         statement.setInt(1, shopId);
         statement.executeUpdate();
         return "Shop delete success!";
+    }
+
+    public static ArrayList<Shop> getLocationsShop(Connection connection) throws SQLException {
+        ArrayList<Shop> locations = new ArrayList<>();
+        String sql = "select shop_id, address from shop group by address";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            int id = result.getInt(1);
+            String address = result.getString(1);
+            locations.add(new Shop(id, address));
+        }
+        return locations;
     }
 }

@@ -38,6 +38,13 @@ public class Shop {
         this.description = description;
     }
 
+    public Shop(int id, String address) {
+
+        this.shopId = id;
+        this.address = address;
+
+    }
+
     public int getShopId() {
         return shopId;
     }
