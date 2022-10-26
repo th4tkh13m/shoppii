@@ -33,10 +33,8 @@ public class OrderServlet extends HttpServlet {
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
-            int userId = Integer.parseInt(req.getParameter("user_id"));
-            
-            String status = req.getParameter("status");
-            int addressId = Integer.parseInt(req.getParameter("address_id")) ;
+            int userId = Integer.parseInt(req.getParameter("userId"));         
+            String status = req.getParameter("status");;
             // ArrayList<Order> orders = OrderDAO.getOrderFromId(1, connection);
             Order order = OrderDAO.getOrderFromId(1, connection);
             String json = gson.toJson(order);
