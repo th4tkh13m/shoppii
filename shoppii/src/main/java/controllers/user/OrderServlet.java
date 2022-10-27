@@ -41,7 +41,7 @@ public class OrderServlet extends HttpServlet {
             if (status != null) {
                 status = status.toLowerCase();
             }
-            HashMap<Order, HashMap<Product, Integer>> orders = OrderDAO.getOrderWithItems(userId, status, connection);
+            HashMap<Order, HashMap<Product, Integer>> orders = OrderDAO.getOrderWithItemsofUser(userId, status, connection);
             String json = gson.toJson(orders, type);
             resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
