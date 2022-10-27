@@ -2,21 +2,14 @@ package controllers.user;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
-
-import dao.ProductDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
-import model.Filters;
-import model.Product;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 1, // 1 MB
