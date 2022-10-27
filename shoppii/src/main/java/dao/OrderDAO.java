@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import model.Address;
 import model.Order;
 import model.OrderItem;
 import model.Product;
@@ -82,9 +82,9 @@ public class OrderDAO {
                 String paymentMethod = result.getString(2);
                 String status = result.getString(3);
                 Time time = result.getTime(4);
-                int addressId = result.getInt(5);
+                Address address = AddressDAO.getAddressFromId(result.getInt(5), connection);
 
-                order = new Order(orderId, customerId, paymentMethod, status, time, addressId);
+                order = new Order(orderId, customerId, paymentMethod, status, time, address);
             }
 
             return order;
@@ -108,9 +108,9 @@ public class OrderDAO {
                 String paymentMethod = result.getString(3);
                 String status = result.getString(4);
                 Time time = result.getTime(5);
-                int addressId = result.getInt(6);
+                Address address = AddressDAO.getAddressFromId(result.getInt(6), connection);
 
-                orders.add(new Order(orderId, customerId, paymentMethod, status, time, addressId));
+                orders.add(new Order(orderId, customerId, paymentMethod, status, time, address));
             }
 
             return orders;
@@ -128,6 +128,25 @@ public class OrderDAO {
             
     }
 
+    public static ArrayList<Order> getOrdersOfUser(int userId, String status, Connection connection) throws SQLException {
+        String sql = "SELECT order_id FROM `Order` WHERE user_id = ? AND LOWER(`status`) LIKE ?";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, userId);
+        if (status == null) {
+            statement.setString(2, "%");
+        } else {
+            statement.setString(2, status);
+        }
+        System.out.println(statement);
+        ResultSet result = statement.executeQuery();
+        ArrayList<Order> orders = new ArrayList<>();
+        while (result.next()) {
+            orders.add(getOrderFromId(result.getInt(1), connection));
+        }
+        return orders;
+    }
+
     public static Order acceptOrder(int orderId, Connection connection) throws SQLException {
         return changeStatus(orderId, "Accepted", connection);
 
@@ -137,8 +156,27 @@ public class OrderDAO {
         return changeStatus(orderId, "Rejected", connection);
     }
 
-    // public static ArrayList<Order> createOrders(int customerId, int addressId,
-    // String paymentMethod, ArrayList<Product> products, Connection connection) {
-    // Or
-    // }
+    public static HashMap<Order, HashMap<Product, Integer>> getOrderWithItems(int userId, String status, Connection connection) throws SQLException {
+        ArrayList<Order> orders = getOrdersOfUser(userId, status, connection);
+        HashMap<Order, HashMap<Product, Integer>> orderMap = new HashMap<>();
+
+        for (Order order : orders) {
+            HashMap<Product, Integer> items = new HashMap<>();
+            String sql = "SELECT product_id, quantity, price FROM Contain WHERE order_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, order.getOrderId());
+
+            ResultSet result = statement.executeQuery();
+
+            while (result.next()) {
+                Product product = ProductDAO.getProductFromId(result.getInt(1), connection);
+                product.setPrice(result.getInt(3));
+                items.put(product, result.getInt(2));
+            }
+
+            orderMap.put(order, items);
+        }
+
+        return orderMap;
+    }
 }

@@ -2,7 +2,6 @@ package controllers.user;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -19,6 +18,7 @@ import errors.ErrorHandle;
 import model.Order;
 import model.Product;
 import model.Shop;
+import utils.OrderMap;
 import utils.ProductMap;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
@@ -26,24 +26,29 @@ import utils.ProductMap;
         maxRequestSize = 1024 * 1024 * 1 // 1 MB
 )
 public class OrderServlet extends HttpServlet {
+    GsonBuilder gsonBuilder = new GsonBuilder();
+    Type type = new TypeToken<HashMap<Order, HashMap<Product, Integer>>>() {}.getType();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new Gson();
+        gsonBuilder.registerTypeAdapter(type, new OrderMap());
+        Gson gson = gsonBuilder.create();
         resp.setContentType("application/json");
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
             int userId = Integer.parseInt(req.getParameter("userId"));         
-            String status = req.getParameter("status");;
-            // ArrayList<Order> orders = OrderDAO.getOrderFromId(1, connection);
-            Order order = OrderDAO.getOrderFromId(1, connection);
-            String json = gson.toJson(order);
-            resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            String status = req.getParameter("status");
+            if (status != null) {
+                status = status.toLowerCase();
+            }
+            HashMap<Order, HashMap<Product, Integer>> orders = OrderDAO.getOrderWithItems(userId, status, connection);
+            String json = gson.toJson(orders, type);
+            resp.setStatus(200);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500, e)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
     }
     @Override
