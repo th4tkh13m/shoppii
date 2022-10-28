@@ -122,7 +122,7 @@ public class RequestDAO {
         statement.setInt(2, customerId);
 
         statement.executeUpdate();
-        return new ShopRequest(CustomerDAO.getCustomerFromId(customerId, connection), name, address, description,
+        return new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), name, address, description,
                 status, time);
     }
 

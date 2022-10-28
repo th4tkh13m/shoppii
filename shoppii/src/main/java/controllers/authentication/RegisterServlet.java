@@ -26,7 +26,6 @@ import utils.Utils;
 public class RegisterServlet extends HttpServlet {
     private String code = Utils.generateCode();
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
@@ -39,8 +38,8 @@ public class RegisterServlet extends HttpServlet {
             String rePassword = req.getParameter("rePassword");
 
             if (password.equals(rePassword)) {
-                Customer customer = CustomerDAO.register(phone, password, code, connection);
-                
+                Customer customer = CustomerDAO.register(phone, null, password, code, connection);
+
                 JsonElement jsonElement = gson.toJsonTree(customer);
                 jsonElement.getAsJsonObject().addProperty("securityCode", code);
                 String json = gson.toJson(jsonElement);

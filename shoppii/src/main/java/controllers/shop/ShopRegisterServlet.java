@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import dao.RequestDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
@@ -25,8 +23,10 @@ import model.ShopRequest;
 public class ShopRegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        Gson gson = new Gson();
         resp.setContentType("application/json");
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();

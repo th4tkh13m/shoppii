@@ -65,4 +65,11 @@ public class Order {
     public void setAddressId(int addressId) {
         this.addressId = addressId;
     }
+
+    @Override
+    public String toString() {
+        return "Order [orderId=" + orderId + ", customerId=" + customerId + ", paymentMethod="
+                + paymentMethod + ", status=" + status + ", time=" + time + ", addressId="
+                + addressId + "]";
+    }
 }

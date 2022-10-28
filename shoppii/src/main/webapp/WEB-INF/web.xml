@@ -54,12 +54,32 @@
         <servlet-class>controllers.admin.ShopRequestServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ProductServlet</servlet-name>
-        <servlet-class>controllers.user.ProductServlet</servlet-class>
+        <servlet-name>ShopOrderServlet</servlet-name>
+        <servlet-class>controllers.shop.ShopOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductSearchServlet</servlet-name>
+        <servlet-class>controllers.user.ProductSearchServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CheckEmailExist</servlet-name>
         <servlet-class>controllers.authentication.CheckEmailExist</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ResetPassword</servlet-name>
+        <servlet-class>controllers.authentication.ResetPassword</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetProductServlet</servlet-name>
+        <servlet-class>controllers.user.GetProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShopInformationServlet</servlet-name>
+        <servlet-class>controllers.shop.ShopInformationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>controllers.user.OrderServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -95,12 +115,40 @@
         <url-pattern>/shop/register</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>ShopOrderServlet</servlet-name>
+        <url-pattern>/shop/order</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ShopRequestServlet</servlet-name>
         <url-pattern>/admin/request</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CategoryServlet</servlet-name>
         <url-pattern>/category</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckEmailExist</servlet-name>
+        <url-pattern>/isRegistered</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductSearchServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResetPassword</servlet-name>
+        <url-pattern>/reset-password</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetProductServlet</servlet-name>
+        <url-pattern>/products</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShopInformationServlet</servlet-name>
+        <url-pattern>/shop/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/order</url-pattern>
     </servlet-mapping>
 
     <!-- Environment variables -->

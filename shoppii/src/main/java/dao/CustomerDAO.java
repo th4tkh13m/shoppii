@@ -13,7 +13,6 @@ import com.password4j.types.Argon2;
 
 import dbconnect.S3Util;
 import model.Customer;
-import model.Shop;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.services.s3.model.S3Exception;
@@ -143,11 +142,18 @@ public class CustomerDAO {
 
     }
 
-    public static Customer register(String phone, String password, String code, Connection connection) throws SQLException {
-        Customer customer = createCustomer(Utils.generateName(), null, phone, password, code);
+    public static Customer register(String phone, String mail, String password, String code, Connection connection)
+            throws SQLException {
+        Customer customer = null;
+        if (phone == null) {
+            customer = createCustomer(Utils.generateName(), mail, null, password, code);
+        }
+        if (mail == null) {
+            customer = createCustomer(Utils.generateName(), null, phone, password, code);
+        } 
         System.out.println(customer);
         insertCustomer(customer, connection);
-        return CustomerDAO.getCustomerFromMailOrPhone(null, phone, connection);
+        return CustomerDAO.getCustomerFromMailOrPhone(mail, phone, connection);
 
     }
 
@@ -159,23 +165,6 @@ public class CustomerDAO {
         } else {
             throw new Exception();
         }
-    }
-
-    public static Shop getShopFromId(int shopId, Connection connection) throws SQLException {
-        Shop shop = null;
-        String sql = "SELECT name, address, description, status FROM `Shop` WHERE shop_id = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, shopId);
-        ResultSet result = statement.executeQuery();
-        while (result.next()) {
-            String name = result.getString(1);
-            String address = result.getString(2);
-            String description = result.getString(3);
-            boolean status = result.getBoolean(4);
-
-            shop = new Shop(shopId, name, address, description, status);
-        }
-        return shop;
     }
 
     public static boolean checkEmailExist(String mail, Connection connection) throws SQLException {
@@ -205,6 +194,24 @@ public class CustomerDAO {
             customer = new Customer(customerId, name, mail, phone, dob, sex, password, code);
         }
         return customer;
+    }
 
+    public static Customer checkResetPasswordInfo(String email, String phone, String securityCode, Connection connection) throws SQLException {
+        Customer customer = getCustomerFromMailOrPhone(email, phone, connection);
+        if (customer.verifyCode(securityCode)) {
+            return customer;
+        }
+        return null;
+    }
+
+    public static Customer resetPassword(String password, Customer customer, Connection connection) throws S3Exception, AwsServiceException, SdkClientException, SQLException, IOException {
+        customer.encryptPassword(password, argon2);
+        String sql = "UPDATE Customer SET password = ? WHERE user_id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, customer.getEncryptedPassword());
+        statement.setInt(2, customer.getUserId());
+
+        statement.executeUpdate();
+        return getCustomerFromId(customer.getUserId(), connection);
     }
 }
