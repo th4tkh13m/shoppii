@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import model.Shop;
 
@@ -38,10 +39,24 @@ public class ShopDAO {
         return getShopFromId(shopId, connection);
     }
 
-    public static void deleteShop(int shopId, Connection connection) throws SQLException {
-        String sql = " UPDATE `Shop` SET status = 0 where id = ? ";
+    public static String deleteShop(int shopId, Connection connection) throws SQLException {
+        String sql = " UPDATE `Shop` SET status = 0 where shop_id = ? ";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, shopId);
         statement.executeUpdate();
+        return "Shop delete success!";
+    }
+
+    public static ArrayList<Shop> getLocationsShop(Connection connection) throws SQLException {
+        ArrayList<Shop> locations = new ArrayList<>();
+        String sql = "select shop_id, address from shop group by address";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            int id = result.getInt(1);
+            String address = result.getString(2);
+            locations.add(new Shop(id, address));
+        }
+        return locations;
     }
 }

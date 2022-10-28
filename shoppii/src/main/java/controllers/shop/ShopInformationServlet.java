@@ -76,7 +76,10 @@ public class ShopInformationServlet extends HttpServlet {
                         DBConnect db = new DBConnect();
                         Connection connection = db.getConnection();
                         int shopId = Integer.parseInt(req.getParameter("shopId"));
-                        ShopDAO.deleteShop(shopId, connection);
+                        String deleteShop = ShopDAO.deleteShop(shopId, connection);
+                        String json = gson.toJson(deleteShop);
+                        resp.setStatus(201);
+                        resp.getOutputStream().write(json.getBytes("UTF-8"));
                 } catch (Exception e) {
                         resp.setStatus(500);
                         resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));

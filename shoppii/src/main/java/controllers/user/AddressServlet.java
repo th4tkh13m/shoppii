@@ -102,8 +102,9 @@ public class AddressServlet extends HttpServlet {
             String receiverAddress = req.getParameter("receiverAddress");
             String receiverName = req.getParameter("receiverName");
             String receiverPhone = req.getParameter("receiverPhone");
+            boolean isDefault = Boolean.parseBoolean(req.getParameter("isDefault"));
 
-            Address address = AddressDAO.updateAddress(addressId, userId, receiverAddress, receiverName, receiverPhone,
+            Address address = AddressDAO.updateAddress(addressId, userId, receiverAddress, receiverName, receiverPhone, isDefault,
                     connection);
             String json = gson.toJson(address);
             resp.setStatus(201);
@@ -113,6 +114,5 @@ public class AddressServlet extends HttpServlet {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
         }
-
     }
 }

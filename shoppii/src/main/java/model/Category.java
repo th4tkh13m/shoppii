@@ -31,4 +31,13 @@ public class Category {
     public void setCategory_name(String category_name) {
         this.category_name = category_name;
     }
+
+    public String getCategoryImg() {
+        return categoryImg;
+    }
+
+    public void setCategoryImg(String categoryImg) {
+        this.categoryImg = categoryImg;
+    }
+
 }

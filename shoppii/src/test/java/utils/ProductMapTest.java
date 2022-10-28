@@ -20,7 +20,7 @@ public class ProductMapTest {
     public void derializeTest() {
         gsonBuilder.registerTypeAdapter(type, new ProductMap());
         Gson gson = gsonBuilder.create();
-        String json = "{\"shops\":[{\"shopId\":2,\"shopName\":\"NiceHCK Official Store\",\"address\":\"China\",\"description\":\"Sell audio accessories\",\"status\":true,\"products\":[{\"productId\":1,\"productName\":\"Nicehck EB2S 3.5mm Metal CNC HIFI Earbud 15.4mm LCP Nhạc động Âm nhạc giọng hát Tai nghe có dây Tai nghe HD B40 / B70 / EBX21\",\"price\":320000,\"quantity\":2}]}]}";
+        String json = "[{\"shopId\":2,\"shopName\":\"NiceHCK Official Store\",\"address\":\"China\",\"description\":\"Sell audio accessories\",\"status\":true,\"products\":[{\"productId\":1,\"productName\":\"Nicehck EB2S 3.5mm Metal CNC HIFI Earbud 15.4mm LCP Nhạc động Âm nhạc giọng hát Tai nghe có dây Tai nghe HD B40 / B70 / EBX21\",\"price\":320000,\"quantity\":2}]}]";
         System.out.println(json);
         HashMap<Shop, HashMap<Product, Integer>> test = gson.fromJson(json, type);
         System.out.println(test);

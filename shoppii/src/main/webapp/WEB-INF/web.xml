@@ -81,6 +81,14 @@
         <servlet-name>OrderServlet</servlet-name>
         <servlet-class>controllers.user.OrderServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetLocationShop</servlet-name>
+        <servlet-class>controllers.shop.GetLocationShop</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetSingleProduct</servlet-name>
+        <servlet-class>controllers.user.GetSingleProduct</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
@@ -116,7 +124,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ShopOrderServlet</servlet-name>
-        <url-pattern>/shop/order</url-pattern>
+        <url-pattern>/shop/orders</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ShopRequestServlet</servlet-name>
@@ -149,6 +157,14 @@
     <servlet-mapping>
         <servlet-name>OrderServlet</servlet-name>
         <url-pattern>/order</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetLocationShop</servlet-name>
+        <url-pattern>/shop/locations</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetSingleProduct</servlet-name>
+        <url-pattern>/product</url-pattern>
     </servlet-mapping>
 
     <!-- Environment variables -->
