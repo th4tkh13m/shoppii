@@ -3,6 +3,7 @@ package controllers.user;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import dao.ProductDAO;
 import dbconnect.DBConnect;
@@ -63,10 +66,23 @@ public class GetProductServlet extends HttpServlet {
                     locations, categoriesId, page, limit);
             System.out.println(filter.toString());
 
-            ArrayList<Product> products = ProductDAO.getProducts(filter, connection);
+            HashMap<Integer, ArrayList<Product>> map = ProductDAO.getProducts(filter, connection);
+            int totalPage = (int) map.keySet().toArray()[0];
+            ArrayList<Product> products = map.get(totalPage);
+            System.out.println(products);
             String json = gson.toJson(products);
+            JsonObject jsonObject = new JsonObject();
+
+            jsonObject.addProperty("totalPage", totalPage);
+            String rs = gson.toJson(jsonObject);
+            // JsonObject jsonObject = new JsonObject();
+            // jsonObject.addProperty("totalPage", totalPage);
+
+            // JsonElement jsonElement = gson.toJsonTree(products);
+            // jsonElement.getAsJsonArray().add;;
+            // String json = gson.toJson(jsonElement);
             resp.setStatus(200);
-            resp.getOutputStream().write(json.getBytes("UTF-8"));
+            resp.getOutputStream().write(rs.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);

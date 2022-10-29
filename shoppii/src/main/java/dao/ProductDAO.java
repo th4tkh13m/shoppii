@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import model.Filters;
 import model.Product;
 
@@ -126,7 +128,9 @@ public class ProductDAO {
         return products;
     }
 
-    public static ArrayList<Product> getProducts(Filters filters, Connection connection) throws SQLException {
+    public static HashMap<Integer, ArrayList<Product>> getProducts(Filters filters, Connection connection)
+            throws SQLException {
+        HashMap<Integer, ArrayList<Product>> productsMap = new HashMap<>();
         ArrayList<Product> products = new ArrayList<>();
         String sql = "SELECT product_id, category_id FROM Product pd inner join Shop s on pd.shop_id = s.shop_id";
         ArrayList<String> WHERE_CLAUSE_ARRAY = new ArrayList<>();
@@ -193,17 +197,28 @@ public class ProductDAO {
         System.out.println(WHERE_CLAUSE);
         // System.out.println(ORDER_BY_CLAUSE);
         // System.out.println(LIMIT_CLAUSE);
+        PreparedStatement statement;
+        String sqlCount = "SELECT COUNT(product_id) FROM Product pd inner join Shop s on pd.shop_id = s.shop_id" + " "
+                + WHERE_CLAUSE;
         sql += " " + WHERE_CLAUSE + ORDER_BY_CLAUSE + LIMIT_CLAUSE;
+        System.out.println(sqlCount);
         System.out.println(sql);
-        PreparedStatement statement = connection.prepareStatement(sql);
+        statement = connection.prepareStatement(sqlCount);
+        ResultSet resultCount = statement.executeQuery();
+        int count = 0;
+        if (resultCount.next()) {
+            count = resultCount.getInt(1);
+            productsMap.put(count, products);
+        }
+        statement = connection.prepareStatement(sql);
 
         ResultSet result = statement.executeQuery();
         while (result.next()) {
             int productId = result.getInt(1);
             Product p = getProductFromId(productId, connection);
-            products.add(p);
+            productsMap.get(count).add(p);
         }
-        return products;
+        return productsMap;
     }
 
     // filter
