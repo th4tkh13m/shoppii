@@ -7,10 +7,10 @@ public class Filters {
     String keyword, sort, startPrice, endPrice;
     String[] locations, categoriesId;
     HashMap<String, String> filtersMap = new HashMap<>();
-    int limit = 9, page = 1;
+    int limit, page = 1;
 
     public Filters(String keyword, String sort, String startPrice, String endPrice, String[] locations,
-            String[] categoriesId, int page) {
+            String[] categoriesId, int page, int limit) {
         this.keyword = keyword;
         this.sort = sort;
         this.startPrice = startPrice;
@@ -18,6 +18,7 @@ public class Filters {
         this.locations = locations;
         this.categoriesId = categoriesId;
         this.page = page;
+        this.limit = limit;
     }
 
     public void setLocations(String[] locations) {

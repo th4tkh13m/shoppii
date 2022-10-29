@@ -38,6 +38,7 @@ public class GetProductServlet extends HttpServlet {
             String[] categoriesId = req.getParameterValues("categoryId");
             String keyword = null, startPrice = null, endPrice = null, sort = null, location = null;
             int page = 1;
+            int limit = 12;
             if (req.getParameter("keyword") != null) {
                 keyword = req.getParameter("keyword");
             }
@@ -54,9 +55,12 @@ public class GetProductServlet extends HttpServlet {
             if (req.getParameter("page") != null) {
                 page = Integer.parseInt(req.getParameter("page"));
             }
+            if (req.getParameter("limit") != null) {
+                limit = Integer.parseInt(req.getParameter("limit"));
+            }
             ;
             Filters filter = new Filters(keyword, sort, startPrice, endPrice,
-                    locations, categoriesId, page);
+                    locations, categoriesId, page, limit);
             System.out.println(filter.toString());
 
             ArrayList<Product> products = ProductDAO.getProducts(filter, connection);
