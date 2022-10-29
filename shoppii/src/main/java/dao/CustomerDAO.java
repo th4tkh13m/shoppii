@@ -214,4 +214,19 @@ public class CustomerDAO {
         statement.executeUpdate();
         return getCustomerFromId(customer.getUserId(), connection);
     }
+
+    public static boolean changePassword(int customerId, String password, String newPassword, Connection connection) throws Exception {
+        Customer customer = getCustomerFromId(customerId, connection);
+        if (customer.verifyPassword(password)) {
+            customer.encryptPassword(newPassword, argon2);
+
+            String sql = "UPDATE Customer SET password = ? WHERE user_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, customer.getEncryptedPassword());
+            statement.setInt(2, customer.getUserId());
+            statement.executeUpdate();
+
+            return true;
+        } else throw new Exception("Password not right");
+    }
 }
