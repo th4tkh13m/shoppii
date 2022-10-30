@@ -4,27 +4,24 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
-import dao.ProductDAO;
+import dao.ShopDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
 import model.Filters;
-import model.Product;
+import model.Shop;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 1, // 1 MB
         maxRequestSize = 1024 * 1024 * 1 // 1 MB
 )
-public class GetProductServlet extends HttpServlet {
+public class GetShopsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,22 +34,11 @@ public class GetProductServlet extends HttpServlet {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
             String[] locations = req.getParameterValues("location");
-            String[] categoriesId = req.getParameterValues("categoryId");
-            String keyword = null, startPrice = null, endPrice = null, sort = null, location = null;
+            String keyword = null;
             int page = 1;
             int limit = 12;
             if (req.getParameter("keyword") != null) {
                 keyword = req.getParameter("keyword");
-            }
-            System.out.println(categoriesId);
-            if (req.getParameter("startPrice") != null) {
-                startPrice = req.getParameter("startPrice");
-            }
-            if (req.getParameter("endPrice") != null) {
-                endPrice = req.getParameter("endPrice");
-            }
-            if (req.getParameter("sort") != null) {
-                sort = req.getParameter("sort");
             }
             if (req.getParameter("page") != null) {
                 page = Integer.parseInt(req.getParameter("page"));
@@ -61,19 +47,18 @@ public class GetProductServlet extends HttpServlet {
                 limit = Integer.parseInt(req.getParameter("limit"));
             }
             ;
-            Filters filter = new Filters(keyword, sort, startPrice, endPrice,
-                    locations, categoriesId, page, limit);
-            System.out.println(filter.toString());
+            Filters filter = new Filters(keyword, locations, page, limit);
 
-            HashMap<Integer, ArrayList<Product>> map = ProductDAO.getProducts(filter, connection);
+            HashMap<Integer, ArrayList<Shop>> map = ShopDAO.getShops(filter, connection);
             int totalPage = (int) map.keySet().toArray()[0];
-            ArrayList<Product> products = map.get(totalPage);
-            System.out.println(products);
+            ArrayList<Shop> shops = map.get(totalPage);
+            System.out.println(shops);
             JsonObject jsonObject = new JsonObject();
-            jsonObject.add("products", gson.toJsonTree(products).getAsJsonArray());
+            jsonObject.add("shops", gson.toJsonTree(shops).getAsJsonArray());
             jsonObject.addProperty("totalPage", totalPage);
 
             String rs = gson.toJson(jsonObject);
+
             resp.setStatus(200);
             resp.getOutputStream().write(rs.getBytes("UTF-8"));
         } catch (Exception e) {

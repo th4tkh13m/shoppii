@@ -64,7 +64,7 @@
     <servlet>
         <servlet-name>ProductSearchServlet</servlet-name>
         <servlet-class>controllers.user.ProductSearchServlet</servlet-class>
-    </servlet> 
+    </servlet>
     <servlet>
         <servlet-name>GetProductServlet</servlet-name>
         <servlet-class>controllers.user.GetProductServlet</servlet-class>
@@ -103,6 +103,10 @@
         <servlet-name>ResetPassword</servlet-name>
         <servlet-class>controllers.authentication.ResetPassword</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetShopsServlet</servlet-name>
+        <servlet-class>controllers.user.GetShopsServlet</servlet-class>
+    </servlet>
 
 
     <!-- =================================== -->
@@ -138,6 +142,10 @@
     <servlet-mapping>
         <servlet-name>ShopStatistics</servlet-name>
         <url-pattern>/shop/statistics</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetShopsServlet</servlet-name>
+        <url-pattern>/user/getShops</url-pattern>
     </servlet-mapping>
 
     <!-- Customer -->
@@ -175,7 +183,6 @@
     </servlet-mapping>
 
 
-
     <!-- Authentication -->
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -197,9 +204,8 @@
         <servlet-name>ResetPassword</servlet-name>
         <url-pattern>/reset-password</url-pattern>
     </servlet-mapping>
-    
-    
-    
+
+
     <!-- Environment variables -->
 
     <!-- Database information variables -->

@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import model.Filters;
 import model.Shop;
 
 public class ShopDAO {
@@ -59,4 +61,75 @@ public class ShopDAO {
         }
         return locations;
     }
+
+    public static HashMap<Integer, ArrayList<Shop>> getShops(Filters filters, Connection connection)
+            throws SQLException {
+        HashMap<Integer, ArrayList<Shop>> shopsMap = new HashMap<>();
+        ArrayList<Shop> products = new ArrayList<>();
+        String sql = "SELECT * from shop";
+        ArrayList<String> WHERE_CLAUSE_ARRAY = new ArrayList<>();
+        String WHERE_CLAUSE = "WHERE";
+        String LIMIT_CLAUSE = "";
+
+        if (filters.getKeyword() != null) {
+            WHERE_CLAUSE_ARRAY.add("LOWER(name) like '%" + filters.getKeyword() + "%'");
+        }
+
+        if (filters.getLocations() != null) {
+            // WHERE_CLAUSE_ARRAY.add("LOWER(s.address) like '%" + filters.location + "%'");
+            String[] locations = filters.getLocations();
+            String locationsString = "(";
+            for (int i = 0; i < locations.length; i++) {
+                locationsString += "LOWER(address) like '%" + locations[i] + "%'";
+                if (i < locations.length - 1) {
+                    locationsString += " OR ";
+                } else {
+                    locationsString += ")";
+                }
+            }
+            WHERE_CLAUSE_ARRAY.add(locationsString);
+            System.out.println(locationsString);
+        }
+        int limit = filters.getLimit();
+        int page = filters.getPage();
+        int offset = (limit * page) - limit;
+        LIMIT_CLAUSE = " LIMIT " + limit + " OFFSET " + offset;
+        if (WHERE_CLAUSE_ARRAY.size() < 1) {
+            WHERE_CLAUSE = "";
+        } else {
+            for (String sentences : WHERE_CLAUSE_ARRAY) {
+                if (WHERE_CLAUSE_ARRAY.indexOf(sentences) == 0) {
+                    WHERE_CLAUSE += " " + sentences;
+                } else {
+                    WHERE_CLAUSE += " AND " + sentences;
+                }
+            }
+        }
+        System.out.println(WHERE_CLAUSE);
+        // System.out.println(ORDER_BY_CLAUSE);
+        // System.out.println(LIMIT_CLAUSE);
+        PreparedStatement statement;
+        String sqlCount = "SELECT COUNT(shop_id) FROM Shop " + WHERE_CLAUSE;
+        sql += " " + WHERE_CLAUSE + LIMIT_CLAUSE;
+        System.out.println(sqlCount);
+        System.out.println(sql);
+        statement = connection.prepareStatement(sqlCount);
+        ResultSet resultCount = statement.executeQuery();
+        int totalPage = 1;
+        if (resultCount.next()) {
+            int count = resultCount.getInt(1);
+            totalPage = (int) Math.ceil((double) count / limit);
+            shopsMap.put(totalPage, products);
+        }
+        statement = connection.prepareStatement(sql);
+
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            int shopId = result.getInt(1);
+            Shop p = getShopFromId(shopId, connection);
+            shopsMap.get(totalPage).add(p);
+        }
+        return shopsMap;
+    }
+
 }

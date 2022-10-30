@@ -21,6 +21,14 @@ public class Filters {
         this.limit = limit;
     }
 
+    public Filters(String keyword, String[] locations,
+            int page, int limit) {
+        this.keyword = keyword;
+        this.locations = locations;
+        this.page = page;
+        this.limit = limit;
+    }
+
     public void setLocations(String[] locations) {
         this.locations = locations;
     }
