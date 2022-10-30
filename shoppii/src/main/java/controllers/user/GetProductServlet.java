@@ -70,10 +70,10 @@ public class GetProductServlet extends HttpServlet {
             int totalPage = (int) map.keySet().toArray()[0];
             ArrayList<Product> products = map.get(totalPage);
             System.out.println(products);
-            String json = gson.toJson(products);
             JsonObject jsonObject = new JsonObject();
-
+            jsonObject.add("products", gson.toJsonTree(products).getAsJsonArray());
             jsonObject.addProperty("totalPage", totalPage);
+           
             String rs = gson.toJson(jsonObject);
             // JsonObject jsonObject = new JsonObject();
             // jsonObject.addProperty("totalPage", totalPage);
