@@ -205,10 +205,11 @@ public class ProductDAO {
         System.out.println(sql);
         statement = connection.prepareStatement(sqlCount);
         ResultSet resultCount = statement.executeQuery();
-        int count = 0;
+        int totalPage = 1;
         if (resultCount.next()) {
-            count = resultCount.getInt(1);
-            productsMap.put(count, products);
+            int count = resultCount.getInt(1);
+            totalPage = (int) Math.ceil((double) count / limit);
+            productsMap.put(totalPage, products);
         }
         statement = connection.prepareStatement(sql);
 
@@ -216,7 +217,7 @@ public class ProductDAO {
         while (result.next()) {
             int productId = result.getInt(1);
             Product p = getProductFromId(productId, connection);
-            productsMap.get(count).add(p);
+            productsMap.get(totalPage).add(p);
         }
         return productsMap;
     }
