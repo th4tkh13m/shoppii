@@ -34,10 +34,13 @@ public class AddressServlet extends HttpServlet {
             Connection connection = db.getConnection();
             int userId = Integer.parseInt(req.getParameter("userId"));
             String receiverAddress = req.getParameter("receiverAddress");
+            String province = req.getParameter("province");
+            String ward = req.getParameter("ward");
+            String district = req.getParameter("district");
             String receiverName = req.getParameter("receiverName");
             String receiverPhone = req.getParameter("receiverPhone");
 
-            Address address = AddressDAO.addAddress(userId, receiverAddress, receiverName, receiverPhone,
+            Address address = AddressDAO.addAddress(userId, receiverAddress, receiverName, receiverPhone, province, ward, district,
                     connection);
             String json = gson.toJson(address);
             resp.setStatus(201);
@@ -102,9 +105,12 @@ public class AddressServlet extends HttpServlet {
             String receiverAddress = req.getParameter("receiverAddress");
             String receiverName = req.getParameter("receiverName");
             String receiverPhone = req.getParameter("receiverPhone");
+            String province = req.getParameter("province");
+            String ward = req.getParameter("ward");
+            String district = req.getParameter("district");
             boolean isDefault = Boolean.parseBoolean(req.getParameter("isDefault"));
 
-            Address address = AddressDAO.updateAddress(addressId, userId, receiverAddress, receiverName, receiverPhone, isDefault,
+            Address address = AddressDAO.updateAddress(addressId, userId, receiverAddress, receiverName, receiverPhone, province, ward, district, isDefault,
                     connection);
             String json = gson.toJson(address);
             resp.setStatus(201);

@@ -70,6 +70,9 @@ public class OrderMap implements JsonDeserializer<HashMap<Order, HashMap<Product
                 String receiverAddress = addressJsonObject.get("receiverAddress").getAsString();
                 String receiverName = addressJsonObject.get("receiverName").getAsString();
                 String receiverPhone = addressJsonObject.get("receiverPhone").getAsString();
+                String province = addressJsonObject.get("province").getAsString();
+                String ward = addressJsonObject.get("ward").getAsString();
+                String district = addressJsonObject.get("district").getAsString();
                 boolean isDefault = addressJsonObject.get("isDefault").getAsBoolean();
 
                 // Shop
@@ -80,7 +83,7 @@ public class OrderMap implements JsonDeserializer<HashMap<Order, HashMap<Product
                 String description = shopJsonObject.get("description").getAsString();
                 boolean shopStatus = shopJsonObject.get("status").getAsBoolean();
 
-                Address address = new Address(addressId, customerId, receiverAddress, receiverName, receiverPhone, isDefault);
+                Address address = new Address(addressId, customerId, receiverAddress, receiverName, receiverPhone, province, ward, district, isDefault);
                 Order order = new Order(orderId, customerId, paymentMethod, status, time, address);
                 Shop shop = new Shop(shopId, shopName, shopAddress, description, shopStatus);
 
