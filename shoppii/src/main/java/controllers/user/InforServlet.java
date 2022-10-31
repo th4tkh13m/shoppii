@@ -25,7 +25,7 @@ import utils.Utils;
 )
 public class InforServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
@@ -41,8 +41,8 @@ public class InforServlet extends HttpServlet {
             Date dob = Date.valueOf(req.getParameter("dob"));
             Part filePart = req.getPart("file");
             String fileName = Utils.getFileName(filePart);
-            Customer updateCustomer = new Customer(userId,name, email, phone,dob, sex);
-            Customer customer =   CustomerDAO.updateInfo(updateCustomer, connection, fileName,filePart.getInputStream() );
+            Customer updateCustomer = new Customer(userId, name, email, phone, dob, sex);
+            Customer customer = CustomerDAO.updateInfo(updateCustomer, connection, fileName, filePart.getInputStream());
             String json = gson.toJson(customer);
             resp.setStatus(201);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
