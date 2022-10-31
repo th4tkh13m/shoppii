@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 31, 2022 at 02:50 PM
+-- Generation Time: Oct 31, 2022 at 02:57 PM
 -- Server version: 10.9.3-MariaDB-1:10.9.3+maria~ubu2204
 -- PHP Version: 8.0.24
 
@@ -34,8 +34,6 @@ CREATE TABLE `Address` (
   `receiver_phone` varchar(10) DEFAULT NULL,
   `is_default` tinyint(1) DEFAULT 0,
   `address_id` int(11) NOT NULL,
-  `province` varchar(1000) NOT NULL,
-  `district` varchar(255) NOT NULL,
   `province` varchar(1000) NOT NULL,
   `district` varchar(255) NOT NULL,
   `receiver_address` varchar(1000) NOT NULL
