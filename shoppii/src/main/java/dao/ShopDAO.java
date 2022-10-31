@@ -1,13 +1,16 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import model.Filters;
+import model.Product;
 import model.Shop;
 
 public class ShopDAO {
@@ -132,4 +135,51 @@ public class ShopDAO {
         return shopsMap;
     }
 
+    public static ArrayList<Integer> getTotalIncomes7Days(int shopId, String filter, Connection connection) throws SQLException {
+        Date now = new Date((new java.util.Date()).getTime());
+        String filterSql = null;
+        if (filter.equals("incomes")) {
+            filterSql = "c.quantity * c.price";
+        } else filterSql = "c.quantity";
+        String sql = "SELECT IFNULL(SUM(" + filterSql + "), 0), DATE_SUB(?, INTERVAL 1 DAY) FROM `Contain` c INNER JOIN `Product` p ON c.product_id = p.product_id INNER JOIN `Order` o ON c.order_id = o.order_id WHERE p.shop_id = ? AND o.time BETWEEN DATE_SUB(?, INTERVAL 1 DAY) AND ?";
+        ArrayList<Integer> incomes = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            
+            statement.setDate(1, now);
+            statement.setInt(2, shopId);
+            statement.setDate(3, now);
+            statement.setDate(4, now);
+
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                System.out.println(result.getInt(1));
+                incomes.add(result.getInt(1));
+                now = result.getDate(2);
+            }
+
+        }
+
+        return incomes;
+    }
+
+    public static int getTotalAllTime(int shopId, String filter, Connection connection) throws SQLException {
+        String filterSql = null;
+        if (filter.equals("incomes")) {
+            filterSql = "c.quantity * c.price";
+        } else filterSql = "c.quantity";
+        String sql = "SELECT SUM(" + filterSql + ") FROM `Contain` c INNER JOIN `Product` p ON c.product_id = p.product_id INNER JOIN `Order` o ON c.order_id = o.order_id WHERE p.shop_id = ?";
+        
+        Statement statement = connection.createStatement();
+        ResultSet result = statement.executeQuery(sql);
+
+        while (result.next()) {
+            return result.getInt(1);
+        }
+        return 0;
+    }
+
+    // public static Product getMostSaledProduct(int shopId, Date startDate, Date endDate, Connection connection) {
+    //     String sql = "SELECT ";
+    // }
 }

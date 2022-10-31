@@ -1,8 +1,9 @@
 package controllers.shop;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.Date;
-
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import dao.ShopDAO;
+import dbconnect.DBConnect;
+import errors.ErrorHandle;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 1, // 1 MB
@@ -24,16 +28,18 @@ public class ShopStatistics extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
         try {
-            
+            DBConnect db = new DBConnect();
+            Connection connection = db.getConnection();
 
-
-            // Change this later
-            Date startDate = Date.valueOf("");
-            Date endDate = Date.valueOf("");
-
-            
+            int shopId = Integer.parseInt(req.getParameter("shopId"));
+            String filter = req.getParameter("filter");
+            ArrayList<Integer> incomes = ShopDAO.getTotalIncomes7Days(shopId, filter, connection);
+            System.out.println(incomes);
+            String json = gson.toJson(incomes);
+            resp.getOutputStream().println(json);
         } catch (Exception e) {
-            // TODO: handle exception
+            resp.setStatus(500);
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
     }
 }

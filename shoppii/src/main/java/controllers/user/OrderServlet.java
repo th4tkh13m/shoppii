@@ -2,6 +2,7 @@ package controllers.user;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -68,8 +69,10 @@ public class OrderServlet extends HttpServlet {
             int addressId = Integer.parseInt(req.getParameter("addressId"));
             String paymentMethod = req.getParameter("paymentMethod");
             HashMap<Shop, HashMap<Product, Integer>> orders = gson.fromJson(orderJson, type);
-            OrderDAO.addOrder(orders, userId, paymentMethod, addressId, connection);
-            
+            ArrayList<Order> orderList = OrderDAO.addOrder(orders, userId, paymentMethod, addressId, connection);
+            String json = (new Gson()).toJson(orderList);
+            resp.setStatus(201);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);

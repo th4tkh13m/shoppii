@@ -35,7 +35,8 @@ public class ProductMap implements JsonSerializer<HashMap<Shop, HashMap<Product,
                 productJson.addProperty("productId", product.getProductId());
                 productJson.addProperty("productName", product.getName());
                 productJson.addProperty("price", product.getPrice());
-                productJson.addProperty("quantity", src.get(shop).get(product));
+                productJson.addProperty("quantity", product.getQuantity());
+                productJson.addProperty("cartQuantity", src.get(shop).get(product));
                 productList.add(productJson);
             }
             shopJson.add("products", productList);
