@@ -179,7 +179,21 @@ public class ShopDAO {
         return 0;
     }
 
-    // public static Product getMostSaledProduct(int shopId, Date startDate, Date endDate, Connection connection) {
-    //     String sql = "SELECT ";
-    // }
+    public static ArrayList<Product> getMostSaledProduct(int shopId, Date startDate, Date endDate, Connection connection) throws SQLException {
+        ArrayList<Product> products = new ArrayList<>();
+        String sql = "SELECT product_id FROM Contain c INNER JOIN `Order` o ON c.order_id = o.order_id WHERE o.time BETWEEN ? AND ? GROUP BY product_id HAVING SUM(quantity) = (SELECT MAX(a) FROM (SELECT SUM(quantity) AS a FROM Contain c INNER JOIN `Order` o ON c.order_id = o.order_id WHERE o.time BETWEEN ? AND ? GROUP BY product_id) as b) ";
+        
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setDate(1, startDate);
+        statement.setDate(2, endDate);
+        statement.setDate(3, startDate);
+        statement.setDate(4, endDate);
+
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            products.add(ProductDAO.getProductFromId(result.getInt(1), connection));
+        }
+        
+        return products;
+    }
 }
