@@ -3,7 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
+<<<<<<< HEAD
 -- Generation Time: Oct 31, 2022 at 02:36 PM
+=======
+-- Generation Time: Oct 31, 2022 at 02:50 PM
+>>>>>>> 1fed9e5 (change inforServlet from doPost -> doPut)
 -- Server version: 10.9.3-MariaDB-1:10.9.3+maria~ubu2204
 -- PHP Version: 8.0.24
 
@@ -35,16 +39,27 @@ CREATE TABLE `Address` (
   `is_default` tinyint(1) DEFAULT 0,
   `address_id` int(11) NOT NULL,
   `province` varchar(1000) NOT NULL,
+<<<<<<< HEAD
   `district` varchar(255) NOT NULL
+=======
+  `district` varchar(255) NOT NULL,
+  `receiver_address` varchar(1000) NOT NULL
+>>>>>>> 1fed9e5 (change inforServlet from doPost -> doPut)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `Address`
 --
 
+<<<<<<< HEAD
 INSERT INTO `Address` (`user_id`, `ward`, `receiver_name`, `receiver_phone`, `is_default`, `address_id`, `province`, `district`) VALUES
 (3, 'VN', 'VVD', '1234567890', 1, 1, '', ''),
 (3, 'VN', 'VVD', '1234567890', 0, 2, '', '');
+=======
+INSERT INTO `Address` (`user_id`, `ward`, `receiver_name`, `receiver_phone`, `is_default`, `address_id`, `province`, `district`, `receiver_address`) VALUES
+(3, 'VN', 'VVD', '1234567890', 1, 1, '', '', ''),
+(3, 'VN', 'VVD', '1234567890', 0, 2, '', '', '');
+>>>>>>> 1fed9e5 (change inforServlet from doPost -> doPut)
 
 -- --------------------------------------------------------
 
