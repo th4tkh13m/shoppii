@@ -20,8 +20,8 @@ import model.Customer;
 import utils.Utils;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
-        maxFileSize = 1024 * 1024 * 1, // 1 MB
-        maxRequestSize = 1024 * 1024 * 1 // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 100 // 100 MB
 )
 public class InforServlet extends HttpServlet {
     @Override
@@ -30,6 +30,7 @@ public class InforServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
+        System.out.println(1);
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
@@ -39,17 +40,19 @@ public class InforServlet extends HttpServlet {
             String phone = req.getParameter("phone");
             boolean sex = Boolean.parseBoolean(req.getParameter("sex"));
             Date dob = Date.valueOf(req.getParameter("dob"));
-            Part filePart = req.getPart("file");
-            String fileName = Utils.getFileName(filePart);
             Customer updateCustomer = new Customer(userId, name, email, phone, dob, sex);
-            Customer customer = CustomerDAO.updateInfo(updateCustomer, connection, fileName, filePart.getInputStream());
+            System.out.println(updateCustomer.toString());
+            Part filePart = req.getPart("file");
+            String fileName = filePart.getSubmittedFileName();
+            Customer customer = CustomerDAO.updateInfo(updateCustomer, connection,
+                    fileName, filePart.getInputStream());
             String json = gson.toJson(customer);
-            resp.setStatus(201);
+            resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
 
     }
