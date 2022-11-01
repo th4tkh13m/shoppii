@@ -1,13 +1,16 @@
 package model;
 
 public class Address {
+
     private int addressId;
     private int userId;
-    private String receiverAddress, receiverName,
-            receiverPhone, province, ward, district;
+    private String receiverAddress;
+    private String receiverName;
+    private String receiverPhone;
+    private String province;
+    private String ward;
+    private String district;
     private boolean isDefault;
-
-    
 
     public Address(int addressId, int userId, String receiverAddress, String receiverName,
             String receiverPhone, String province, String ward, String district,
@@ -22,7 +25,6 @@ public class Address {
         this.district = district;
         this.isDefault = isDefault;
     }
-    
 
     public Address(int addressId, String receiverAddress, String receiverName, String receiverPhone,
             String province, String ward, String district, boolean isDefault) {
@@ -35,7 +37,6 @@ public class Address {
         this.district = district;
         this.isDefault = isDefault;
     }
-
 
     public Address(int addressId, int userId, String receiverAddress, String receiverName, String receiverPhone) {
         this.addressId = addressId;
