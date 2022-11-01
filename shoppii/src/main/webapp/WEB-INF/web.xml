@@ -107,6 +107,10 @@
         <servlet-name>GetShopsServlet</servlet-name>
         <servlet-class>controllers.user.GetShopsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InforServlet</servlet-name>
+        <servlet-class>controllers.user.InforServlet</servlet-class>
+    </servlet>
 
 
     <!-- =================================== -->
@@ -180,6 +184,10 @@
     <servlet-mapping>
         <servlet-name>ChangePassword</servlet-name>
         <url-pattern>/user/change-password</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InforServlet</servlet-name>
+        <url-pattern>/profile</url-pattern>
     </servlet-mapping>
 
 

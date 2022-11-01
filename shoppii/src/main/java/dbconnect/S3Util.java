@@ -29,7 +29,7 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 import software.amazon.awssdk.services.s3.model.S3Object;
 
 public class S3Util {
-    private static String BUCKET = null;
+    private static String BUCKET = "photo-shoppii";
 
     private static S3Client client = S3Client.builder().build();
     private static S3AsyncClient asyncClient = S3AsyncClient.builder().build();
@@ -89,13 +89,13 @@ public class S3Util {
         }
     }
 
-    public static ArrayList<String> getObject (String folderName) {
+    public static ArrayList<String> getObject(String folderName) {
         ArrayList<String> results = new ArrayList<String>();
         try {
-            
+
             ListObjectsRequest objectRequest = ListObjectsRequest.builder()
-                                                .bucket(BUCKET)
-                                                .prefix(folderName).build();
+                    .bucket(BUCKET)
+                    .prefix(folderName).build();
 
             CompletableFuture<ListObjectsResponse> futureGet = asyncClient.listObjects(objectRequest);
 
@@ -106,11 +106,11 @@ public class S3Util {
                         ListIterator<S3Object> listIterator = objects.listIterator();
 
                         while (listIterator.hasNext()) {
-                                S3Object object = listIterator.next();
-                                results.add(object.key().split("/")[1]);
+                            S3Object object = listIterator.next();
+                            results.add(object.key().split("/")[1]);
                         }
                         System.out.println(results);
-                        
+
                     } else {
                         err.printStackTrace();
                     }
@@ -119,7 +119,7 @@ public class S3Util {
                     asyncClient.close();
                 }
             });
-            
+
             futureGet.join();
             return results;
 
