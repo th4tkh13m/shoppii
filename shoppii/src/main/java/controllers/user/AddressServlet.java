@@ -99,6 +99,8 @@ public class AddressServlet extends HttpServlet {
         DBConnect db = new DBConnect();
         Connection connection = db.getConnection();
         resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        req.setCharacterEncoding("UTF-8");
         try {
 
             int userId = Integer.parseInt(req.getParameter("userId"));

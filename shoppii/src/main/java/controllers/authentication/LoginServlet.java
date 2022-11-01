@@ -2,6 +2,7 @@ package controllers.authentication;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -16,6 +17,7 @@ import com.google.gson.JsonElement;
 import dao.CustomerDAO;
 import dao.ShopDAO;
 import dbconnect.DBConnect;
+import dbconnect.S3Util;
 import errors.ErrorHandle;
 import model.Customer;
 
@@ -41,18 +43,27 @@ public class LoginServlet extends HttpServlet {
             String password = req.getParameter("password");
             Customer customer = CustomerDAO.checkLogin(email, phone, password, connection);
             if (customer != null) {
+                // ArrayList<String> images = S3Util.getObject("profile/" + customer.getUserId()
+                // + "/user/avatar/");
+                // for (String string : images) {
+                // System.out.println(string);
+                // }
+                // ArrayList<String> images = S3Util.listPhotos("/");
+                // for (String string : images) {
+                // System.out.println(string);
+                // }
                 boolean hasShop = ShopDAO.getShopFromId(customer.getUserId(), connection) != null;
                 JsonElement jsonElement = gson.toJsonTree(customer);
                 jsonElement.getAsJsonObject().addProperty("hasShop", hasShop);
                 String json = gson.toJson(jsonElement);
                 resp.setStatus(200);
                 resp.getOutputStream().write(json.getBytes("UTF-8"));
-                
-            } 
+
+            }
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
 
     }

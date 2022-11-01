@@ -129,6 +129,25 @@ public class S3Util {
         }
     }
 
+    public static ArrayList<String> listPhotos(String folderName) {
+        ArrayList<String> results = new ArrayList<String>();
+        ListObjectsRequest request = ListObjectsRequest.builder()
+                .bucket(BUCKET)
+                .prefix(folderName).build();
+
+        ListObjectsResponse response = client.listObjects(request);
+        List<S3Object> objects = response.contents();
+
+        ListIterator<S3Object> listIterator = objects.listIterator();
+
+        while (listIterator.hasNext()) {
+            S3Object object = listIterator.next();
+            results.add(object.key().split("/")[1]);
+        }
+        System.out.println(results);
+        return results;
+    }
+
     // Helper function to get bucket name from web.xml
     private static void getBucketNameFromWeb() {
         try {
