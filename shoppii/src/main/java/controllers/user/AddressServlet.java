@@ -25,7 +25,7 @@ public class AddressServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
-        
+
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
@@ -40,7 +40,8 @@ public class AddressServlet extends HttpServlet {
             String receiverName = req.getParameter("receiverName");
             String receiverPhone = req.getParameter("receiverPhone");
 
-            Address address = AddressDAO.addAddress(userId, receiverAddress, receiverName, receiverPhone, province, ward, district,
+            Address address = AddressDAO.addAddress(userId, receiverAddress, receiverName, receiverPhone, province,
+                    ward, district,
                     connection);
             String json = gson.toJson(address);
             resp.setStatus(201);
@@ -63,7 +64,7 @@ public class AddressServlet extends HttpServlet {
             int userId = Integer.parseInt(req.getParameter("userId"));
             ArrayList<Address> address = AddressDAO.getAddressOfUser(userId, connection);
             String json = gson.toJson(address);
-            resp.setStatus(201);
+            resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
@@ -110,10 +111,11 @@ public class AddressServlet extends HttpServlet {
             String district = req.getParameter("district");
             boolean isDefault = Boolean.parseBoolean(req.getParameter("isDefault"));
 
-            Address address = AddressDAO.updateAddress(addressId, userId, receiverAddress, receiverName, receiverPhone, province, ward, district, isDefault,
+            Address address = AddressDAO.updateAddress(addressId, userId, receiverAddress, receiverName, receiverPhone,
+                    province, ward, district, isDefault,
                     connection);
             String json = gson.toJson(address);
-            resp.setStatus(201);
+            resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception

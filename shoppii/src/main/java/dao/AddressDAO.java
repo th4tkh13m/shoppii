@@ -25,8 +25,6 @@ public class AddressDAO {
         return address;
     }
 
-
-
     public static ArrayList<Address> getAddressOfUser(int userId, Connection connection) throws SQLException {
         ArrayList<Address> addresses = new ArrayList<>();
 
@@ -45,7 +43,8 @@ public class AddressDAO {
             String district = result.getString(7);
             boolean isDefault = result.getBoolean(8);
 
-            addresses.add(new Address(addressId, userId, receiverAddress, receiverName, receiverPhone, province, ward, district, isDefault));
+            addresses.add(new Address(addressId, userId, receiverAddress, receiverName, receiverPhone, province, ward,
+                    district, isDefault));
         }
         return addresses;
     }
@@ -67,13 +66,15 @@ public class AddressDAO {
             String district = result.getString(7);
             boolean isDefault = result.getBoolean(8);
 
-            address = new Address(addressId, customerId, receiverAddress, receiverName, receiverPhone, province, ward, district, isDefault);
+            address = new Address(addressId, customerId, receiverAddress, receiverName, receiverPhone, province, ward,
+                    district, isDefault);
         }
         return address;
     }
 
     public static Address addAddress(int userId, String receiverAddress, String receiverName,
-            String receiverPhoneString, String province, String ward, String district, Connection connection) throws SQLException {
+            String receiverPhoneString, String province, String ward, String district, Connection connection)
+            throws SQLException {
 
         String sql = "INSERT INTO `Address` (user_id, receiver_address, receiver_name, receiver_phone, province, ward, district, is_default) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(sql);
@@ -102,35 +103,36 @@ public class AddressDAO {
     }
 
     public static Address updateAddress(int addressId, int userId, String receiverAddress, String receiverName,
-            String receiverPhone, String province, String ward, String district, boolean isDefault, Connection connection) throws SQLException {
-            if (isDefault) {
-                Address address = getDefaultAddressOfUser(userId, connection);
-                System.out.println(address.getAddressId());
-                String sqlRemoveDefault = "UPDATE `Address` SET is_default = false WHERE address_id = ?";
-                PreparedStatement statement = connection.prepareStatement(sqlRemoveDefault);
-                statement.setInt(1, address.getAddressId());
-                statement.executeUpdate();
-            }
+            String receiverPhone, String province, String ward, String district, boolean isDefault,
+            Connection connection) throws SQLException {
+        if (isDefault) {
+            Address address = getDefaultAddressOfUser(userId, connection);
+            System.out.println(address.getAddressId());
+            String sqlRemoveDefault = "UPDATE `Address` SET is_default = false WHERE address_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlRemoveDefault);
+            statement.setInt(1, address.getAddressId());
+            statement.executeUpdate();
+        }
 
-            String sql = "UPDATE `Address` SET receiver_address = ?, receiver_name=?, receiver_phone=?, province=?, ward=?, district=?,  is_default=? WHERE address_id = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+        String sql = "UPDATE `Address` SET receiver_address = ?, receiver_name=?, receiver_phone=?, province=?, ward=?, district=?,  is_default=? WHERE address_id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
 
-            statement.setString(1, receiverAddress);
-            statement.setString(2, receiverName);
-            statement.setString(3, receiverPhone);
-            statement.setString(4, province);
-            statement.setString(5, ward);
-            statement.setString(6, district);
-            statement.setBoolean(7, isDefault);
-            statement.setInt(8, addressId);
-            
-            statement.execute();
+        statement.setString(1, receiverAddress);
+        statement.setString(2, receiverName);
+        statement.setString(3, receiverPhone);
+        statement.setString(4, province);
+        statement.setString(5, ward);
+        statement.setString(6, district);
+        statement.setBoolean(7, isDefault);
+        statement.setInt(8, addressId);
 
-            return getAddressFromId(addressId, connection);
+        statement.execute();
+
+        return getAddressFromId(addressId, connection);
     }
 
     public static boolean deleteAddress(int addressId, int userId, Connection connection) throws SQLException {
-        String sql = "DELETE FROM `Address` WHERE address_id = ?";
+        String sql = "DELETE FROM `Address` WHERE address_id = ? and user_id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, addressId);
         statement.setInt(2, userId);
