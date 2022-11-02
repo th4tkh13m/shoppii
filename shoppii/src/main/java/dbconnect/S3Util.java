@@ -56,7 +56,7 @@ public class S3Util {
         return true;
     }
 
-    public static boolean deleteBucketObjects(String objectName) {
+    public static boolean deleteBucketObject(String objectName) {
         try {
             S3AsyncClient asyncClient = S3AsyncClient.builder().build();
             ArrayList<ObjectIdentifier> toDelete = new ArrayList<>();
@@ -89,6 +89,13 @@ public class S3Util {
             return false;
         }
     }
+
+    public static boolean deleteObjectUsingLink(String url) {
+        String name = url.split("https:\\/\\/photo-shoppii\\.s3\\.ap-southeast-1\\.amazonaws\\.com")[1];
+
+        return deleteBucketObject(name);
+    }
+
 
     public static ArrayList<String> getObject(String folderName) {
         ArrayList<String> results = new ArrayList<String>();

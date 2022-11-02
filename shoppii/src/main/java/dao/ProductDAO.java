@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import dbconnect.S3Util;
 import model.Filters;
 import model.Product;
 
@@ -92,7 +92,7 @@ public class ProductDAO {
         return getProductFromId(getMaxId(connection), connection);
     }
 
-    public static Product updateProduct(Product product, Connection connection) throws SQLException {
+    public static Product updateProduct(Product product, String[] imageURLs, Connection connection) throws SQLException {
         String sql = "UPDATE Product SET name = ?, price = ?, quantity = ?, category_id = ?, description = ? WHERE product_id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, product.getName());
@@ -102,6 +102,10 @@ public class ProductDAO {
         statement.setString(5, product.getDescription());
         statement.setInt(6, product.getProductId());
         statement.executeUpdate();
+
+        for (String url : imageURLs) {
+            S3Util.deleteObjectUsingLink(url);
+        }
         return getProductFromId(product.getProductId(), connection);
     }
 

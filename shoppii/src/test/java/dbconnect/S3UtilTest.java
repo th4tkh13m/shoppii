@@ -23,7 +23,7 @@ public class S3UtilTest {
     public void testDeleteBucketObjects() {
         S3Util.setBucketName("photo-shoppii");
         try {
-            assertTrue(S3Util.deleteBucketObjects("test3/"));
+            assertTrue(S3Util.deleteBucketObject("test3/"));
         } catch (AssertionFailedError e) {
             fail("Unable to delete object.");
         }
@@ -45,7 +45,7 @@ public class S3UtilTest {
             S3Util.createFolder("test3");
             assertArrayEquals(new String[0],
              S3Util.getObject("test3").toArray());
-             S3Util.deleteBucketObjects("test3/"); 
+             S3Util.deleteBucketObject("test3/"); 
         } catch (Exception e) {
             fail("Unable to Get Object list");
         } 

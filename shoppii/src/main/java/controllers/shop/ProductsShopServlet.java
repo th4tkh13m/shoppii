@@ -27,7 +27,8 @@ import model.Product;
 public class ProductsShopServlet extends HttpServlet {
     @Override
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         Gson gson = new Gson();
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
@@ -48,11 +49,13 @@ public class ProductsShopServlet extends HttpServlet {
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream()
+                    .println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
         }
     }
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         Gson gson = new Gson();
         resp.setContentType("application/json");
         req.setCharacterEncoding("UTF-8");
@@ -66,8 +69,8 @@ public class ProductsShopServlet extends HttpServlet {
             int quantity = Integer.parseInt(req.getParameter("quantity"));
             int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
-            Product product = ProductDAO.addProduct(new Product(name, price,
-                    quantity, des, ShopDAO.getShopFromId(shopId, connection),
+            Product product = ProductDAO.addProduct(new Product(name, price, quantity, des,
+                    ShopDAO.getShopFromId(shopId, connection),
                     CategoryDAO.getCategoryFromId(cat, connection)), connection);
             String json = gson.toJson(product);
             resp.setStatus(201);
@@ -78,7 +81,8 @@ public class ProductsShopServlet extends HttpServlet {
         }
     }
 
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         Gson gson = new Gson();
         resp.setContentType("application/json");
         req.setCharacterEncoding("UTF-8");
@@ -93,11 +97,11 @@ public class ProductsShopServlet extends HttpServlet {
             int quantity = Integer.parseInt(req.getParameter("quantity"));
             int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
-            System.out.println(des);
-            Product product = new Product(productId, name, price,
-                    quantity, des, ShopDAO.getShopFromId(shopId, connection),
+            String[] imageURLs = req.getParameterValues("images");
+            Product product = new Product(productId, name, price, quantity, des,
+                    ShopDAO.getShopFromId(shopId, connection),
                     CategoryDAO.getCategoryFromId(cat, connection));
-            ProductDAO.updateProduct(product, connection);
+            ProductDAO.updateProduct(product, imageURLs, connection);
             String json = gson.toJson(product);
             resp.setStatus(201);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
@@ -107,7 +111,8 @@ public class ProductsShopServlet extends HttpServlet {
         }
     }
 
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         Gson gson = new Gson();
         resp.setContentType("application/json");
         try {
@@ -119,7 +124,8 @@ public class ProductsShopServlet extends HttpServlet {
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream()
+                    .println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
         }
     }
 }
