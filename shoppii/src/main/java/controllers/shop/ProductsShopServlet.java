@@ -71,7 +71,7 @@ public class ProductsShopServlet extends HttpServlet {
                     CategoryDAO.getCategoryFromId(cat, connection)), connection);
             String json = gson.toJson(product);
             resp.setStatus(201);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
@@ -103,7 +103,7 @@ public class ProductsShopServlet extends HttpServlet {
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
     }
 
