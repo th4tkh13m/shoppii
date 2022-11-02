@@ -43,11 +43,13 @@ public class LoginServlet extends HttpServlet {
             String password = req.getParameter("password");
             Customer customer = CustomerDAO.checkLogin(email, phone, password, connection);
             if (customer != null) {
-                // ArrayList<String> images = S3Util.getObject("profile/" + customer.getUserId()
-                // + "/user/avatar/");
-                // for (String string : images) {
-                // System.out.println(string);
-                // }
+                ArrayList<String> images = S3Util.listPhotos("profile/" + customer.getUserId()
+                + "/user/avatar/");
+                System.out.println("profile/" + customer.getUserId()
+                + "/user/avatar/");
+                for (String string : images) {
+                    System.out.println(string);
+                }
                 // ArrayList<String> images = S3Util.listPhotos("/");
                 // for (String string : images) {
                 // System.out.println(string);
