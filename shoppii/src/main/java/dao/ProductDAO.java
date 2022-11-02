@@ -103,7 +103,9 @@ public class ProductDAO {
         statement.setInt(6, product.getProductId());
         statement.executeUpdate();
 
+        if (imageURLs != null)  
         for (String url : imageURLs) {
+            if (!url.equals(""))
             S3Util.deleteObjectUsingLink(url);
         }
         return getProductFromId(product.getProductId(), connection);
