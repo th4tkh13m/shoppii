@@ -24,7 +24,8 @@ public class CartDAO {
         return quantity;
     }
 
-    public static HashMap<Shop, HashMap<Product, Integer>> getCartOfCustomer(int customerId, Connection connection) throws SQLException {
+    public static HashMap<Shop, HashMap<Product, Integer>> getCartOfCustomer(int customerId, Connection connection)
+            throws SQLException {
         HashMap<Shop, HashMap<Product, Integer>> cart = new HashMap<>();
 
         // Get Shop List
@@ -55,8 +56,8 @@ public class CartDAO {
         return cart;
     }
 
-
-    public static HashMap<Shop, HashMap<Product, Integer>> addProductToCart(int customerId, int productId, int quantity, Connection connection) throws SQLException {
+    public static HashMap<Shop, HashMap<Product, Integer>> addProductToCart(int customerId, int productId, int quantity,
+            Connection connection) throws SQLException {
         int oldQuantity = getQuantityOfProduct(customerId, productId, connection);
 
         if (oldQuantity != 0) {
@@ -67,7 +68,7 @@ public class CartDAO {
             statement.setInt(2, customerId);
             statement.setInt(3, productId);
             statement.executeUpdate();
-        }  else {
+        } else {
             String sql = "INSERT INTO Cart (user_id, product_id, quantity) VALUES (?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, customerId);
@@ -78,7 +79,8 @@ public class CartDAO {
         return getCartOfCustomer(customerId, connection);
     }
 
-    public static HashMap<Shop, HashMap<Product, Integer>> deleteProductFromCart(int customerId, int productId, Connection connection) throws SQLException {
+    public static HashMap<Shop, HashMap<Product, Integer>> deleteProductFromCart(int customerId, int productId,
+            Connection connection) throws SQLException {
         String sql = "DELETE FROM Cart WHERE user_id = ? AND product_id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, customerId);
@@ -88,17 +90,19 @@ public class CartDAO {
         return getCartOfCustomer(customerId, connection);
     }
 
-    public static HashMap<Shop, HashMap<Product, Integer>> modifyProductQuantity(int customerId, int productId, int quantity, Connection connection) throws SQLException {
-        int newQuantity = getQuantityOfProduct(customerId, productId, connection) + quantity;
+    public static HashMap<Shop, HashMap<Product, Integer>> modifyProductQuantity(int customerId, int productId,
+            int quantity, Connection connection) throws SQLException {
+        // int newQuantity = getQuantityOfProduct(customerId, productId, connection) +
+        // quantity;
 
-        if (newQuantity > 0) {
+        if (quantity > 0) {
             String sql = "UPDATE Cart SET quantity = ? WHERE user_id = ? AND product_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, newQuantity);
+            statement.setInt(1, quantity);
             statement.setInt(2, customerId);
             statement.setInt(3, productId);
             statement.executeUpdate();
-        }  else {
+        } else {
             deleteProductFromCart(customerId, productId, connection);
         }
         return getCartOfCustomer(customerId, connection);
