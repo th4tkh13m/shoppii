@@ -21,6 +21,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.Delete;
 import software.amazon.awssdk.services.s3.model.DeleteObjectsRequest;
 import software.amazon.awssdk.services.s3.model.DeleteObjectsResponse;
+import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.ListObjectsRequest;
 import software.amazon.awssdk.services.s3.model.ListObjectsResponse;
 import software.amazon.awssdk.services.s3.model.ObjectIdentifier;
@@ -142,9 +143,13 @@ public class S3Util {
 
         while (listIterator.hasNext()) {
             S3Object object = listIterator.next();
-            results.add(object.key().split("/")[1]);
+            GetUrlRequest requestURL = GetUrlRequest.builder()
+                .bucket(BUCKET)
+                .key(object.key())
+                .build();
+            results.add(client.utilities().getUrl(requestURL).toExternalForm());
         }
-        System.out.println(results);
+
         return results;
     }
 
