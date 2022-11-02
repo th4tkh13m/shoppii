@@ -43,7 +43,8 @@ public class InforServlet extends HttpServlet {
             Customer updateCustomer = new Customer(userId, name, email, phone, dob, sex);
             System.out.println(updateCustomer.toString());
             Part filePart = req.getPart("file");
-            String fileName = filePart.getSubmittedFileName();
+
+            String fileName = "avatar.png";
             Customer customer = CustomerDAO.updateInfo(updateCustomer, connection,
                     fileName, filePart.getInputStream());
             String json = gson.toJson(customer);

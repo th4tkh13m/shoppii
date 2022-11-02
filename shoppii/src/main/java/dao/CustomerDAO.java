@@ -105,7 +105,7 @@ public class CustomerDAO {
                         "sex = ? " +
                         "WHERE user_id = ?");
         statement.setString(1, newCustomer.getName());
-        if (newCustomer.getMail().equals("")) statement.setString(2, null);
+        if (newCustomer.getMail() == null || newCustomer.getMail().equals("")) statement.setString(2, null);
         else statement.setString(2, newCustomer.getMail());
         statement.setString(3, newCustomer.getPhone());
         statement.setDate(4, newCustomer.getDob());
