@@ -68,7 +68,8 @@ public class S3Util {
 
                 while (listIterator.hasNext()) {
                         S3Object object = listIterator.next();
-                        results.add(object.key().split("/")[1]);
+                        String[] parts = object.key().split("/");
+                        results.add(parts[parts.length - 1]);
                 }
                 System.out.println(results);
                 return results;

@@ -5,13 +5,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String url = "https://archives.bulbagarden.net/media/upload/thumb/c/cb/Fuecoco.png/900px-Fuecoco.png";
+        ArrayList<String> images = S3Util.listPhotos("profile/" + 1
+                + "/user/avatar/");
+                System.out.println("profile/" + 1
+                + "/user/avatar/");
+                for (String string : images) {
+                    System.out.println(string);
+                }
         // InputStream inputStream = S3Util.getImageInputStream(url);
         // File f = new File("test.png");
         // OutputStream os = new FileOutputStream(f);
@@ -23,6 +30,6 @@ public class Main {
         // }
 
         // os.close();
-        S3Util.uploadFileViaGoogle("test124.jpg", url);
+
     }
 }
