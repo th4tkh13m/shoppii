@@ -46,26 +46,7 @@ public class CustomerDAO {
         }
         return customer;
     }
-
-    public static Customer getCustomerFromIdWithoutPassAndCode(int customerId, Connection connection)
-            throws SQLException {
-        Customer customer = null;
-        String sql = "SELECT name, mail, phone, dob, sex FROM `Customer` WHERE user_id = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, customerId);
-        ResultSet result = statement.executeQuery();
-        while (result.next()) {
-            String name = result.getString(1);
-            String mail = result.getString(2);
-            String phone = result.getString(3);
-            Date dob = result.getDate(4);
-            boolean sex = result.getBoolean(5);
-
-            customer = new Customer(customerId, name, mail, phone, dob, sex);
-        }
-        return customer;
-    }
-
+    
     public static Customer getCustomerFromIdWithoutPass(int customerId, Connection connection) throws SQLException {
         Customer customer = null;
         String sql = "SELECT name, mail, phone, dob, sex FROM `Customer` WHERE user_id = ?";
@@ -124,7 +105,8 @@ public class CustomerDAO {
                         "sex = ? " +
                         "WHERE user_id = ?");
         statement.setString(1, newCustomer.getName());
-        statement.setString(2, newCustomer.getMail());
+        if (newCustomer.getMail().equals("")) statement.setString(2, null);
+        else statement.setString(2, newCustomer.getMail());
         statement.setString(3, newCustomer.getPhone());
         statement.setDate(4, newCustomer.getDob());
         statement.setBoolean(5, newCustomer.getSex());
@@ -135,7 +117,7 @@ public class CustomerDAO {
                     "/user/avatar/" + fileName, avatar);
         }
 
-        return getCustomerFromIdWithoutPassAndCode(newCustomer.getUserId(), connection);
+        return getCustomerFromIdWithoutPass(newCustomer.getUserId(), connection);
     }
 
     private static Customer getCustomerFromMailOrPhone(String enteredMail, String enteredPhone, Connection connection)

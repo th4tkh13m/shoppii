@@ -17,7 +17,7 @@ import dao.CustomerDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
 import model.Customer;
-import utils.Utils;
+
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 10, // 10 MB
@@ -36,10 +36,7 @@ public class InforServlet extends HttpServlet {
             Connection connection = db.getConnection();
             int userId = Integer.parseInt(req.getParameter("userId"));
             String name = req.getParameter("name");
-            String email = "";
-            if (req.getParameter("email") != null) {
-                email = req.getParameter("email");
-            }
+            String email = req.getParameter("email");
             String phone = req.getParameter("phone");
             boolean sex = Boolean.parseBoolean(req.getParameter("sex"));
             Date dob = Date.valueOf(req.getParameter("dob"));

@@ -73,7 +73,7 @@ public class OrderDAOTest extends DBInfo {
         Gson gson = gsonBuilder.create();
 
         try {
-            AddressDAO.addAddress(3, "VN", "DAO", "113", connection);
+            AddressDAO.addAddress(3, "VN", "DAO", "113", "VN", "VN", "VN", connection);
         
         // 
         HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.getCartOfCustomer(3, connection);
@@ -103,7 +103,7 @@ public class OrderDAOTest extends DBInfo {
         Gson gson = gsonBuilder.create();
 
         try {
-            AddressDAO.addAddress(3, "VN", "DAO", "113", connection);
+            AddressDAO.addAddress(3, "VN", "DAO", "113","VN", "VN", "VN", connection);
         
         // 
         HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.getCartOfCustomer(3, connection);
@@ -133,7 +133,7 @@ public class OrderDAOTest extends DBInfo {
         Gson gson = gsonBuilder.create();
 
         try {
-            AddressDAO.addAddress(3, "VN", "DAO", "113", connection);
+            AddressDAO.addAddress(3, "VN", "DAO", "113","VN", "VN", "VN", connection);
         
         // 
         HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.getCartOfCustomer(3, connection);
