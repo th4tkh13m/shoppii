@@ -30,7 +30,6 @@ public class ShopRequestServlet extends HttpServlet {
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
-
             String status = req.getParameter("status");
             ArrayList<ShopRequest> requests = RequestDAO.getRequestsByStatus(status, connection);
             String json = gson.toJson(requests);
