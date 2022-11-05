@@ -44,9 +44,9 @@ public class LoginServlet extends HttpServlet {
             Customer customer = CustomerDAO.checkLogin(email, phone, password, connection);
             if (customer != null) {
                 ArrayList<String> images = S3Util.listPhotos("profile/" + customer.getUserId()
-                + "/user/avatar/");
+                        + "/user/avatar/");
                 System.out.println("profile/" + customer.getUserId()
-                + "/user/avatar/");
+                        + "/user/avatar/");
                 JsonElement jsonElement = gson.toJsonTree(customer);
                 JsonObject object = jsonElement.getAsJsonObject();
                 for (String avatar : images) {
