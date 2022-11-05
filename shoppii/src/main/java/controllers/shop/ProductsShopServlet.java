@@ -9,6 +9,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import com.google.gson.Gson;
 
@@ -16,12 +17,13 @@ import dao.CategoryDAO;
 import dao.ProductDAO;
 import dao.ShopDAO;
 import dbconnect.DBConnect;
+import dbconnect.S3Util;
 import errors.ErrorHandle;
 import model.Product;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
-        maxFileSize = 1024 * 1024 * 1, // 1 MB
-        maxRequestSize = 1024 * 1024 * 1 // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 100 // 100 MB
 )
 
 public class ProductsShopServlet extends HttpServlet {
@@ -69,9 +71,24 @@ public class ProductsShopServlet extends HttpServlet {
             int quantity = Integer.parseInt(req.getParameter("quantity"));
             int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
-            Product product = ProductDAO.addProduct(new Product(name, price, quantity, des,
+            ArrayList<Part> files = (ArrayList<Part>) req.getParts();
+            Product product = ProductDAO.addProduct(new Product(name, price, quantity,
+                    des,
                     ShopDAO.getShopFromId(shopId, connection),
                     CategoryDAO.getCategoryFromId(cat, connection)), connection);
+
+            // for (Part part : files) {
+            // S3Util.uploadObject("products/" + product.getProductId() + "/" +
+            // part.getSubmittedFileName(),
+            // part.getInputStream());
+            // if (part.getName().equalsIgnoreCase("files")) {
+            // System.out.println(1);
+            // System.out.println(part.getSubmittedFileName());
+            // }
+            // }
+            ArrayList<String> images = S3Util.listPhotos("products/" +
+                    product.getProductId() + "/");
+            product.setImages(images);
             String json = gson.toJson(product);
             resp.setStatus(201);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
