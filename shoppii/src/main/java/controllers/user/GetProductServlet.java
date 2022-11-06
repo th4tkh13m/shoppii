@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 
 import dao.ProductDAO;
 import dbconnect.DBConnect;
+import dbconnect.S3Util;
 import errors.ErrorHandle;
 import model.Filters;
 import model.Product;
@@ -68,6 +69,17 @@ public class GetProductServlet extends HttpServlet {
             HashMap<Integer, ArrayList<Product>> map = ProductDAO.getProducts(filter, connection);
             int totalPage = (int) map.keySet().toArray()[0];
             ArrayList<Product> products = map.get(totalPage);
+            for (Product product : products) {
+                ArrayList<String> images =
+                    S3Util.listPhotos("products/" + product.getProductId() + "/");
+                    System.out.println(images);
+                ArrayList<String> imagesUrl = new ArrayList<>();
+                if (images.size() > 0) {
+                    
+                    imagesUrl.add(images.get(0));
+                }
+                product.setImages(imagesUrl);
+            }
             System.out.println(products);
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("products", gson.toJsonTree(products).getAsJsonArray());

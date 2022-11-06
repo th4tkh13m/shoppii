@@ -50,7 +50,10 @@ public class ProductsShopServlet extends HttpServlet {
                     S3Util.listPhotos("products/" + product.getProductId() + "/");
                     System.out.println(images);
                 ArrayList<String> imagesUrl = new ArrayList<>();
-                imagesUrl.add(images.get(0));
+                if (images.size() > 0) {
+                    
+                    imagesUrl.add(images.get(0));
+                }
                 product.setImages(imagesUrl);
             }
             System.out.println(products);
