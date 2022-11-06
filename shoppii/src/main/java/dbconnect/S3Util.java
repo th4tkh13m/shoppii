@@ -91,8 +91,8 @@ public class S3Util {
     }
 
     public static boolean deleteObjectUsingLink(String url) {
-        String name = url.split("https:\\/\\/photo-shoppii\\.s3\\.ap-southeast-1\\.amazonaws\\.com")[1];
-
+        String name = url.split("https:\\/\\/photo-shoppii\\.s3\\.ap-southeast-1\\.amazonaws\\.com\\/")[1];
+        System.out.println(name);
         return deleteBucketObject(name);
     }
 
@@ -154,7 +154,12 @@ public class S3Util {
                 .bucket(BUCKET)
                 .key(object.key())
                 .build();
-            results.add(client.utilities().getUrl(requestURL).toExternalForm());
+            String url = client.utilities().getUrl(requestURL).toString();
+            if (url.matches(".*\\.(jpg|png|gif|jpeg)")) {
+                results.add(url);
+            }
+                
+            
         }
 
         return results;

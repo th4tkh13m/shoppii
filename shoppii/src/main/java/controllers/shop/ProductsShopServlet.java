@@ -45,6 +45,14 @@ public class ProductsShopServlet extends HttpServlet {
             int shopId = Integer.parseInt(req.getParameter("shopId"));
             ArrayList<Product> products = new ArrayList<>();
             products = ProductDAO.getProductByShopId(shopId, keyword, connection);
+            for (Product product : products) {
+                ArrayList<String> images =
+                    S3Util.listPhotos("products/" + product.getProductId() + "/");
+                    System.out.println(images);
+                ArrayList<String> imagesUrl = new ArrayList<>();
+                imagesUrl.add(images.get(0));
+                product.setImages(imagesUrl);
+            }
             System.out.println(products);
             String json = gson.toJson(products);
             resp.setStatus(200);
@@ -52,7 +60,7 @@ public class ProductsShopServlet extends HttpServlet {
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream()
-                    .println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+                    .println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
     }
 
@@ -72,22 +80,22 @@ public class ProductsShopServlet extends HttpServlet {
             int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
             ArrayList<Part> files = (ArrayList<Part>) req.getParts();
-            Product product = ProductDAO.addProduct(new Product(name, price, quantity,
-                    des,
+            Product product = ProductDAO.addProduct(new Product(name, price, quantity, des,
                     ShopDAO.getShopFromId(shopId, connection),
                     CategoryDAO.getCategoryFromId(cat, connection)), connection);
 
-            // for (Part part : files) {
-            // S3Util.uploadObject("products/" + product.getProductId() + "/" +
-            // part.getSubmittedFileName(),
-            // part.getInputStream());
-            // if (part.getName().equalsIgnoreCase("files")) {
-            // System.out.println(1);
-            // System.out.println(part.getSubmittedFileName());
-            // }
-            // }
-            ArrayList<String> images = S3Util.listPhotos("products/" +
-                    product.getProductId() + "/");
+            for (Part part : files) {
+                if (part.getName().equalsIgnoreCase("files") && part.getSize() > 0 && part.getSubmittedFileName().matches(".*\\.(jpg|png|jpeg|gif)")) {
+                    S3Util.uploadObject(
+                            "products/" + product.getProductId() + "/" + part.getSubmittedFileName(),
+                            part.getInputStream());
+
+                }
+            }
+
+            ArrayList<String> images =
+                    S3Util.listPhotos("products/" + product.getProductId() + "/");
+            
             product.setImages(images);
             String json = gson.toJson(product);
             resp.setStatus(201);
@@ -114,11 +122,26 @@ public class ProductsShopServlet extends HttpServlet {
             int quantity = Integer.parseInt(req.getParameter("quantity"));
             int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
-            String[] imageURLs = req.getParameterValues("images");
+            String[] imageDeleleted = req.getParameterValues("images");
+            System.out.println(imageDeleleted);
             Product product = new Product(productId, name, price, quantity, des,
                     ShopDAO.getShopFromId(shopId, connection),
                     CategoryDAO.getCategoryFromId(cat, connection));
-            ProductDAO.updateProduct(product, imageURLs, connection);
+            ProductDAO.updateProduct(product, imageDeleleted, connection);
+            
+            ArrayList<Part> files = (ArrayList<Part>) req.getParts();
+            for (Part part : files) {
+                if (part.getName().equalsIgnoreCase("imageAdded") && part.getSize() > 0 && part.getSubmittedFileName().matches(".*\\.(jpg|png|jpeg|gif)")) {
+                    S3Util.uploadObject(
+                            "products/" + product.getProductId() + "/" + part.getSubmittedFileName(),
+                            part.getInputStream());
+
+                }
+            }
+            ArrayList<String> images =
+                S3Util.listPhotos("products/" + product.getProductId() + "/");
+    
+            product.setImages(images);
             String json = gson.toJson(product);
             resp.setStatus(201);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
