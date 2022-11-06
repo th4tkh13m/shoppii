@@ -142,6 +142,7 @@ public class ProductsShopServlet extends HttpServlet {
                 S3Util.listPhotos("products/" + product.getProductId() + "/");
     
             product.setImages(images);
+            System.out.println(product);
             String json = gson.toJson(product);
             resp.setStatus(201);
             resp.getOutputStream().write(json.getBytes("UTF-8"));

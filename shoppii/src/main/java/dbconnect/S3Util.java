@@ -45,6 +45,7 @@ public class S3Util {
                 .build();
         client.putObject(request,
                 RequestBody.fromInputStream(inputStream, inputStream.available()));
+        
         return true;
     }
 
@@ -79,10 +80,13 @@ public class S3Util {
                     }
                 } finally {
                     // Only close the client when you are completely done with it.
-                    asyncClient.close();
+                    // System.out.println("Closing client");
+                    // asyncClient.close();
+                    // System.out.println("Client closed");
                 }
             });
             future.join();
+            System.out.println("DONE DELETING");
             return true;
         } catch (S3Exception e) {
             System.err.println(e.awsErrorDetails().errorMessage());
@@ -161,6 +165,7 @@ public class S3Util {
                 
             
         }
+        System.out.println("HEELO");
 
         return results;
     }
