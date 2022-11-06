@@ -36,10 +36,11 @@ public class Product {
 
 
 
-    public Product(int productId, String name, int price) {
+    public Product(int productId, String name, int price, int quantity) {
         this.productId = productId;
         this.name = name;
         this.price = price;
+        this.quantity = quantity;
     }
 
     public int getProductId() {

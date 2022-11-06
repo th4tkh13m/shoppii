@@ -73,11 +73,10 @@ public class ProductMap implements JsonSerializer<HashMap<Shop, HashMap<Product,
 
                     Product product = new Product(productObj.get("productId").getAsInt(),
                     productObj.get("productName").getAsString(), 
-                    productObj.get("price").getAsInt());
+                    productObj.get("price").getAsInt(), productObj.get("quantity").getAsInt());
+                    int cartQuantity = productObj.get("cartQuantity").getAsInt();
 
-                    int quantity = productObj.get("quantity").getAsInt();
-
-                    products.put(product, quantity);
+                    products.put(product, cartQuantity);
                 }
                 orders.put(shop, products);
             }
