@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import dbconnect.S3Util;
@@ -127,6 +128,13 @@ public class CartDAO {
             statement.executeUpdate();
         }
 
+        return true;
+    }
+
+    public static boolean removeAfterDeleteProduct(Connection connection) throws SQLException {
+        String sql = "DELETE FROM `Cart` WHERE product_id IN (SELECT product_id FROM `Product` WHERE is_available IS FALSE)";
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(sql);
         return true;
     }
 }

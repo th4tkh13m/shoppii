@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import com.google.gson.Gson;
-
+import dao.CartDAO;
 import dao.CategoryDAO;
 import dao.ProductDAO;
 import dao.ShopDAO;
@@ -165,6 +165,7 @@ public class ProductsShopServlet extends HttpServlet {
             Connection connection = dbConnect.getConnection();
             int productId = Integer.parseInt(req.getParameter("productId"));
             String json = gson.toJson(ProductDAO.deleteProduct(productId, connection));
+            CartDAO.removeAfterDeleteProduct(connection);
             resp.setStatus(201);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {

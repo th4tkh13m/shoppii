@@ -119,7 +119,7 @@ public class ProductDAO {
     }
 
     public static Product deleteProduct(int productId, Connection connection) throws SQLException {
-        String sql = "DELETE FROM Product WHERE product_id = ?";
+        String sql = "UPDATE Product SET is_available = FALSE WHERE product_id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, productId);
         statement.executeUpdate();
