@@ -33,15 +33,16 @@ public class ShopStatistics extends HttpServlet {
             Connection connection = db.getConnection();
 
             int shopId = Integer.parseInt(req.getParameter("shopId"));
-            String filter = req.getParameter("filter");
-            ArrayList<Integer> incomes = ShopDAO.getTotalIncomes7Days(shopId, filter, connection);
+            // String filter = req.getParameter("filter");
+            // ArrayList<Integer> incomes = ShopDAO.getTotalIncomes7Days(shopId, filter,
+            // connection);
             ArrayList<Product> mostSalesProducts = ShopDAO.getMostSaledProduct(shopId, connection);
             int numberAcceptedOrders = ShopDAO.getNumberOfAcceptedOrder(shopId, connection);
             int numberRejectedOrders = ShopDAO.getNumberOfRejectedOrder(shopId, connection);
             int numberPendingOrders = ShopDAO.getNumberOfPendingOrder(shopId, connection);
 
             JsonObject json = new JsonObject();
-            json.addProperty("incomes", gson.toJson(incomes));
+            // json.addProperty("incomes", gson.toJson(incomes));
             json.addProperty("mostSalesProducts", gson.toJson(mostSalesProducts));
             json.addProperty("numberAcceptedOrders", numberAcceptedOrders);
             json.addProperty("numberRejectedOrders", numberRejectedOrders);
