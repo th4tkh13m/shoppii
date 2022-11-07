@@ -54,7 +54,7 @@ public class ShopDAO {
 
     public static ArrayList<Shop> getLocationsShop(Connection connection) throws SQLException {
         ArrayList<Shop> locations = new ArrayList<>();
-        String sql = "select shop_id, address from shop group by address";
+        String sql = "select shop_id, address from `Shop` group by address";
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSet result = statement.executeQuery();
         while (result.next()) {

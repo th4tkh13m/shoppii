@@ -2,7 +2,7 @@ package controllers.user;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 
 import dao.ProductDAO;
 import dbconnect.DBConnect;
-import dbconnect.S3Util;
 import errors.ErrorHandle;
 
 import model.Product;
@@ -35,10 +34,6 @@ public class GetSingleProduct extends HttpServlet {
             Connection connection = db.getConnection();
             int productId = Integer.parseInt(req.getParameter("productId"));
             Product product = ProductDAO.getProductFromId(productId, connection);
-                ArrayList<String> images =
-                    S3Util.listPhotos("products/" + product.getProductId() + "/");
-                product.setImages(images);
-            
             String json = gson.toJson(product);
             resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));

@@ -93,7 +93,7 @@ public class OrderDAO {
 
     public static ArrayList<Order> getOrdersByShop(int shopId, String statusFilter, Connection connection) throws SQLException {
         ArrayList<Order> orders = new ArrayList<>();
-            String sql = "SELECT o.order_id, user_id, payment_method, status, time, address_id " +
+            String sql = "SELECT DISTINCT o.order_id, user_id, payment_method, status, time, address_id " +
                     "FROM `Order` o INNER JOIN `Contain` c ON o.order_id = c.order_id " +
                     "INNER JOIN `Product` p ON p.product_id = c.product_id " +
                     "WHERE p.shop_id = ? AND status = ?";

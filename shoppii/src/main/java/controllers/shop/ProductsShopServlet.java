@@ -48,12 +48,17 @@ public class ProductsShopServlet extends HttpServlet {
             for (Product product : products) {
                 ArrayList<String> images = S3Util.listPhotos("products/" + product.getProductId() + "/");
                 System.out.println(images);
+<<<<<<< HEAD
                 ArrayList<String> imagesUrl = new ArrayList<>();
                 if (images.size() > 0) {
 
+=======
+                if (images.size() > 0) {
+                    ArrayList<String> imagesUrl = new ArrayList<>();
+>>>>>>> 1a7d91727a1df1d3f4248306d30b98c7a62824fc
                     imagesUrl.add(images.get(0));
+                    product.setImages(imagesUrl);
                 }
-                product.setImages(imagesUrl);
             }
             System.out.println(products);
             String json = gson.toJson(products);
@@ -84,7 +89,7 @@ public class ProductsShopServlet extends HttpServlet {
             ArrayList<Part> files = (ArrayList<Part>) req.getParts();
             Product product = ProductDAO.addProduct(new Product(name, price, quantity, des,
                     ShopDAO.getShopFromId(shopId, connection),
-                    CategoryDAO.getCategoryFromId(cat, connection)), connection);
+                    CategoryDAO.getCategoryFromId(cat, connection), true) , connection);
 
             for (Part part : files) {
                 if (part.getName().equalsIgnoreCase("files") && part.getSize() > 0
@@ -125,10 +130,11 @@ public class ProductsShopServlet extends HttpServlet {
             int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
             String[] imageDeleleted = req.getParameterValues("images");
+            boolean isAvailable = Boolean.parseBoolean(req.getParameter("isAvailable"));
             System.out.println(imageDeleleted);
             Product product = new Product(productId, name, price, quantity, des,
                     ShopDAO.getShopFromId(shopId, connection),
-                    CategoryDAO.getCategoryFromId(cat, connection));
+                    CategoryDAO.getCategoryFromId(cat, connection), isAvailable);
             ProductDAO.updateProduct(product, imageDeleleted, connection);
 
             ArrayList<Part> files = (ArrayList<Part>) req.getParts();
@@ -144,7 +150,6 @@ public class ProductsShopServlet extends HttpServlet {
             ArrayList<String> images = S3Util.listPhotos("products/" + product.getProductId() + "/");
 
             product.setImages(images);
-            System.out.println(product);
             String json = gson.toJson(product);
             resp.setStatus(201);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
