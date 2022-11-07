@@ -163,15 +163,12 @@ public class ShopDAO {
         return incomes;
     }
 
-    public static int getTotalAllTime(int shopId, String filter, Connection connection) throws SQLException {
-        String filterSql = null;
-        if (filter.equals("incomes")) {
-            filterSql = "c.quantity * c.price";
-        } else filterSql = "c.quantity";
-        String sql = "SELECT SUM(" + filterSql + ") FROM `Contain` c INNER JOIN `Product` p ON c.product_id = p.product_id INNER JOIN `Order` o ON c.order_id = o.order_id WHERE p.shop_id = ?";
+    public static int getTotalAllTime(int shopId, Connection connection) throws SQLException {
+        String sql = "SELECT SUM(c.quantity * c.price) FROM `Contain` c INNER JOIN `Product` p ON c.product_id = p.product_id INNER JOIN `Order` o ON c.order_id = o.order_id WHERE p.shop_id = ?";
         
-        Statement statement = connection.createStatement();
-        ResultSet result = statement.executeQuery(sql);
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, shopId);
+        ResultSet result = statement.executeQuery();
 
         while (result.next()) {
             return result.getInt(1);
