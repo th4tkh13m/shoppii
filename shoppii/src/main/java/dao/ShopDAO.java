@@ -179,21 +179,41 @@ public class ShopDAO {
         return 0;
     }
 
-    public static ArrayList<Product> getMostSaledProduct(int shopId, Date startDate, Date endDate, Connection connection) throws SQLException {
+    public static ArrayList<Product> getMostSaledProduct(int shopId, Connection connection) throws SQLException {
         ArrayList<Product> products = new ArrayList<>();
-        String sql = "SELECT product_id FROM Contain c INNER JOIN `Order` o ON c.order_id = o.order_id WHERE o.time BETWEEN ? AND ? GROUP BY product_id HAVING SUM(quantity) = (SELECT MAX(a) FROM (SELECT SUM(quantity) AS a FROM Contain c INNER JOIN `Order` o ON c.order_id = o.order_id WHERE o.time BETWEEN ? AND ? GROUP BY product_id) as b) ";
+        String sql = "SELECT product_id FROM Contain c INNER JOIN `Order` o ON c.order_id = o.order_id GROUP BY product_id HAVING SUM(quantity) = (SELECT MAX(a) FROM (SELECT SUM(quantity) AS a FROM Contain c INNER JOIN `Order` o ON c.order_id = o.order_id GROUP BY product_id) as b) ";
         
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setDate(1, startDate);
-        statement.setDate(2, endDate);
-        statement.setDate(3, startDate);
-        statement.setDate(4, endDate);
+        Statement statement = connection.createStatement();
 
-        ResultSet result = statement.executeQuery();
+        ResultSet result = statement.executeQuery(sql);;
         while (result.next()) {
             products.add(ProductDAO.getProductFromId(result.getInt(1), connection));
         }
         
         return products;
+    }
+
+    public static int getNumberOfOrderBasedOnStatus(int shopId, String status, Connection connection) throws SQLException {
+        String sql = "SELECT COUNT(order_id) FROM `Order` WHERE `status` = ? AND order_id IN (SELECT order_id FROM `Contain` c INNER JOIN `Product` p ON c.product_id = p.product_id WHERE p.shop_id = ?) ";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, status);
+        statement.setInt(2, shopId);
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            return result.getInt(1);
+        }
+        return 0;
+    }
+
+    public static int getNumberOfAcceptedOrder(int shopId, Connection connection) throws SQLException {
+        return getNumberOfOrderBasedOnStatus(shopId, "Accepted", connection);
+    } 
+
+    public static int getNumberOfRejectedOrder(int shopId, Connection connection) throws SQLException {
+        return getNumberOfOrderBasedOnStatus(shopId, "Rejected", connection);
+    }
+
+    public static int getNumberOfPendingOrder(int shopId, Connection connection) throws SQLException {
+        return getNumberOfOrderBasedOnStatus(shopId, "Pending", connection);
     }
 }
