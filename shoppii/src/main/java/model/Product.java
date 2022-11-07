@@ -7,11 +7,10 @@ public class Product {
     private String name;
     private int price, quantity;
     private String description;
-    private ArrayList<String> images;
+    private ArrayList<String> images = new ArrayList<String>();
     private Shop shop;
     private Category category;
     private boolean isAvailable;
-
 
     public Product(int productId, String name, int price, int quantity,
             String description, Shop shop, Category category, boolean isAvailable) {
@@ -25,9 +24,8 @@ public class Product {
         this.isAvailable = isAvailable;
     }
 
-   
-
-    public Product(String name, int price, int quantity, String description, Shop shop, Category category, boolean isAvailable) {
+    public Product(String name, int price, int quantity, String description, Shop shop, Category category,
+            boolean isAvailable) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
@@ -36,8 +34,6 @@ public class Product {
         this.category = category;
         this.isAvailable = isAvailable;
     }
-
-
 
     public Product(int productId, String name, int price, int quantity, boolean isAvailable) {
         this.productId = productId;
@@ -51,19 +47,14 @@ public class Product {
         return isAvailable;
     }
 
-
-
     public void setAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
     }
-
-
 
     public int getProductId() {
         return productId;
     }
 
-  
     public String getName() {
         return name;
     }
@@ -76,7 +67,6 @@ public class Product {
         return quantity;
     }
 
-
     public String getDescription() {
         return description;
     }
@@ -85,7 +75,6 @@ public class Product {
         this.productId = productId;
     }
 
-  
     public void setName(String name) {
         this.name = name;
     }
@@ -97,8 +86,6 @@ public class Product {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
-  
 
     public void setDescription(String description) {
         this.description = description;
@@ -112,7 +99,6 @@ public class Product {
         this.images = images;
     }
 
-
     public void setShop(Shop shop) {
         this.shop = shop;
     }
@@ -120,7 +106,6 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
-
 
     public Shop getShop() {
         return shop;
