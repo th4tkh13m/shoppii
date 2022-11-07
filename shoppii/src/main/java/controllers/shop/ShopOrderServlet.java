@@ -25,7 +25,9 @@ import utils.OrderMap;
 )
 public class ShopOrderServlet extends HttpServlet {
     GsonBuilder gsonBuilder = new GsonBuilder();
-    Type type = new TypeToken<HashMap<Order, HashMap<Product, Integer>>>() {}.getType();
+    Type type = new TypeToken<HashMap<Order, HashMap<Product, Integer>>>() {
+    }.getType();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         gsonBuilder.registerTypeAdapter(type, new OrderMap());
@@ -40,7 +42,8 @@ public class ShopOrderServlet extends HttpServlet {
             if (status != null) {
                 status = status.toLowerCase();
             }
-            HashMap<Order, HashMap<Product, Integer>> orders = OrderDAO.getOrderWithItemsofShop(shopId, status, connection);
+            HashMap<Order, HashMap<Product, Integer>> orders = OrderDAO.getOrderWithItemsofShop(shopId, status,
+                    connection);
             System.out.println(orders);
             String json = gson.toJson(orders, type);
             resp.setStatus(200);
@@ -70,7 +73,7 @@ public class ShopOrderServlet extends HttpServlet {
                 OrderDAO.rejectOrder(orderId, connection);
 
             resp.setStatus(200);
-            resp.getOutputStream().println("OK");
+            resp.getOutputStream().println(gson.toJson("OK"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
