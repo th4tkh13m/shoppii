@@ -83,7 +83,7 @@ public class ProductsShopServlet extends HttpServlet {
             ArrayList<Part> files = (ArrayList<Part>) req.getParts();
             Product product = ProductDAO.addProduct(new Product(name, price, quantity, des,
                     ShopDAO.getShopFromId(shopId, connection),
-                    CategoryDAO.getCategoryFromId(cat, connection)), connection);
+                    CategoryDAO.getCategoryFromId(cat, connection), true) , connection);
 
             for (Part part : files) {
                 if (part.getName().equalsIgnoreCase("files") && part.getSize() > 0
@@ -124,10 +124,11 @@ public class ProductsShopServlet extends HttpServlet {
             int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
             String[] imageDeleleted = req.getParameterValues("images");
+            boolean isAvailable = Boolean.parseBoolean(req.getParameter("isAvailable"));
             System.out.println(imageDeleleted);
             Product product = new Product(productId, name, price, quantity, des,
                     ShopDAO.getShopFromId(shopId, connection),
-                    CategoryDAO.getCategoryFromId(cat, connection));
+                    CategoryDAO.getCategoryFromId(cat, connection), isAvailable);
             ProductDAO.updateProduct(product, imageDeleleted, connection);
 
             ArrayList<Part> files = (ArrayList<Part>) req.getParts();

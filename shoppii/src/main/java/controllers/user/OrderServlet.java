@@ -13,6 +13,8 @@ import java.lang.reflect.Type;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
+import dao.CartDAO;
 import dao.OrderDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
@@ -70,6 +72,7 @@ public class OrderServlet extends HttpServlet {
             String paymentMethod = req.getParameter("paymentMethod");
             HashMap<Shop, HashMap<Product, Integer>> orders = gson.fromJson(orderJson, type);
             ArrayList<Order> orderList = OrderDAO.addOrder(orders, userId, paymentMethod, addressId, connection);
+            CartDAO.removeAfterCheckout(orderList, connection);
             String json = (new Gson()).toJson(orderList);
             resp.setStatus(201);
             resp.getOutputStream().write(json.getBytes("UTF-8"));

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import model.Address;
@@ -81,7 +82,7 @@ public class OrderDAO {
                 int customerId = result.getInt(1);
                 String paymentMethod = result.getString(2);
                 String status = result.getString(3);
-                Time time = result.getTime(4);
+                Timestamp time = result.getTimestamp(4);
                 Address address = AddressDAO.getAddressFromId(result.getInt(5), connection);
 
                 order = new Order(orderId, customerId, paymentMethod, status, time, address);
@@ -92,7 +93,7 @@ public class OrderDAO {
 
     public static ArrayList<Order> getOrdersByShop(int shopId, String statusFilter, Connection connection) throws SQLException {
         ArrayList<Order> orders = new ArrayList<>();
-            String sql = "SELECT o.order_id, user_id, payment_method, status, time, address_id " +
+            String sql = "SELECT DISTINCT o.order_id, user_id, payment_method, status, time, address_id " +
                     "FROM `Order` o INNER JOIN `Contain` c ON o.order_id = c.order_id " +
                     "INNER JOIN `Product` p ON p.product_id = c.product_id " +
                     "WHERE p.shop_id = ? AND status = ?";
@@ -110,7 +111,7 @@ public class OrderDAO {
                 int customerId = result.getInt(2);
                 String paymentMethod = result.getString(3);
                 String status = result.getString(4);
-                Time time = result.getTime(5);
+                Timestamp time = result.getTimestamp(5);
                 Address address = AddressDAO.getAddressFromId(result.getInt(6), connection);
 
                 orders.add(new Order(orderId, customerId, paymentMethod, status, time, address));

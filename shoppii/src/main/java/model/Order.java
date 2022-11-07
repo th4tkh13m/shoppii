@@ -1,15 +1,15 @@
 package model;
 
-import java.sql.Time;
+import java.sql.Timestamp;
 
 public class Order {
     private int orderId;
     private int customerId;
     private String paymentMethod, status;
-    private Time time;
+    private Timestamp time;
     private Address address;
     
-    public Order(int orderId, int customerId, String paymentMethod, String status, Time time, Address address) {
+    public Order(int orderId, int customerId, String paymentMethod, String status, Timestamp time, Address address) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.paymentMethod = paymentMethod;
@@ -50,11 +50,11 @@ public class Order {
         this.status = status;
     }
 
-    public Time getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
 
