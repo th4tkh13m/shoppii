@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import dbconnect.S3Util;
+import model.Order;
 import model.Product;
 import model.Shop;
 
@@ -116,5 +117,16 @@ public class CartDAO {
             deleteProductFromCart(customerId, productId, connection);
         }
         return getCartOfCustomer(customerId, connection);
+    }
+
+    public static boolean removeAfterCheckout(ArrayList<Order> orders, Connection connection) throws SQLException {
+        String sql = "DELETE FROM `Cart` WHERE (product_id, user_id) IN (SELECT product_id, user_id FROM `Order` o INNER JOIN `Contain` c ON o.order_id = c.order_id WHERE c.order_id = ?) ";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        for (Order order : orders) {
+            statement.setInt(1, order.getOrderId());
+            statement.executeUpdate();
+        }
+
+        return true;
     }
 }
