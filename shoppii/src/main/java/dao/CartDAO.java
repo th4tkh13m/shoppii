@@ -4,8 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
-
+import dbconnect.S3Util;
 import model.Product;
 import model.Shop;
 
@@ -48,6 +49,15 @@ public class CartDAO {
             result = statement.executeQuery();
             while (result.next()) {
                 Product product = ProductDAO.getProductFromId(result.getInt(1), connection);
+                ArrayList<String> images =
+                S3Util.listPhotos("products/" + product.getProductId() + "/");
+                System.out.println(images);
+                ArrayList<String> imagesUrl = new ArrayList<>();
+            if (images.size() > 0) {
+                
+                imagesUrl.add(images.get(0));
+            }
+            product.setImages(imagesUrl);
                 int quantity = result.getInt(2);
                 cart.get(shop).put(product, quantity);
                 cart.put(shop, cart.get(shop));
