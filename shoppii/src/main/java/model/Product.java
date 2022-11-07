@@ -10,10 +10,11 @@ public class Product {
     private ArrayList<String> images;
     private Shop shop;
     private Category category;
+    private boolean isAvailable;
 
 
     public Product(int productId, String name, int price, int quantity,
-            String description, Shop shop, Category category) {
+            String description, Shop shop, Category category, boolean isAvailable) {
         this.productId = productId;
         this.name = name;
         this.price = price;
@@ -21,27 +22,42 @@ public class Product {
         this.description = description;
         this.shop = shop;
         this.category = category;
+        this.isAvailable = isAvailable;
     }
 
    
 
-    public Product(String name, int price, int quantity, String description, Shop shop, Category category) {
+    public Product(String name, int price, int quantity, String description, Shop shop, Category category, boolean isAvailable) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.description = description;
         this.shop = shop;
         this.category = category;
+        this.isAvailable = isAvailable;
     }
 
 
 
-    public Product(int productId, String name, int price, int quantity) {
+    public Product(int productId, String name, int price, int quantity, boolean isAvailable) {
         this.productId = productId;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+        this.isAvailable = isAvailable;
     }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+
+
+    public void setAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
+
 
     public int getProductId() {
         return productId;

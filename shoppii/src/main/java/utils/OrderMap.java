@@ -101,13 +101,14 @@ public class OrderMap implements JsonDeserializer<HashMap<Order, HashMap<Product
                     int quantity = Integer.parseInt(itemJsonObject.get("quantity").getAsString());
                     String itemDescription = itemJsonObject.get("description").getAsString();
                     int orderQuantity = Integer.parseInt(itemJsonObject.get("orderQuantity").getAsString());
+                    boolean itemIsAvailable = itemJsonObject.get("is_available").getAsBoolean();
                     // Category
                     JsonObject categoryJsonObject = itemJsonObject.get("category").getAsJsonObject();
                     int categoryId = Integer.parseInt(categoryJsonObject.get("category_id").getAsString());
                     String categoryName = categoryJsonObject.get("category_name").getAsString();
                     
                     Category category = new Category(categoryId, categoryName);
-                    Product product = new Product(productId, name, price, quantity, itemDescription, shop, category);
+                    Product product = new Product(productId, name, price, quantity, itemDescription, shop, category, itemIsAvailable);
                     items.put(product, orderQuantity);
                 }
                 orders.put(order, items);

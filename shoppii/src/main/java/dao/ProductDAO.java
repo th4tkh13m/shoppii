@@ -24,7 +24,7 @@ public class ProductDAO {
 
     public static Product getProductFromId(int productId, Connection connection) throws SQLException {
         Product product = null;
-        String sql = "SELECT shop_id, name, price, quantity, category_id, description FROM `Product` WHERE product_id = ?";
+        String sql = "SELECT shop_id, name, price, quantity, category_id, description, is_available FROM `Product` WHERE product_id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
 
         statement.setInt(1, productId);
@@ -37,9 +37,10 @@ public class ProductDAO {
             int quantity = result.getInt(4);
             int categoryId = result.getInt(5);
             String description = result.getString(6);
+            boolean isAvailable = result.getBoolean(7);
 
             product = new Product(productId, name, price, quantity, description,
-                    ShopDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(categoryId, connection));
+                    ShopDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(categoryId, connection), isAvailable);
         }
 
         return product;
@@ -93,7 +94,7 @@ public class ProductDAO {
     }
 
     public static Product updateProduct(Product product, String[] imageURLs, Connection connection) throws SQLException {
-        String sql = "UPDATE Product SET name = ?, price = ?, quantity = ?, category_id = ?, description = ? WHERE product_id = ?";
+        String sql = "UPDATE Product SET name = ?, price = ?, quantity = ?, category_id = ?, description = ?, is_available = ? WHERE product_id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, product.getName());
         statement.setInt(2, product.getPrice());
@@ -101,6 +102,7 @@ public class ProductDAO {
         statement.setInt(4, product.getCategory().getCategory_id());
         statement.setString(5, product.getDescription());
         statement.setInt(6, product.getProductId());
+        statement.setBoolean(7, product.isAvailable());
         statement.executeUpdate();
 
         if (imageURLs != null)  
@@ -162,6 +164,7 @@ public class ProductDAO {
                 }
             }
             WHERE_CLAUSE_ARRAY.add(categoriesIdString);
+            WHERE_CLAUSE_ARRAY.add("pd.is_available = 1");
         }
         if (filters.getLocations() != null) {
             // WHERE_CLAUSE_ARRAY.add("LOWER(s.address) like '%" + filters.location + "%'");
