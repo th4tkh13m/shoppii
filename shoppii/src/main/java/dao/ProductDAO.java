@@ -42,6 +42,7 @@ public class ProductDAO {
             product = new Product(productId, name, price, quantity, description,
                     ShopDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(categoryId, connection),
                     isAvailable);
+            
         }
 
         return product;

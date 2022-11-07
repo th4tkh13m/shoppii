@@ -8,6 +8,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import dbconnect.S3Util;
 import model.Address;
 import model.Order;
 import model.OrderItem;
@@ -174,6 +175,15 @@ public class OrderDAO {
 
             while (result.next()) {
                 Product product = ProductDAO.getProductFromId(result.getInt(1), connection);
+                ArrayList<String> images =
+                    S3Util.listPhotos("products/" + product.getProductId() + "/");
+                    System.out.println(images);
+                ArrayList<String> imagesUrl = new ArrayList<>();
+                if (images.size() > 0) {
+                    
+                    imagesUrl.add(images.get(0));
+                }
+                product.setImages(imagesUrl);
                 product.setPrice(result.getInt(3));
                 items.put(product, result.getInt(2));
             }
@@ -198,6 +208,15 @@ public class OrderDAO {
 
             while (result.next()) {
                 Product product = ProductDAO.getProductFromId(result.getInt(1), connection);
+                ArrayList<String> images =
+                    S3Util.listPhotos("products/" + product.getProductId() + "/");
+                    System.out.println(images);
+                ArrayList<String> imagesUrl = new ArrayList<>();
+                if (images.size() > 0) {
+                    
+                    imagesUrl.add(images.get(0));
+                }
+                product.setImages(imagesUrl);
                 product.setPrice(result.getInt(3));
                 items.put(product, result.getInt(2));
             }
