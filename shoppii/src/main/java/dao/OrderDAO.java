@@ -105,8 +105,9 @@ public class OrderDAO {
         statement.setInt(1, shopId);
         if (statusFilter == null) {
             statement.setString(2, "%");
-        } else
+        } else {
             statement.setString(2, statusFilter);
+        }
         ResultSet result = statement.executeQuery();
 
         while (result.next()) {
@@ -137,6 +138,7 @@ public class OrderDAO {
 
     public static ArrayList<Order> getOrdersOfUser(int userId, String status, Connection connection)
             throws SQLException {
+        
         ArrayList<Order> orders = new ArrayList<>();
         ResultSet result;
         PreparedStatement statement;
