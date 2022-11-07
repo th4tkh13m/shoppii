@@ -40,7 +40,8 @@ public class ProductDAO {
             boolean isAvailable = result.getBoolean(7);
 
             product = new Product(productId, name, price, quantity, description,
-                    ShopDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(categoryId, connection), isAvailable);
+                    ShopDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(categoryId, connection),
+                    isAvailable);
         }
 
         return product;
@@ -64,9 +65,10 @@ public class ProductDAO {
         ArrayList<Product> list = new ArrayList<>();
         String sql;
         if (keyword == null) {
-            sql = "SELECT product_id from Product WHERE shop_id = ?";
+            sql = "SELECT product_id from Product WHERE shop_id = ?  and is_available = 1";
         } else {
-            sql = "SELECT product_id from Product WHERE shop_id = ? AND name LIKE '%" + keyword + "%'";
+            sql = "SELECT product_id from Product WHERE shop_id = ? AND name LIKE '%" + keyword
+                    + "%' and is_available = 1";
         }
 
         PreparedStatement statement = connection.prepareStatement(sql);
@@ -93,7 +95,8 @@ public class ProductDAO {
         return getProductFromId(getMaxId(connection), connection);
     }
 
-    public static Product updateProduct(Product product, String[] imageURLs, Connection connection) throws SQLException {
+    public static Product updateProduct(Product product, String[] imageURLs, Connection connection)
+            throws SQLException {
         String sql = "UPDATE Product SET name = ?, price = ?, quantity = ?, category_id = ?, description = ?, is_available = ? WHERE product_id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, product.getName());
@@ -105,13 +108,13 @@ public class ProductDAO {
         statement.setBoolean(7, product.isAvailable());
         statement.executeUpdate();
 
-        if (imageURLs != null)  
-        for (String url : imageURLs) {
-            if (!url.equals("")) {
-                S3Util.deleteObjectUsingLink(url);
+        if (imageURLs != null)
+            for (String url : imageURLs) {
+                if (!url.equals("")) {
+                    S3Util.deleteObjectUsingLink(url);
+                }
+
             }
-            
-        }
         return getProductFromId(product.getProductId(), connection);
     }
 
