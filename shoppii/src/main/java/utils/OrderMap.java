@@ -2,6 +2,7 @@ package utils;
 
 import java.lang.reflect.Type;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -29,6 +30,9 @@ public class OrderMap implements JsonDeserializer<HashMap<Order, HashMap<Product
         for (Order order : src.keySet()) {
             Shop shop = null;
             JsonObject orderJson = gson.toJsonTree(order).getAsJsonObject();
+            // Output java.sql.Time as "YYYY-MM-DD HH:MM:SS"
+            orderJson.addProperty("orderTime", order.getTime().toString());
+
             JsonArray orderItemList = new JsonArray();
             for (Product product : src.get(order).keySet()) {
                 JsonObject jsonProduct = gson.toJsonTree(product).getAsJsonObject();
@@ -61,7 +65,7 @@ public class OrderMap implements JsonDeserializer<HashMap<Order, HashMap<Product
                 int customerId = Integer.parseInt(orderJsonObject.get("customerId").getAsString());
                 String paymentMethod = orderJsonObject.get("paymentMethod").getAsString();
                 String status = orderJsonObject.get("status").getAsString();
-                Time time = Time.valueOf(orderJsonObject.get("time").getAsString());
+                Timestamp time = Timestamp.valueOf(orderJsonObject.get("time").getAsString());
                 
                 
                 // Address

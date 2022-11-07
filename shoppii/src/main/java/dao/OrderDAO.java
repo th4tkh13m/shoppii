@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import model.Address;
@@ -81,7 +82,7 @@ public class OrderDAO {
                 int customerId = result.getInt(1);
                 String paymentMethod = result.getString(2);
                 String status = result.getString(3);
-                Time time = result.getTime(4);
+                Timestamp time = result.getTimestamp(4);
                 Address address = AddressDAO.getAddressFromId(result.getInt(5), connection);
 
                 order = new Order(orderId, customerId, paymentMethod, status, time, address);
@@ -110,7 +111,7 @@ public class OrderDAO {
                 int customerId = result.getInt(2);
                 String paymentMethod = result.getString(3);
                 String status = result.getString(4);
-                Time time = result.getTime(5);
+                Timestamp time = result.getTimestamp(5);
                 Address address = AddressDAO.getAddressFromId(result.getInt(6), connection);
 
                 orders.add(new Order(orderId, customerId, paymentMethod, status, time, address));
