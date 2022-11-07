@@ -62,11 +62,12 @@ public class ShopRequestServlet extends HttpServlet {
             }
             String json = gson.toJson(request);
             resp.setStatus(200);
-            resp.getOutputStream().println(json);
+            resp.getOutputStream().write(json.getBytes("UTF-8"));
+
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
     }
 }
