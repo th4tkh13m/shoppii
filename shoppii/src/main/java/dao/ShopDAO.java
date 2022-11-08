@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import dbconnect.S3Util;
 import model.Filters;
 import model.Product;
 import model.Shop;
@@ -184,7 +184,17 @@ public class ShopDAO {
 
         ResultSet result = statement.executeQuery(sql);;
         while (result.next()) {
-            products.add(ProductDAO.getProductFromId(result.getInt(1), connection));
+            Product product = ProductDAO.getProductFromId(result.getInt(1), connection);
+            ArrayList<String> images =
+                    S3Util.listPhotos("products/" + product.getProductId() + "/");
+                    System.out.println(images);
+                ArrayList<String> imagesUrl = new ArrayList<>();
+                if (images.size() > 0) {
+                    
+                    imagesUrl.add(images.get(0));
+                }
+                product.setImages(imagesUrl);
+            products.add(product);
         }
         
         return products;
