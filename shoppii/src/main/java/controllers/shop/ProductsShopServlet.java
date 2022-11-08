@@ -46,12 +46,11 @@ public class ProductsShopServlet extends HttpServlet {
             ArrayList<Product> products = new ArrayList<>();
             products = ProductDAO.getProductByShopId(shopId, keyword, connection);
             for (Product product : products) {
-                ArrayList<String> images =
-                    S3Util.listPhotos("products/" + product.getProductId() + "/");
-                    System.out.println(images);
+                ArrayList<String> images = S3Util.listPhotos("products/" + product.getProductId() + "/");
+                System.out.println(images);
                 ArrayList<String> imagesUrl = new ArrayList<>();
                 if (images.size() > 0) {
-                    
+
                     imagesUrl.add(images.get(0));
                 }
                 product.setImages(imagesUrl);
@@ -85,10 +84,11 @@ public class ProductsShopServlet extends HttpServlet {
             ArrayList<Part> files = (ArrayList<Part>) req.getParts();
             Product product = ProductDAO.addProduct(new Product(name, price, quantity, des,
                     ShopDAO.getShopFromId(shopId, connection),
-                    CategoryDAO.getCategoryFromId(cat, connection), true) , connection);
+                    CategoryDAO.getCategoryFromId(cat, connection), true), connection);
 
             for (Part part : files) {
-                if (part.getName().equalsIgnoreCase("files") && part.getSize() > 0 && part.getSubmittedFileName().matches(".*\\.(jpg|png|jpeg|gif)")) {
+                if (part.getName().equalsIgnoreCase("files") && part.getSize() > 0
+                        && part.getSubmittedFileName().matches(".*\\.(jpg|png|jpeg|gif)")) {
                     S3Util.uploadObject(
                             "products/" + product.getProductId() + "/" + part.getSubmittedFileName(),
                             part.getInputStream());
@@ -96,9 +96,8 @@ public class ProductsShopServlet extends HttpServlet {
                 }
             }
 
-            ArrayList<String> images =
-                    S3Util.listPhotos("products/" + product.getProductId() + "/");
-            
+            ArrayList<String> images = S3Util.listPhotos("products/" + product.getProductId() + "/");
+
             product.setImages(images);
             String json = gson.toJson(product);
             resp.setStatus(201);
@@ -126,25 +125,25 @@ public class ProductsShopServlet extends HttpServlet {
             int cat = Integer.parseInt(req.getParameter("categoryId"));
             String des = req.getParameter("description");
             String[] imageDeleleted = req.getParameterValues("images");
-            boolean isAvailable = Boolean.parseBoolean(req.getParameter("isAvailable"));
+            boolean isAvailable = true;
             System.out.println(imageDeleleted);
             Product product = new Product(productId, name, price, quantity, des,
                     ShopDAO.getShopFromId(shopId, connection),
                     CategoryDAO.getCategoryFromId(cat, connection), isAvailable);
             ProductDAO.updateProduct(product, imageDeleleted, connection);
-            
+
             ArrayList<Part> files = (ArrayList<Part>) req.getParts();
             for (Part part : files) {
-                if (part.getName().equalsIgnoreCase("imageAdded") && part.getSize() > 0 && part.getSubmittedFileName().matches(".*\\.(jpg|png|jpeg|gif)")) {
+                if (part.getName().equalsIgnoreCase("imageAdded") && part.getSize() > 0
+                        && part.getSubmittedFileName().matches(".*\\.(jpg|png|jpeg|gif)")) {
                     S3Util.uploadObject(
                             "products/" + product.getProductId() + "/" + part.getSubmittedFileName(),
                             part.getInputStream());
 
                 }
             }
-            ArrayList<String> images =
-                S3Util.listPhotos("products/" + product.getProductId() + "/");
-    
+            ArrayList<String> images = S3Util.listPhotos("products/" + product.getProductId() + "/");
+
             product.setImages(images);
             System.out.println(product);
             String json = gson.toJson(product);

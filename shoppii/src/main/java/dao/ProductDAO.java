@@ -42,7 +42,7 @@ public class ProductDAO {
             product = new Product(productId, name, price, quantity, description,
                     ShopDAO.getShopFromId(shopId, connection), CategoryDAO.getCategoryFromId(categoryId, connection),
                     isAvailable);
-            
+
         }
 
         return product;
@@ -105,10 +105,11 @@ public class ProductDAO {
         statement.setInt(3, product.getQuantity());
         statement.setInt(4, product.getCategory().getCategory_id());
         statement.setString(5, product.getDescription());
-        statement.setInt(6, product.getProductId());
-        statement.setBoolean(7, product.isAvailable());
-        statement.executeUpdate();
+        statement.setInt(7, product.getProductId());
+        statement.setBoolean(6, product.isAvailable());
 
+        statement.executeUpdate();
+        System.out.println(statement);
         if (imageURLs != null)
             for (String url : imageURLs) {
                 if (!url.equals("")) {
