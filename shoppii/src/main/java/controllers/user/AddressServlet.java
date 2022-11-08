@@ -25,7 +25,7 @@ public class AddressServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
-        
+
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
@@ -34,10 +34,14 @@ public class AddressServlet extends HttpServlet {
             Connection connection = db.getConnection();
             int userId = Integer.parseInt(req.getParameter("userId"));
             String receiverAddress = req.getParameter("receiverAddress");
+            String province = req.getParameter("province");
+            String ward = req.getParameter("ward");
+            String district = req.getParameter("district");
             String receiverName = req.getParameter("receiverName");
             String receiverPhone = req.getParameter("receiverPhone");
 
-            Address address = AddressDAO.addAddress(userId, receiverAddress, receiverName, receiverPhone,
+            Address address = AddressDAO.addAddress(userId, receiverAddress, receiverName, receiverPhone, province,
+                    ward, district,
                     connection);
             String json = gson.toJson(address);
             resp.setStatus(201);
@@ -45,7 +49,7 @@ public class AddressServlet extends HttpServlet {
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
 
     }
@@ -60,12 +64,12 @@ public class AddressServlet extends HttpServlet {
             int userId = Integer.parseInt(req.getParameter("userId"));
             ArrayList<Address> address = AddressDAO.getAddressOfUser(userId, connection);
             String json = gson.toJson(address);
-            resp.setStatus(201);
+            resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
-            resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
+            resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
         }
 
     }
@@ -95,6 +99,8 @@ public class AddressServlet extends HttpServlet {
         DBConnect db = new DBConnect();
         Connection connection = db.getConnection();
         resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        req.setCharacterEncoding("UTF-8");
         try {
 
             int userId = Integer.parseInt(req.getParameter("userId"));
@@ -102,17 +108,21 @@ public class AddressServlet extends HttpServlet {
             String receiverAddress = req.getParameter("receiverAddress");
             String receiverName = req.getParameter("receiverName");
             String receiverPhone = req.getParameter("receiverPhone");
+            String province = req.getParameter("province");
+            String ward = req.getParameter("ward");
+            String district = req.getParameter("district");
+            boolean isDefault = Boolean.parseBoolean(req.getParameter("isDefault"));
 
             Address address = AddressDAO.updateAddress(addressId, userId, receiverAddress, receiverName, receiverPhone,
+                    province, ward, district, isDefault,
                     connection);
             String json = gson.toJson(address);
-            resp.setStatus(201);
+            resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             // TODO: handle exception
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle("Something went wrong", 500)));
         }
-
     }
 }

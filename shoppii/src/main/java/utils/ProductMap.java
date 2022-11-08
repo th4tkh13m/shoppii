@@ -20,7 +20,6 @@ public class ProductMap implements JsonSerializer<HashMap<Shop, HashMap<Product,
     @Override
     public JsonElement serialize(HashMap<Shop, HashMap<Product, Integer>> src, Type typeOfSrc,
             JsonSerializationContext context) {
-        JsonObject obj = new JsonObject();
         JsonArray shopList = new JsonArray();
         for (Shop shop : src.keySet()) {
             JsonObject shopJson = new JsonObject();
@@ -36,15 +35,19 @@ public class ProductMap implements JsonSerializer<HashMap<Shop, HashMap<Product,
                 productJson.addProperty("productId", product.getProductId());
                 productJson.addProperty("productName", product.getName());
                 productJson.addProperty("price", product.getPrice());
-                productJson.addProperty("quantity", src.get(shop).get(product));
+                productJson.addProperty("quantity", product.getQuantity());
+                productJson.add("images", context.serialize(product.getImages()));
+                productJson.add("is_available", context.serialize(product.isAvailable()));
+                productJson.addProperty("cartQuantity", src.get(shop).get(product));
+
                 productList.add(productJson);
             }
             shopJson.add("products", productList);
             shopList.add(shopJson);
         }
-        obj.add("shops", shopList);
+
         
-        return obj;
+        return shopList;
     }
 
     @Override
@@ -55,11 +58,9 @@ public class ProductMap implements JsonSerializer<HashMap<Shop, HashMap<Product,
         } else {
 
             HashMap<Shop, HashMap<Product, Integer>> orders = new HashMap<>();
-            JsonObject jsonObject = json.getAsJsonObject();
-            JsonArray shops = jsonObject.get("shops").getAsJsonArray();
+            JsonArray shops = json.getAsJsonArray();
 
             for (JsonElement shopElement : shops) {
-                System.out.println("IN SHOP");
                 JsonObject shopObj = shopElement.getAsJsonObject();
 
                 Shop shop = new Shop(shopObj.get("shopId").getAsInt(),
@@ -75,11 +76,10 @@ public class ProductMap implements JsonSerializer<HashMap<Shop, HashMap<Product,
 
                     Product product = new Product(productObj.get("productId").getAsInt(),
                     productObj.get("productName").getAsString(), 
-                    productObj.get("price").getAsInt());
+                    productObj.get("price").getAsInt(), productObj.get("quantity").getAsInt(), productObj.get("is_available").getAsBoolean());
+                    int cartQuantity = productObj.get("cartQuantity").getAsInt();
 
-                    int quantity = productObj.get("quantity").getAsInt();
-
-                    products.put(product, quantity);
+                    products.put(product, cartQuantity);
                 }
                 orders.put(shop, products);
             }

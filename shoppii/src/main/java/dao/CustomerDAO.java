@@ -46,7 +46,7 @@ public class CustomerDAO {
         }
         return customer;
     }
-
+    
     public static Customer getCustomerFromIdWithoutPass(int customerId, Connection connection) throws SQLException {
         Customer customer = null;
         String sql = "SELECT name, mail, phone, dob, sex FROM `Customer` WHERE user_id = ?";
@@ -105,7 +105,8 @@ public class CustomerDAO {
                         "sex = ? " +
                         "WHERE user_id = ?");
         statement.setString(1, newCustomer.getName());
-        statement.setString(2, newCustomer.getMail());
+        if (newCustomer.getMail() == null || newCustomer.getMail().equals("")) statement.setString(2, null);
+        else statement.setString(2, newCustomer.getMail());
         statement.setString(3, newCustomer.getPhone());
         statement.setDate(4, newCustomer.getDob());
         statement.setBoolean(5, newCustomer.getSex());
@@ -116,7 +117,7 @@ public class CustomerDAO {
                     "/user/avatar/" + fileName, avatar);
         }
 
-        return getCustomerFromId(newCustomer.getUserId(), connection);
+        return getCustomerFromIdWithoutPass(newCustomer.getUserId(), connection);
     }
 
     private static Customer getCustomerFromMailOrPhone(String enteredMail, String enteredPhone, Connection connection)
@@ -150,7 +151,7 @@ public class CustomerDAO {
         }
         if (mail == null) {
             customer = createCustomer(Utils.generateName(), null, phone, password, code);
-        } 
+        }
         System.out.println(customer);
         insertCustomer(customer, connection);
         return CustomerDAO.getCustomerFromMailOrPhone(mail, phone, connection);
@@ -196,7 +197,8 @@ public class CustomerDAO {
         return customer;
     }
 
-    public static Customer checkResetPasswordInfo(String email, String phone, String securityCode, Connection connection) throws SQLException {
+    public static Customer checkResetPasswordInfo(String email, String phone, String securityCode,
+            Connection connection) throws SQLException {
         Customer customer = getCustomerFromMailOrPhone(email, phone, connection);
         if (customer.verifyCode(securityCode)) {
             return customer;
@@ -204,7 +206,8 @@ public class CustomerDAO {
         return null;
     }
 
-    public static Customer resetPassword(String password, Customer customer, Connection connection) throws S3Exception, AwsServiceException, SdkClientException, SQLException, IOException {
+    public static Customer resetPassword(String password, Customer customer, Connection connection)
+            throws S3Exception, AwsServiceException, SdkClientException, SQLException, IOException {
         customer.encryptPassword(password, argon2);
         String sql = "UPDATE Customer SET password = ? WHERE user_id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
@@ -213,5 +216,22 @@ public class CustomerDAO {
 
         statement.executeUpdate();
         return getCustomerFromId(customer.getUserId(), connection);
+    }
+
+    public static boolean changePassword(int customerId, String password, String newPassword, Connection connection)
+            throws Exception {
+        Customer customer = getCustomerFromId(customerId, connection);
+        if (customer.verifyPassword(password)) {
+            customer.encryptPassword(newPassword, argon2);
+
+            String sql = "UPDATE Customer SET password = ? WHERE user_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, customer.getEncryptedPassword());
+            statement.setInt(2, customer.getUserId());
+            statement.executeUpdate();
+
+            return true;
+        } else
+            throw new Exception("Password not right");
     }
 }

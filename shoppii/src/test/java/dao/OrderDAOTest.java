@@ -73,11 +73,11 @@ public class OrderDAOTest extends DBInfo {
         Gson gson = gsonBuilder.create();
 
         try {
-            AddressDAO.addAddress(3, "VN", "DAO", "113", connection);
+            AddressDAO.addAddress(3, "VN", "DAO", "113", "VN", "VN", "VN", connection);
         
         // 
         HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.getCartOfCustomer(3, connection);
-        String cartJson = "{\"shops\":[{\"shopId\":2,\"shopName\":\"NiceHCK Official Store\",\"address\":\"China\",\"description\":\"Sell audio accessories\",\"status\":true,\"products\":[{\"productId\":1,\"productName\":\"Nicehck EB2S 3.5mm Metal CNC HIFI Earbud 15.4mm LCP Nhạc động Âm nhạc giọng hát Tai nghe có dây Tai nghe HD B40 / B70 / EBX21\",\"price\":320000,\"quantity\":2}]}]}";
+        String cartJson = "[{\"shopId\":2,\"shopName\":\"NiceHCK Official Store\",\"address\":\"China\",\"description\":\"Sell audio accessories\",\"status\":true,\"products\":[{\"productId\":1,\"productName\":\"Nicehck EB2S 3.5mm Metal CNC HIFI Earbud 15.4mm LCP Nhạc động Âm nhạc giọng hát Tai nghe có dây Tai nghe HD B40 / B70 / EBX21\",\"price\":320000,\"quantity\":2}]}]";
         System.out.println(cartJson);
 
         HashMap<Shop, HashMap<Product, Integer>> order = gson.fromJson(cartJson, type);
@@ -103,11 +103,11 @@ public class OrderDAOTest extends DBInfo {
         Gson gson = gsonBuilder.create();
 
         try {
-            AddressDAO.addAddress(3, "VN", "DAO", "113", connection);
+            AddressDAO.addAddress(3, "VN", "DAO", "113","VN", "VN", "VN", connection);
         
         // 
         HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.getCartOfCustomer(3, connection);
-        String cartJson = "{\"shops\":[{\"shopId\":2,\"shopName\":\"NiceHCK Official Store\",\"address\":\"China\",\"description\":\"Sell audio accessories\",\"status\":true,\"products\":[{\"productId\":1,\"productName\":\"Nicehck EB2S 3.5mm Metal CNC HIFI Earbud 15.4mm LCP Nhạc động Âm nhạc giọng hát Tai nghe có dây Tai nghe HD B40 / B70 / EBX21\",\"price\":320000,\"quantity\":2}]}]}";
+        String cartJson = "[{\"shopId\":2,\"shopName\":\"NiceHCK Official Store\",\"address\":\"China\",\"description\":\"Sell audio accessories\",\"status\":true,\"products\":[{\"productId\":1,\"productName\":\"Nicehck EB2S 3.5mm Metal CNC HIFI Earbud 15.4mm LCP Nhạc động Âm nhạc giọng hát Tai nghe có dây Tai nghe HD B40 / B70 / EBX21\",\"price\":320000,\"quantity\":2}]}]";
         System.out.println(cartJson);
 
         HashMap<Shop, HashMap<Product, Integer>> order = gson.fromJson(cartJson, type);
@@ -115,8 +115,8 @@ public class OrderDAOTest extends DBInfo {
         System.out.println(orders);
             
 
-            assertNotNull(OrderDAO.getOrdersByShop(ShopDAO.getShopFromId(2, connection), "Pending", connection));
-            System.out.println(OrderDAO.getOrdersByShop(ShopDAO.getShopFromId(2, connection), "Pending", connection));
+            assertNotNull(OrderDAO.getOrdersByShop(2, "Pending", connection));
+            System.out.println(OrderDAO.getOrdersByShop(2, "Pending", connection));
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -133,11 +133,11 @@ public class OrderDAOTest extends DBInfo {
         Gson gson = gsonBuilder.create();
 
         try {
-            AddressDAO.addAddress(3, "VN", "DAO", "113", connection);
+            AddressDAO.addAddress(3, "VN", "DAO", "113","VN", "VN", "VN", connection);
         
         // 
         HashMap<Shop, HashMap<Product, Integer>> cart = CartDAO.getCartOfCustomer(3, connection);
-        String cartJson = "{\"shops\":[{\"shopId\":2,\"shopName\":\"NiceHCK Official Store\",\"address\":\"China\",\"description\":\"Sell audio accessories\",\"status\":true,\"products\":[{\"productId\":1,\"productName\":\"Nicehck EB2S 3.5mm Metal CNC HIFI Earbud 15.4mm LCP Nhạc động Âm nhạc giọng hát Tai nghe có dây Tai nghe HD B40 / B70 / EBX21\",\"price\":320000,\"quantity\":2}]}]}";
+        String cartJson = "[{\"shopId\":2,\"shopName\":\"NiceHCK Official Store\",\"address\":\"China\",\"description\":\"Sell audio accessories\",\"status\":true,\"products\":[{\"productId\":1,\"productName\":\"Nicehck EB2S 3.5mm Metal CNC HIFI Earbud 15.4mm LCP Nhạc động Âm nhạc giọng hát Tai nghe có dây Tai nghe HD B40 / B70 / EBX21\",\"price\":320000,\"quantity\":2}]}]";
         System.out.println(cartJson);
 
         HashMap<Shop, HashMap<Product, Integer>> order = gson.fromJson(cartJson, type);

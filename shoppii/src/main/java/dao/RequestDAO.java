@@ -23,18 +23,26 @@ public class RequestDAO {
             String description = result.getString(3);
             String status = result.getString(4);
             Time time = result.getTime(5);
-            requests.add(new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), name, address,
-                    description, status, time));
+            requests.add(
+                    new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), name, address,
+                            description, status, time));
         }
         return requests;
     }
 
-    public static ArrayList<ShopRequest> getRequestsByStatus(String status, Connection connection) throws SQLException {
+    public static ArrayList<ShopRequest> getRequestsByStatus(String statusQuery, Connection connection) throws SQLException {
         ArrayList<ShopRequest> requests = new ArrayList<>();
-        String sql = "SELECT customer_id, name, address, description, status, time FROM `ShopRequests` WHERE status = ? ORDER BY time ASC";
+        String sql = "";
+        PreparedStatement statement;
+        if (statusQuery.equalsIgnoreCase("All")) {
+            sql = "SELECT customer_id, name, address, description, status, time FROM `ShopRequests` ORDER BY time ASC";
+            statement = connection.prepareStatement(sql);
+        } else {
+            sql = "SELECT customer_id, name, address, description, status, time FROM `ShopRequests` WHERE status = ? ORDER BY time ASC";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, statusQuery);
+        }
 
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, status);
 
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
@@ -42,15 +50,18 @@ public class RequestDAO {
             String name = resultSet.getString(2);
             String address = resultSet.getString(3);
             String description = resultSet.getString(4);
+            String status = resultSet.getString(5);
             Time time = resultSet.getTime(6);
 
-            requests.add(new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), name, address,
-                    description, status, time));
+            requests.add(
+                    new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), name, address,
+                            description, status, time));
         }
         return requests;
     }
 
-    private static boolean checkUserHasStatusRequest(int customerId, String status, Connection connection) throws SQLException {
+    private static boolean checkUserHasStatusRequest(int customerId, String status, Connection connection)
+            throws SQLException {
         String sql = "SELECT status FROM ShopRequests WHERE customer_id = ? AND status = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -95,7 +106,8 @@ public class RequestDAO {
         while (result.next()) {
             String status = result.getString(1);
             Time time = result.getTime(2);
-            request = new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), shopName, address,
+            request = new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), shopName,
+                    address,
                     description, status, time);
         }
         return request;
@@ -122,7 +134,8 @@ public class RequestDAO {
         statement.setInt(2, customerId);
 
         statement.executeUpdate();
-        return new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), name, address, description,
+        return new ShopRequest(CustomerDAO.getCustomerFromIdWithoutPass(customerId, connection), name, address,
+                description,
                 status, time);
     }
 

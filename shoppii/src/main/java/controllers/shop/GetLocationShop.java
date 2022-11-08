@@ -1,4 +1,4 @@
-package controllers.user;
+package controllers.shop;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -12,31 +12,34 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import dao.CategoryDAO;
+import dao.ShopDAO;
 import dbconnect.DBConnect;
 import errors.ErrorHandle;
-import model.Category;
+import model.Shop;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 1, // 1 MB
         maxRequestSize = 1024 * 1024 * 1 // 1 MB
 )
-public class CategoryServlet extends HttpServlet {
+
+public class GetLocationShop extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
-        resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
         try {
             DBConnect db = new DBConnect();
             Connection connection = db.getConnection();
-            ArrayList<Category> cate = CategoryDAO.getCategory(connection);
-            String json = gson.toJson(cate);
-            resp.setStatus(201);
+            ArrayList<Shop> locations = ShopDAO.getLocationsShop(connection);
+            String json = gson.toJson(locations);
+            resp.setStatus(200);
             resp.getOutputStream().write(json.getBytes("UTF-8"));
         } catch (Exception e) {
             resp.setStatus(500);
             resp.getOutputStream().println(gson.toJson(new ErrorHandle(e.toString(), 500)));
+
         }
+
     }
+
 }

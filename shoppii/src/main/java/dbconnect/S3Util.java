@@ -21,6 +21,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.Delete;
 import software.amazon.awssdk.services.s3.model.DeleteObjectsRequest;
 import software.amazon.awssdk.services.s3.model.DeleteObjectsResponse;
+import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.ListObjectsRequest;
 import software.amazon.awssdk.services.s3.model.ListObjectsResponse;
 import software.amazon.awssdk.services.s3.model.ObjectIdentifier;
@@ -29,7 +30,7 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 import software.amazon.awssdk.services.s3.model.S3Object;
 
 public class S3Util {
-    private static String BUCKET = null;
+    private static String BUCKET = "photo-shoppii";
 
     private static S3Client client = S3Client.builder().build();
     private static S3AsyncClient asyncClient = S3AsyncClient.builder().build();
@@ -44,6 +45,7 @@ public class S3Util {
                 .build();
         client.putObject(request,
                 RequestBody.fromInputStream(inputStream, inputStream.available()));
+        
         return true;
     }
 
@@ -55,7 +57,7 @@ public class S3Util {
         return true;
     }
 
-    public static boolean deleteBucketObjects(String objectName) {
+    public static boolean deleteBucketObject(String objectName) {
         try {
             S3AsyncClient asyncClient = S3AsyncClient.builder().build();
             ArrayList<ObjectIdentifier> toDelete = new ArrayList<>();
@@ -78,10 +80,13 @@ public class S3Util {
                     }
                 } finally {
                     // Only close the client when you are completely done with it.
-                    asyncClient.close();
+                    // System.out.println("Closing client");
+                    // asyncClient.close();
+                    // System.out.println("Client closed");
                 }
             });
             future.join();
+            System.out.println("DONE DELETING");
             return true;
         } catch (S3Exception e) {
             System.err.println(e.awsErrorDetails().errorMessage());
@@ -89,13 +94,20 @@ public class S3Util {
         }
     }
 
-    public static ArrayList<String> getObject (String folderName) {
+    public static boolean deleteObjectUsingLink(String url) {
+        String name = url.split("https:\\/\\/photo-shoppii\\.s3\\.ap-southeast-1\\.amazonaws\\.com\\/")[1];
+        System.out.println(name);
+        return deleteBucketObject(name);
+    }
+
+
+    public static ArrayList<String> getObject(String folderName) {
         ArrayList<String> results = new ArrayList<String>();
         try {
-            
+
             ListObjectsRequest objectRequest = ListObjectsRequest.builder()
-                                                .bucket(BUCKET)
-                                                .prefix(folderName).build();
+                    .bucket(BUCKET)
+                    .prefix(folderName).build();
 
             CompletableFuture<ListObjectsResponse> futureGet = asyncClient.listObjects(objectRequest);
 
@@ -106,11 +118,11 @@ public class S3Util {
                         ListIterator<S3Object> listIterator = objects.listIterator();
 
                         while (listIterator.hasNext()) {
-                                S3Object object = listIterator.next();
-                                results.add(object.key().split("/")[1]);
+                            S3Object object = listIterator.next();
+                            results.add(object.key().split("/")[1]);
                         }
                         System.out.println(results);
-                        
+
                     } else {
                         err.printStackTrace();
                     }
@@ -119,7 +131,7 @@ public class S3Util {
                     asyncClient.close();
                 }
             });
-            
+
             futureGet.join();
             return results;
 
@@ -127,6 +139,35 @@ public class S3Util {
             System.err.println(e.awsErrorDetails().errorMessage());
             return results;
         }
+    }
+
+    public static ArrayList<String> listPhotos(String folderName) {
+        ArrayList<String> results = new ArrayList<String>();
+        ListObjectsRequest request = ListObjectsRequest.builder()
+                .bucket(BUCKET)
+                .prefix(folderName).build();
+
+        ListObjectsResponse response = client.listObjects(request);
+        List<S3Object> objects = response.contents();
+
+        ListIterator<S3Object> listIterator = objects.listIterator();
+
+        while (listIterator.hasNext()) {
+            S3Object object = listIterator.next();
+            GetUrlRequest requestURL = GetUrlRequest.builder()
+                .bucket(BUCKET)
+                .key(object.key())
+                .build();
+            String url = client.utilities().getUrl(requestURL).toString();
+            if (url.matches(".*\\.(jpg|png|gif|jpeg)")) {
+                results.add(url);
+            }
+                
+            
+        }
+        System.out.println("HEELO");
+
+        return results;
     }
 
     // Helper function to get bucket name from web.xml

@@ -76,8 +76,8 @@ public class CartDAOTest extends DBInfo {
             RequestDAO.acceptRequest(3, connection);
 
             // create product
-            Product product1 = new Product(max + 1,"iphone14", 1, 999, "lol", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection));
-            Product product2 = new Product(max+2, "iphone15", 1, 999, "nice", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection));
+            Product product1 = new Product(max + 1,"iphone14", 1, 999, "lol", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection), true);
+            Product product2 = new Product(max+2, "iphone15", 1, 999, "nice", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection), true);
             ProductDAO.addProduct(product1, connection);
             ProductDAO.addProduct(product2, connection);
             
@@ -107,8 +107,8 @@ public class CartDAOTest extends DBInfo {
             RequestDAO.acceptRequest(3, connection);
 
             // create product
-            Product product1 = new Product(max+1,"iphone14", 1, 999, "lol", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection));
-            Product product2 = new Product(max+2, "iphone15", 1, 999, "nice", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection));
+            Product product1 = new Product(max+1,"iphone14", 1, 999, "lol", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection), true);
+            Product product2 = new Product(max+2, "iphone15", 1, 999, "nice", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection), true);
             ProductDAO.addProduct(product2, connection);
 
             CartDAO.addProductToCart(1, 1, 1, connection);
@@ -135,8 +135,8 @@ public class CartDAOTest extends DBInfo {
             RequestDAO.acceptRequest(3, connection);
 
             // create product
-            Product product1 = new Product(max+1,"iphone14", 1, 999, "lol", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection));
-            Product product2 = new Product(max+2, "iphone15", 1, 999, "nice", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection));
+            Product product1 = new Product(max+1,"iphone14", 1, 999, "lol", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection), true);
+            Product product2 = new Product(max+2, "iphone15", 1, 999, "nice", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection), true);
             ProductDAO.addProduct(product1, connection);
             ProductDAO.addProduct(product2, connection);
 
@@ -166,8 +166,8 @@ public class CartDAOTest extends DBInfo {
             RequestDAO.acceptRequest(3, connection);
 
             // create product
-            Product product1 = new Product(max + 1,"iphone14", 1, 999, "lol", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection));
-            Product product2 = new Product(max + 2, "iphone15", 1, 999, "nice", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection));
+            Product product1 = new Product(max + 1,"iphone14", 1, 999, "lol", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection), true);
+            Product product2 = new Product(max + 2, "iphone15", 1, 999, "nice", ShopDAO.getShopFromId(2, connection), CategoryDAO.getCategoryFromId(2, connection), true);
             ProductDAO.addProduct(product1, connection);
             ProductDAO.addProduct(product2, connection);
 
